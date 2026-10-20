@@ -1,0 +1,70 @@
+---
+description: Skaflow mega menu specifics — 767px breakpoint, menu location constants, current Sass partial inventory, and what not to port from the shineon reference
+globs: ["**/src/sass/menu/**", "**/src/sass/header/**", "**/src/js/site-header.js", "**/includes/menu/**", "**/includes/header/**", "**/lib/class-mega-menu.php", "**/lib/class-site-header.php", "**/partials/site-header.php"]
+alwaysApply: false
+---
+
+# Mega Menu — Skaflow Configuration
+
+Architecture and conventions are in `.cursor/rules/sf-menu-architecture.mdc`.
+This file is the project's configuration and current state.
+
+Port reference: `wp-content/themes/shineon/src/sass/menu/`
+Current state is this file plus `lib/class-site-header.php` and
+`includes/menu/`.
+
+## Breakpoint
+
+**`$menu-breakpoint-key: navigation`** → 767px, not shineon's `large` (1024px).
+Changing when the menu becomes mobile means editing that key in
+`src/sass/menu/_variables.scss`, plus `$breakpoints.navigation` in
+`src/sass/_settings.scss` if the pixel value itself changes.
+
+## Naming
+
+Menu locations are PHP constants in `includes/constants.php`:
+
+| Constant | Value |
+|---|---|
+| `SKAFLOW_MENU_PRIMARY` | `skaflow-primary-nav` |
+| `SKAFLOW_MENU_UTILITY` | `skaflow-utility-nav` |
+| `SKAFLOW_MENU_THUMB_SIZE` | `skaflow-menu-thumb` |
+| `SKAFLOW_MENU_THUMB_DISPLAY` | `54` (px, 2× source) |
+| `SKAFLOW_MENU_THUMB_PLACEHOLDER` | `assets/images/menu-thumb-placeholder.png` |
+
+Mobile drawer element: `#skaflow-mobile-drawer`.
+
+## Current Sass inventory
+
+What exists today in `src/sass/menu/`:
+
+```
+_index.scss  _variables.scss  _mixins.scss  _structure.scss
+_desktop.scss  _mobile-drawer.scss  link-types/_index.scss
+```
+
+Header shell in `src/sass/header/`:
+
+```
+_index.scss  _tools.scss  _variables.scss  _base.scss  _primary-row.scss
+_announcement.scss  _search.scss  _search-results.scss  _scroll-behaviour.scss
+```
+
+`@use` order in `src/sass/index.scss` is `menu` then `header`.
+
+**Planned but not built** — `_labels.scss`, `_animations.scss`,
+`_layout-patterns/` (Figma patterns A/B/C), and per-`link_type` partials beyond
+the `link-types/_index.scss` stub. Treat these as backlog, not as files to
+expect. Do not write a rule or an import that assumes they exist.
+
+## What not to port from shineon
+
+- Tab, block and cards link-type partials — not in the Skaflow Figma
+- `breakpoint-menu-up` wired to `large` — wrong breakpoint here
+- Generic `.header-nav` / `.mobile-menu` selectors — Woodmart collision risk
+  while the legacy theme is still installed
+- Hover-only mega panel reveal without `aria-expanded` / `.is-open`
+
+## Related
+
+- `context/kb/map-edit.md` — Header / mega menu start files

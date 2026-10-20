@@ -1,0 +1,47 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "skaflow/post-filters",
+	"version": "1.0.0",
+	"title": "Post Filters",
+	"category": "widgets",
+	"description": "Search, category, and sort controls for the blog listing page.",
+	"keywords": ["post", "blog", "filters", "search", "category"],
+	"textdomain": "skaflow",
+	"icon": "filter",
+	"attributes": {
+		"showSearch": {
+			"type": "boolean",
+			"default": true
+		},
+		"showCategoryDropdown": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSort": {
+			"type": "boolean",
+			"default": true
+		},
+		"showPills": {
+			"type": "boolean",
+			"default": true
+		},
+		"showCount": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": true,
+		"reusable": false,
+		"lock": false,
+		"multiple": false,
+		"align": ["wide", "full"]
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,47 @@
+@use "../../tools" as *;
+
+// Wishlist + quick view — Figma white icon tiles on the image.
+.wc-block-product .sk-card-actions {
+	position: absolute;
+	top: $spacing-x-small;
+	right: $spacing-x-small;
+	z-index: 3;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: $spacing-xx-small;
+	margin: 0;
+}
+
+.wc-block-product .sk-card-actions .sk-wishlist-button,
+.wc-block-product .sk-card-actions .sk-quick-view-button {
+	position: static;
+}
+
+.wc-block-product {
+
+	.sk-wishlist-trigger,
+	.sk-quick-view-trigger {
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid $color-outline;
+		border-radius: $radius-sm;
+		background-color: $color-white;
+		box-shadow: none;
+		color: $color-body;
+
+		&:hover,
+		&:focus-visible {
+			border-color: $color-primary;
+			background-color: $color-primary;
+			color: $color-white;
+			box-shadow: none;
+		}
+	}
+
+	.sk-wishlist-button.is-active .sk-wishlist-trigger {
+		border-color: $color-primary;
+		background-color: $color-primary;
+		color: $color-white;
+	}
+}

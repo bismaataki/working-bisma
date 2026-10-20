@@ -1,0 +1,7 @@
+@use "../settings" as *;
+
+$sk-scrollbar-size: 6px;
+$sk-scrollbar-radius: $radius-sm;
+$sk-scrollbar-track: transparent;
+$sk-scrollbar-thumb: $color-outline;
+$sk-scrollbar-thumb-hover: $color-neutral;

@@ -1,0 +1,80 @@
+---
+description: Skaflow legacy WooCommerce meta keys and storage formats inherited from Woodmart/JetEngine — read-compatible contracts, never renamed
+globs: ["**/lib/class-woocommerce*.php", "**/lib/class-product-swatches.php", "**/lib/class-attribute-swatch-preview-column.php", "**/includes/woocommerce/**", "**/acf-json/group_product_*.json", "**/acf-json/group_pa_*.json"]
+alwaysApply: false
+---
+
+# WooCommerce Meta — Skaflow Contracts
+
+Conventions are in `.cursor/rules/sf-commerce.mdc`. This file is the data
+contract for this specific store.
+
+The rebuild reads the **same keys and formats** the legacy Woodmart/JetEngine
+site wrote. Normalise on save only. No bulk migration without an explicit
+request.
+
+## Product post meta
+
+| Key | Format | Admin UI |
+|---|---|---|
+| `parts` | Serialized array of product ID strings | `WooCommerce_Admin`, `woocommerce_product_options_related` → `woocommerce_admin_process_product_object` |
+| `dimensions` | WYSIWYG HTML | ACF `group_product_additional_information` |
+| `care` | WYSIWYG HTML | ACF |
+| `additional_information` | WYSIWYG HTML | ACF |
+| `_woodmart_swatches_attribute` | Taxonomy slug | No UI — cheap read fallback only |
+
+## Variation post meta
+
+| Key | Format | Admin UI |
+|---|---|---|
+| `wd_additional_variation_images_data` | CSV of attachment IDs, no spaces | `WooCommerce_Admin`, `woocommerce_variation_options` → `woocommerce_save_product_variation` |
+
+POST key: `wd_additional_variation_images[{variation_id}]`.
+
+**Save safety:** if the POST key is absent entirely, do not delete existing meta.
+
+Admin assets: `assets/js/variation-gallery-admin.js`,
+`assets/css/variation-gallery-admin.css`.
+
+**Not present on this site:** `woodmart_variation_gallery_data` on the parent
+product (the older Woodmart method).
+
+## Term meta — swatches
+
+On `pa_*` attribute terms. This data persisted after Woodmart's removal. Only
+`pa_colour` has populated swatch data here.
+
+| Key | Format |
+|---|---|
+| `color` | CSS colour, often `rgb(r,g,b)` |
+| `image` | Array with an `id`, or a URL string |
+| `not_dropdown` | `'1'` or empty |
+| `pa_term_hint` | Text/HTML |
+
+ACF group: `group_pa_colour_swatch_fields.json`. Admin column:
+`lib/class-attribute-swatch-preview-column.php`.
+
+## Woodmart options → hardcoded equivalents
+
+Do not call Woodmart option APIs — the plugin is not a dependency. Hardcode:
+
+| Legacy option | Rebuild value |
+|---|---|
+| `grid_swatches_attribute` | `pa_colour` |
+| `woodmart_pa_colour_swatch_*` | style 3, dis_style 3, shape round, size m |
+
+## Verification
+
+```bash
+ddev wp post meta get 1000438 wd_additional_variation_images_data
+ddev wp post meta get <product_id> parts --format=json
+```
+
+Sample variation-gallery record: **1000438**. This ID is environment-specific —
+confirm it exists before relying on it outside local.
+
+## Related
+
+- `.cursor/rules/sf-commerce.mdc` — conventions and anti-patterns
+- `.cursor/skills/sf-woocommerce-admin/` — adding an admin field
+- `context/kb/plugin-woocommerce-surface.md` — which files commerce owns

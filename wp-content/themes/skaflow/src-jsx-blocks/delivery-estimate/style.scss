@@ -1,0 +1,230 @@
+@use "../../src/sass/tools" as *;
+
+// The card lives in the PDP's right-hand column, so all three controls have to
+// fit a narrow row before the design's wider layout is worth targeting.
+$sk-delivery-estimate-postcode-basis: 6rem;
+$sk-delivery-estimate-quantity-width: 4.75rem;
+
+.sk-delivery-estimate {
+
+	&__inner {
+		border: 1px solid $color-outline;
+		border-radius: $radius-sm;
+		background-color: $color-white;
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: $spacing-x-small;
+		padding: $spacing-small $spacing-medium;
+		border-bottom: 1px solid $color-outline;
+	}
+
+	&__header-icon {
+
+		@include sk-icon-before("truck");
+
+		display: inline-flex;
+		color: $color-primary;
+		font-size: $font-size-medium;
+	}
+
+	&__title {
+		color: $color-heading;
+		font-family: $font-secondary;
+		font-size: $font-size-medium;
+		font-weight: $font-weight-bold;
+		line-height: $line-height-small;
+	}
+
+	&__form {
+		padding: $spacing-medium;
+	}
+
+	&__fields {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		gap: $spacing-x-small;
+	}
+
+	&__input {
+		flex: 1 1 $sk-delivery-estimate-postcode-basis;
+		min-width: 0;
+		padding: $spacing-x-small $spacing-small;
+		border: 1px solid $color-outline;
+		border-radius: $radius-sm;
+		background-color: $color-white;
+		color: $color-body;
+		font-size: $font-size-small;
+		line-height: $line-height-medium;
+		transition: border-color $transition;
+
+		&::placeholder {
+			color: $color-neutral;
+			opacity: 1;
+		}
+
+		&:focus {
+			border-color: $color-primary;
+			outline: none;
+		}
+
+		// The quantity field is deliberately empty until used, and spinners on a
+		// blank number input invite a click that fills it with 0.
+		&--quantity {
+			flex: 0 0 $sk-delivery-estimate-quantity-width;
+			appearance: textfield;
+
+			&::-webkit-inner-spin-button,
+			&::-webkit-outer-spin-button {
+				appearance: none;
+				margin: 0;
+			}
+		}
+	}
+
+	&__submit {
+		flex: 0 0 auto;
+		padding: $spacing-x-small $spacing-small;
+		border: 1px solid $color-body;
+		border-radius: $radius-sm;
+		background-color: $color-body;
+		color: $color-white;
+		font-size: $font-size-small;
+		font-weight: $font-weight-semi-bold;
+		line-height: $line-height-medium;
+		cursor: pointer;
+		transition: background-color $transition, border-color $transition;
+
+		&:hover,
+		&:focus {
+			background-color: $color-primary;
+			border-color: $color-primary;
+		}
+
+		&:disabled {
+			opacity: 0.6;
+			cursor: progress;
+		}
+	}
+
+	&__result {
+		padding: 0 $spacing-medium $spacing-medium;
+		color: $color-body;
+		font-size: $font-size-small;
+		line-height: $line-height-medium;
+	}
+
+	// Priced — mirrors the rate card in the delivery popup design.
+	&__rate {
+		padding: $spacing-small;
+		border: 1px solid $color-outline;
+		border-radius: $radius-sm;
+		background-color: $color-surface;
+	}
+
+	&__rate-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: $spacing-x-small;
+	}
+
+	&__rate-title {
+
+		@include sk-icon-before("check-circle");
+
+		display: inline-flex;
+		align-items: center;
+		gap: $spacing-xx-small;
+		color: $color-heading;
+		font-weight: $font-weight-semi-bold;
+
+		&::before {
+			color: $color-tertiary;
+		}
+	}
+
+	&__rate-price {
+		color: $color-heading;
+		font-family: $font-secondary;
+		font-size: $font-size-large;
+		font-weight: $font-weight-bold;
+		white-space: nowrap;
+	}
+
+	&__rate-transit,
+	&__rate-note {
+		margin: $spacing-xxx-small 0 0;
+		color: $color-neutral;
+		font-size: $font-size-x-small;
+	}
+
+	// Unpriced — a successful lookup whose answer is "we'll quote you".
+	&__quote,
+	&__notice {
+		display: flex;
+		align-items: flex-start;
+		gap: $spacing-x-small;
+		padding: $spacing-small;
+		border: 1px solid $color-outline;
+		border-radius: $radius-sm;
+		background-color: $color-background;
+	}
+
+	&__quote-icon {
+
+		@include sk-icon-before("package");
+
+		display: inline-flex;
+		flex: 0 0 auto;
+		color: $color-primary;
+		font-size: $font-size-medium;
+	}
+
+	// An unrecognised postcode is the only unpriced outcome the customer can act
+	// on, and the icon is the whole of that signal.
+	// **Not red.** Red is already this card's error language — the notice panel
+	// below uses it for the 400s — and reusing it here would put a validation
+	// failure and a successful-but-unpriced lookup back in the same visual
+	// bucket, which is the distinction `reason` exists to draw. Red would also
+	// assert the customer mistyped, and we cannot know that: the postcode may be
+	// real and simply unmapped. Actionability is signalled by returning focus to
+	// the postcode field instead, which view.js does.
+	&__quote--location-unknown &__quote-icon {
+
+		@include sk-icon-before("map-pin");
+	}
+
+	&__quote-text {
+		margin: 0;
+		color: $color-body;
+		font-size: $font-size-small;
+	}
+
+	&__notice {
+		background-color: $color-white;
+	}
+
+	&__notice-icon {
+
+		@include sk-icon-before("x");
+
+		display: inline-flex;
+		flex: 0 0 auto;
+		color: $color-secondary;
+		font-size: $font-size-medium;
+	}
+
+	&__notice-text {
+		margin: 0;
+		color: $color-secondary;
+		font-size: $font-size-small;
+	}
+
+	&__inner.is-loading &__result {
+		color: $color-neutral;
+	}
+}

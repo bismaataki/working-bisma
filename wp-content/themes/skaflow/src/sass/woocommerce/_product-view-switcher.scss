@@ -1,0 +1,172 @@
+@use "../tools" as *;
+
+// Grid/list toggle in the shop archive filters band.
+.sk-product-view-switcher {
+	align-self: center;
+	justify-self: end;
+}
+
+.sk-product-view-switcher__buttons.wp-block-buttons,
+.sk-product-view-switcher .wp-block-buttons {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+	gap: $spacing-xx-small;
+	margin: 0;
+}
+
+.sk-product-view-switcher__button.wp-block-button {
+	flex: 0 0 auto;
+	margin: 0;
+}
+
+// Icon-only controls — hide label text without zeroing Lucide ::before (1em
+// inherits font-size).
+.sk-product-view-switcher .wp-block-button.sk-has-icon .wp-block-button__link {
+	overflow: hidden;
+	white-space: nowrap;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: $spacing-xx-small;
+	font-size: 0;
+	line-height: 0;
+	gap: 0;
+
+	&::before {
+		overflow: visible;
+		position: absolute;
+		inset: 0;
+		margin: auto;
+		width: 1em;
+		height: 1em;
+		font-size: 1.25rem;
+		line-height: 1;
+	}
+}
+
+.sk-product-view-switcher .wp-block-button.sk-has-icon {
+	position: relative;
+}
+
+.sk-product-view-switcher__button--active .sk-product-view-switcher__control {
+	border-color: $color-body;
+	color: $color-body;
+	background-color: $color-outline;
+}
+
+// List view — reshape shared product-card blocks without changing markup.
+.sk-shop-archive-main.sk-products-view-list {
+
+	.wc-block-product-template,
+	[data-block-name="woocommerce/legacy-template"][data-template="archive-product"] ul.products {
+		grid-template-columns: minmax(0, 1fr) !important;
+	}
+
+	// Mobile — media column + stacked content column.
+	.wc-block-product,
+	.wc-block-product-template > li,
+	[data-block-name="woocommerce/legacy-template"][data-template="archive-product"] ul.products > li.product {
+		display: grid;
+		grid-template-columns: minmax(5.5rem, 7.5rem) minmax(0, 1fr);
+		grid-template-areas:
+			"media title"
+			"media price"
+			"media swatches"
+			"media actions"
+			"media yith";
+		gap: $spacing-x-small $spacing-medium;
+		align-items: start;
+
+		position: relative;
+
+		&:last-child {
+			margin-block-end: $spacing-medium;
+		}
+
+		.wp-block-skaflow-product-card {
+
+			> .wp-block-post-title {
+				margin-block-start: $spacing-medium;
+			}
+
+			> .sk-add-to-cart {
+				margin-block-end: $spacing-xx-small;
+				width: fit-content;
+			}
+
+			.sk-card-media {
+				position: unset;
+			}
+		}
+	}
+
+	// skaflow/product-card (and classic loop) wrap card blocks in
+	// .wp-block-skaflow-product-card inside each <li>.
+	// display:contents promotes card blocks to grid children without a PHP
+	// render_block hack.
+	.wc-block-product > .wp-block-skaflow-product-card {
+		display: contents;
+	}
+
+	.sk-card-media {
+		grid-area: media;
+		align-self: center;
+	}
+
+	.sk-product-swatches {
+		grid-area: swatches;
+	}
+
+	.wp-block-post-title,
+	.wc-block-components-product-title {
+		grid-area: title;
+		text-align: left;
+		margin: 0;
+	}
+
+	.wp-block-woocommerce-product-price,
+	.wc-block-components-product-price {
+		grid-area: price;
+		text-align: left;
+		margin: 0;
+	}
+
+	.wp-block-woocommerce-product-button,
+	.wc-block-components-product-button {
+		grid-area: actions;
+		align-self: start;
+		justify-self: stretch;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: $spacing-x-small;
+		margin: 0;
+		text-align: left;
+
+		.wp-block-button,
+		.wc-block-components-product-button .wp-block-button {
+			justify-content: center;
+			margin: 0;
+			width: 100%;
+		}
+
+		.wc-block-components-product-button__button {
+			width: 100%;
+		}
+
+		.yith-ywraq-add-to-quote {
+			margin: 0;
+		}
+	}
+
+	// YITH may also render as a sibling of product-button in the card grid.
+	.yith-ywraq-add-to-quote {
+		grid-area: yith;
+		//align-self: end;
+		//justify-self: stretch;
+		text-align: left;
+		max-width: fit-content;
+		padding-top: unset;
+	}
+}
+

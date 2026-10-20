@@ -1,0 +1,132 @@
+---
+description: WooCommerce integration conventions — ACF vs native admin UI, the product_variation bridge pattern, legacy meta keys as contracts, and keeping commerce code removable
+globs: ["**/lib/class-woocommerce*.php", "**/lib/class-product-*.php", "**/lib/class-wishlist.php", "**/public/class-api-*.php", "**/includes/woocommerce/**", "**/themes/*/woocommerce/**", "**/src/sass/woocommerce/**", "**/src/sass/swatches/**", "**/src/sass/quick-view/**"]
+alwaysApply: false
+---
+
+# WooCommerce Integration
+
+Commerce is a **swappable capability** — not every project has it. Check
+`PROJECT.md` before assuming WooCommerce is present.
+
+## Keep it removable
+
+Commerce code must be deletable as a group. That means:
+
+- Classes in `lib/class-woocommerce*.php` and commerce-named siblings, all
+  instantiated from a single `define_woocommerce_hooks()` entry point
+- Functions in `includes/woocommerce/`, loaded from
+  `includes/woocommerce/bootstrap.php` (one require in `includes/init.php`)
+- REST endpoints in `public/class-api-*.php`, each gating itself through
+  `Api::is_available()` and listed in `Init::define_api_hooks()` — where the
+  `class_exists()` test means deleting the file is enough
+- Styles in capability-named Sass directories, each with one import line
+- **Nothing commerce-specific at the root of `includes/`** — root files are always
+  loaded and can never be deleted. A commerce predicate placed there permanently
+  welds commerce into the starter. This happened once already: 12 commerce
+  functions sat in `includes/helper-functions.php` until 2026-08-17.
+
+`Skaflow\WooCommerce` in `lib/class-woocommerce.php` is that single entry point.
+It guards on the plugin, then constructs every commerce class:
+
+```php
+// lib/class-woocommerce.php
+public function __construct() {
+	if ( ! class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+	new WooCommerce_Admin();
+	// ...one line per commerce class
+}
+```
+
+`Init::define_woocommerce_hooks()` does nothing but `new WooCommerce()`, so the
+guard covers all of them. Do not instantiate a commerce class anywhere else.
+
+Block registration is directory-driven and does **not** check for WooCommerce, so
+commerce blocks will register on a site without it. Guard inside `render.php` or
+record the dependency for the strip manifest.
+
+`woocommerce/` holds **template overrides only**. Never put hooks or classes
+there.
+
+## ACF vs native admin UI
+
+| Situation | Approach |
+|---|---|
+| Field on `product`, standard edit screen | ACF JSON in `acf-json/` |
+| Field on `product_variation` or in the Variations panel | **Native WC hooks** |
+| Meta shown in Product data tabs | Native WC hooks + WC UI components |
+| Legacy storage format from a previous plugin | Same meta key; normalise on save only |
+
+### `product_variation` has no edit screen
+
+It is registered with `show_ui: false` — variations are edited inside the parent
+product's **Variations** tab, loaded over AJAX. ACF has no screen to render on, so
+a `post_type == product_variation` location rule silently does nothing.
+
+Use the bridge pattern instead:
+
+| Step | Hook |
+|---|---|
+| Render | `woocommerce_variation_options` |
+| Save | `woocommerce_save_product_variation` |
+| Admin JS re-init | `woocommerce_variations_loaded` |
+
+Variation fields POST as arrays keyed by variation ID. **If the POST key is
+absent entirely, do not delete existing meta** — an absent key means the panel
+wasn't loaded, not that the value was cleared.
+
+## Legacy meta keys are contracts
+
+When rebuilding over an existing store, meta keys and their storage formats are
+data contracts. Never rename a key without an approved migration; hold each one
+in a private class constant so the string appears once. Normalise format on save
+if needed, but read what is already there.
+
+Project-specific keys and formats live in the matching `project-*-meta` rule, not
+here.
+
+## Admin assets
+
+WooCommerce product screens do not load `build/index.css`. Small wp-admin UI may
+enqueue static files from `assets/js/` and `assets/css/` with `filemtime()`
+versioning, on `admin_enqueue_scripts`, restricted to product edit screens.
+Frontend shop styles go through the Sass build.
+
+## Frontend
+
+Grid and card interactions must be delegated — product grids are re-populated by
+Load More and filters. See `.cursor/rules/sf-event-delegation.mdc`.
+
+For WooCommerce's own markup where no class can be injected, style the plugin's
+selector directly with a Sass mixin rather than overriding templates. See
+`.cursor/rules/sf-sass-architecture.mdc`.
+
+## Verification for any admin field change
+
+1. **CLI** — read the meta before and after on a record with known data.
+2. **wp-admin** — open that record, confirm display, edit, save, and that sibling
+   meta is unchanged.
+
+```bash
+ddev wp post meta get <id> <key> --format=json
+```
+
+## Anti-patterns
+
+- ACF on `product_variation` expecting wp-admin visibility
+- Renaming legacy meta keys without a migration
+- Hooks or classes inside `woocommerce/`
+- Standalone functions outside the `Skaflow\` namespace for stateful features
+- Commerce helpers in `includes/helper-functions.php`
+- Deleting variation meta when the POST key is entirely absent
+- Bulk data migration for schema-only work
+
+## Related
+
+- `.cursor/skills/sf-woocommerce-admin/` — adding an admin field, step by step
+- `.cursor/skills/sf-strip-capability/` — removing commerce, or auditing its surface
+- `.cursor/rules/sf-rest-api.mdc` — endpoint conventions for the commerce routes
+- `context/kb/plugin-woocommerce-surface.md` — full manifest of commerce-owned files
+- `PROJECT.md` — whether commerce is live, and known entanglements

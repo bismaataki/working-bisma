@@ -1,0 +1,750 @@
+@use "../tools" as *;
+@use "../base/forms/buttons" as *;
+
+// Request a Quote page — split YITH form + summary layout.
+
+.sk-request-quote-page {
+
+	.sk-request-quote-layout.is-style-has-sidebar-right {
+
+		@include breakpoint(large) {
+			grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+		}
+	}
+
+	.sk-request-quote-panel {
+		min-width: 0;
+	}
+
+	.sk-request-quote-notices {
+		margin-bottom: $spacing-medium;
+
+		.woocommerce-error,
+		.woocommerce-info,
+		.woocommerce-message {
+			margin-bottom: $spacing-small;
+		}
+	}
+
+	#yith-ywraq-message {
+
+		&:empty,
+		&[hidden] {
+			display: none;
+			margin: 0;
+		}
+
+		&:not(:empty):not([hidden]) {
+			display: block;
+			margin-bottom: $spacing-medium;
+		}
+
+		.ywraq-question-message:not(:has(p, form)) {
+			display: none;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			background: transparent;
+		}
+
+		.ywraq-question-message:has(p, form) {
+			margin: 0;
+			padding: $spacing-medium;
+			border: 1px solid $color-outline;
+			border-radius: $border-radius-small;
+			background-color: $color-white;
+
+			p {
+				margin: 0;
+			}
+		}
+
+		> p {
+			margin: 0;
+			padding: $spacing-medium;
+			border: 1px solid $color-outline;
+			border-radius: $border-radius-small;
+			background-color: $color-white;
+		}
+	}
+
+	.alignwide > .wp-block-heading.alignwide,
+	.alignwide.is-layout-constrained > .wp-block-heading {
+		width: 100%;
+		max-width: none;
+		margin-inline: 0;
+		text-align: left;
+	}
+
+	.wp-block-shortcode:has(> #yith-ywraq-message[hidden]) {
+		display: none;
+		margin: 0;
+	}
+
+	// Form panel
+	.sk-request-quote-form {
+
+		.yith-ywraq-mail-form-wrapper {
+
+			> h3 {
+				display: none;
+			}
+		}
+
+		#yith-ywraq-default-form {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			row-gap: $form-field-gap-vertical;
+
+			@include breakpoint(medium) {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				column-gap: $form-field-gap-horizontal;
+			}
+
+			.form-row {
+				box-sizing: border-box;
+				width: auto;
+				float: none;
+				clear: none;
+				margin: 0;
+				padding: 0;
+
+				label {
+					margin-bottom: $form-label-gap;
+				}
+
+				&.form-row-wide,
+				&.form-row-first,
+				&.form-row-last {
+					width: auto;
+					float: none;
+					margin: 0;
+				}
+
+				&.form-row-wide,
+				&:not(.form-row-first):not(.form-row-last) {
+					grid-column: 1 / -1;
+				}
+			}
+
+			.woocommerce-input-wrapper {
+				display: block;
+			}
+
+			// Keep text inputs, native country select, and Select2 state field the same
+			// height.
+			input.input-text,
+			select:not([multiple]):not([size]),
+			.select2-container.select2-container--default {
+
+				@include sk-form-field-fixed-height;
+			}
+
+			textarea {
+				height: auto;
+				max-height: none;
+			}
+
+			.select2-container.select2-container--default {
+				display: block;
+				margin: 0 !important;
+
+				.select2-selection--single {
+					height: $form-field-min-height !important;
+					min-height: $form-field-min-height !important;
+					max-height: $form-field-min-height !important;
+					margin: 0 !important;
+
+					.select2-selection__rendered {
+						line-height: $form-field-inner-line-height !important;
+					}
+
+					.select2-selection__arrow {
+						top: 0 !important;
+					}
+				}
+			}
+
+			select.country_to_state--single {
+				width: 100% !important;
+				margin: 0 !important;
+				padding: $form-field-padding-y $form-field-padding-x !important;
+				border: $form-field-border !important;
+				background-color: $form-field-background-color !important;
+			}
+
+			textarea {
+				min-height: 8rem;
+			}
+
+			.sk-request-quote-submit-row {
+				grid-column: 1 / -1;
+				display: flex;
+				flex-wrap: wrap;
+				gap: $spacing-small;
+				align-items: stretch;
+				margin-top: $spacing-medium;
+
+				.raq-send-request-row {
+					flex: 1 1 14rem;
+					order: 1;
+					margin: 0;
+					padding: 0;
+					min-width: 0;
+				}
+
+				.raq-send-request {
+
+					@include sk-form-button-primary;
+					width: 100%;
+					min-height: 100%;
+					margin: 0;
+
+					&.sk-has-icon {
+						display: inline-flex;
+						align-items: center;
+						justify-content: center;
+						gap: 0.5em;
+					}
+				}
+
+				.sk-request-quote-clear-form {
+
+					@include button-light;
+					flex: 0 0 auto;
+					order: 2;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					min-height: 100%;
+					margin: 0;
+					padding: $button-padding-vertical $button-padding-sides;
+					border-radius: $button-border-radius;
+					font-family: inherit;
+					font-size: $button-font-size;
+					font-weight: $button-font-weight;
+					line-height: $button-line-height;
+					text-transform: $button-text-transform;
+					cursor: pointer;
+					appearance: none;
+					box-shadow: none;
+					white-space: nowrap;
+				}
+			}
+		}
+
+		.yith-ywraq-mail-form-wrapper .form-row {
+			padding: 0;
+		}
+
+		> .wp-block-group {
+			margin-top: $spacing-large;
+		}
+	}
+
+	// Summary sidebar
+	.sk-request-quote-summary {
+		--sk-request-quote-summary-padding: var(--wp--preset--spacing--medium, 20px);
+		container-type: inline-size;
+		container-name: quote-summary;
+
+		padding: 0 !important;
+		gap: 0;
+
+		> .wp-block-heading.has-large-font-size {
+			margin: 0;
+			padding: var(--sk-request-quote-summary-padding);
+			border-bottom: 1px solid $color-outline;
+		}
+
+		> .wp-block-shortcode {
+			display: block;
+			margin: 0;
+			padding: 0;
+		}
+
+		// YITH always outputs this wrapper. When the quote has items it is left
+		// empty (whitespace only) before #yith-ywraq-form -- hide it to avoid
+		// doubling the content inset.
+		> .ywraq-before-form:not(:has(.ywraq_list_empty_message)) {
+			display: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		> .ywraq-before-form:has(.ywraq_list_empty_message),
+		> #yith-ywraq-form {
+			margin: 0;
+			padding: var(--sk-request-quote-summary-padding);
+			box-sizing: border-box;
+		}
+
+		> .sk-request-quote-empty-notice {
+			padding: var(--sk-request-quote-summary-padding);
+			box-sizing: border-box;
+		}
+
+		// YITH outputs an empty wrapper before the table; its ::before SVG still
+		// renders.
+		.ywraq-before-form {
+			border: 0;
+			color: $color-body;
+			font-size: $font-size-small;
+
+			&::before {
+				display: none;
+			}
+
+			.ywraq_list_empty_message,
+			.sk-request-quote-empty-notice {
+				margin: 0;
+				color: $color-body;
+				font-size: $font-size-small;
+			}
+
+			.return-to-shop {
+				display: none;
+			}
+		}
+
+		#yith-ywraq-form {
+			--sk-request-quote-form-padding: var(--sk-request-quote-summary-padding);
+			box-sizing: border-box;
+
+			.product-quantity,
+			.product-price {
+				padding: 0;
+				text-align: inherit;
+			}
+		}
+
+		#yith-ywrq-table-list {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			box-sizing: border-box;
+
+			thead {
+				display: none;
+			}
+
+			tbody {
+				display: flex;
+				flex-direction: column;
+				gap: $spacing-medium;
+			}
+
+			tr.cart_item {
+				position: relative;
+				display: grid;
+				grid-template-columns: 74px minmax(0, 1fr) auto;
+				grid-template-areas: "thumb name qty";
+				gap: $spacing-x-small $spacing-small;
+				padding: 0 0 $spacing-medium;
+				border-bottom: 1px solid $color-outline;
+				overflow: visible;
+
+				td {
+					padding: 0 !important;
+					text-align: left;
+
+					&::before {
+						display: none !important;
+					}
+				}
+
+				&:not(:has(~ tr.cart_item)) {
+					border-bottom: 0;
+					padding-bottom: 0;
+				}
+
+				@container quote-summary (max-width: 420px) {
+					grid-template-columns: 74px minmax(0, 1fr);
+					grid-template-areas:
+						"thumb name"
+						"qty qty";
+
+					.product-name {
+						padding-right: 1.5rem;
+					}
+
+					.product-quantity {
+						justify-self: end;
+						margin-top: $spacing-xx-small;
+					}
+				}
+
+				.product-remove {
+					position: absolute;
+					top: 0;
+					right: 0;
+					display: block;
+					width: auto;
+					padding: 0;
+					line-height: 1;
+
+					.remove,
+					.yith-ywraq-item-remove {
+						display: inline-flex;
+						align-items: center;
+						justify-content: center;
+						width: 1.25rem;
+						height: 1.25rem;
+						color: $color-neutral;
+						font-size: 1.25rem;
+						font-weight: $font-weight-regular;
+						line-height: 1;
+						text-decoration: none;
+						transition: color 0.2s ease;
+
+						&:hover,
+						&:focus-visible {
+							color: $color-body;
+						}
+					}
+				}
+
+				.product-thumbnail {
+					grid-area: thumb;
+					align-self: start;
+					width: 74px;
+					height: 74px;
+					padding: 0;
+
+					img {
+						display: block;
+						width: 74px;
+						height: 74px;
+						object-fit: cover;
+						border-radius: $border-radius-small;
+					}
+				}
+
+				.product-name {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					grid-area: name;
+					width: 100%;
+					min-width: 0;
+					padding: 0 !important;
+					font-weight: $font-weight-semi-bold;
+					text-align: left;
+
+					&::before {
+						display: none;
+					}
+
+					a {
+						display: block;
+						width: 100%;
+						color: inherit;
+						text-decoration: none;
+						text-align: left;
+
+						&:hover {
+							text-decoration: underline;
+						}
+
+						small {
+
+							@include textStyleMeta;
+							display: block;
+							margin-top: $spacing-xx-small;
+							font-weight: inherit;
+							text-decoration: none;
+						}
+					}
+
+					.mobile-price {
+						display: none;
+					}
+
+					> ul {
+						width: 100%;
+						list-style: none;
+						margin: $spacing-xx-small 0 0 !important;
+						padding: 0 !important;
+						text-align: left;
+
+						br {
+							display: none;
+						}
+
+						li {
+							width: 100%;
+							margin: 0 0 $spacing-xx-small;
+							padding: 0;
+							font-size: $font-size-small;
+							font-weight: $font-weight-regular;
+							color: $color-neutral;
+							text-align: left;
+
+							&:last-child {
+								margin-bottom: 0;
+							}
+
+							strong {
+								font-weight: $font-weight-regular;
+							}
+
+							&:has(.sk-request-quote-selected-color) {
+								display: flex;
+								align-items: center;
+								flex-wrap: nowrap;
+								gap: 0.35em;
+
+								strong {
+									flex-shrink: 0;
+								}
+							}
+
+							&:has(.sk-request-quote-item-sku) {
+
+								@include textStyleMeta;
+
+								strong,
+								.sk-request-quote-item-sku {
+									color: $color-muted;
+									font-family: inherit;
+									font-size: inherit;
+									font-style: inherit;
+									font-weight: inherit;
+									line-height: inherit;
+								}
+							}
+
+							&:has(.sk-request-quote-item-price) {
+								margin-top: $spacing-xx-small;
+								font-size: inherit;
+								font-weight: $font-weight-semi-bold;
+								color: $color-body;
+
+								strong {
+									display: none;
+								}
+							}
+						}
+					}
+
+					.sk-request-quote-selected-color {
+						display: inline-flex;
+						align-items: center;
+						gap: $spacing-xx-small;
+						min-width: 0;
+						vertical-align: middle;
+						--sk-swatch-size: 18px;
+						--sk-swatch-text-size: 12px;
+						--sk-swatch-w: 1em;
+						--sk-swatch-h: 1em;
+						--sk-swatch-inn-sp: 2px;
+						--sk-swatch-brd-color: #{$color-outline};
+
+						.sk-swatch {
+							flex-shrink: 0;
+							cursor: default;
+							pointer-events: none;
+
+							&--bg {
+								display: inline-flex;
+								align-items: stretch;
+								justify-content: stretch;
+							}
+
+							.sk-swatch__bg {
+								display: block;
+								width: 100%;
+								height: 100%;
+								min-width: 100%;
+								min-height: 100%;
+								border-radius: inherit;
+							}
+						}
+
+						&__label {
+							color: $color-body;
+						}
+					}
+
+					small {
+						display: none;
+					}
+				}
+
+				.product-price {
+					display: none !important;
+				}
+
+				.product-quantity {
+					grid-area: qty;
+					justify-self: end;
+					align-self: end;
+					display: inline-flex;
+					align-items: center;
+					gap: 0.35em;
+					max-width: 100%;
+					padding: 0;
+					color: $color-neutral;
+					font-size: $font-size-small;
+					white-space: nowrap;
+
+					&::before {
+						content: "Qty:";
+					}
+
+					> .quantity {
+						display: inline-flex;
+						align-items: stretch;
+						margin: 0;
+						border: 1px solid $color-outline;
+						background: $color-white;
+						max-width: none;
+
+						.screen-reader-text {
+							border: 0;
+							clip-path: inset(50%);
+							height: 1px;
+							margin: -1px;
+							overflow: hidden;
+							padding: 0;
+							position: absolute;
+							width: 1px;
+						}
+
+						.sk-qty-button {
+							flex: 0 0 1.75rem;
+							width: 1.75rem;
+							min-height: 1.75rem;
+							font-size: 0.75rem;
+						}
+
+						.qty,
+						.sk-qty-input {
+							flex: 1 1 auto;
+							width: 2.75rem;
+							min-width: 2.75rem;
+							max-width: 3.5rem;
+							height: 1.75rem;
+							line-height: 1;
+							font-size: $font-size-small;
+							padding: 0 0.25rem;
+							text-align: center;
+							border: 0;
+							appearance: textfield;
+						}
+					}
+				}
+
+				.product-subtotal {
+					display: none;
+				}
+			}
+
+			tr:has(.raq-totals-label) {
+				display: none !important;
+			}
+		}
+
+		.update-list-wrapper {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: flex-end;
+			gap: $spacing-x-small;
+			margin: $spacing-medium 0 0;
+			padding: 0;
+
+			.after-table-right {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: $spacing-x-small;
+			}
+
+			.button {
+				margin: 0;
+			}
+
+			input[name="update_raq"],
+			#update_raq_wpnonce {
+				display: none !important;
+			}
+		}
+
+		.sk-request-quote-totals {
+			position: relative;
+			width: 100%;
+			margin: $spacing-medium 0 0;
+			padding: 0;
+			border: 0;
+			border-collapse: collapse;
+			box-sizing: border-box;
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: calc(-1 * var(--sk-request-quote-form-padding, 20px));
+				left: calc(-1 * var(--sk-request-quote-form-padding, 20px));
+				height: 1px;
+				background-color: $color-outline;
+			}
+
+			th,
+			td {
+				padding: $spacing-xx-small 0;
+				border: 0;
+				font-size: $font-size-small;
+				font-weight: $font-weight-regular;
+				color: $color-neutral;
+				vertical-align: top;
+			}
+
+			th {
+				width: 100%;
+				padding-right: $spacing-small;
+				text-align: left;
+			}
+
+			td {
+				text-align: right;
+				white-space: nowrap;
+			}
+
+			&__row--subtotal {
+
+				th,
+				td {
+					padding-top: $spacing-medium;
+				}
+			}
+
+			&__row--total {
+
+				th,
+				td {
+					padding-top: $spacing-small;
+					border-top: 1px solid $color-outline;
+					font-size: $font-size-large;
+					font-weight: $font-weight-semi-bold;
+					color: $color-body;
+				}
+
+				.woocommerce-Price-amount {
+					font-size: inherit;
+					font-weight: inherit;
+				}
+			}
+		}
+
+	}
+
+	&.sk-request-quote-is-empty {
+
+		.sk-request-quote-form .raq-send-request {
+			cursor: not-allowed;
+			opacity: 0.55;
+		}
+	}
+}

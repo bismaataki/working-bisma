@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "skaflow/shop-the-look",
+	"version": "1.0.0",
+	"title": "Shop the Look",
+	"category": "widgets",
+	"description": "Sidebar widget showing hand-picked products from the current post with template fallbacks.",
+	"keywords": ["shop", "look", "product", "sidebar", "blog", "post"],
+	"textdomain": "skaflow",
+	"icon": "cart",
+	"usesContext": ["postId", "postType"],
+	"attributes": {
+		"fallbackHeading": {
+			"type": "string",
+			"default": "Shop the Look"
+		},
+		"fallbackMessage": {
+			"type": "string",
+			"default": "Transform your space with these handpicked pieces."
+		},
+		"fallbackProducts": {
+			"type": "array",
+			"default": []
+		},
+		"showViewAll": {
+			"type": "boolean",
+			"default": true
+		},
+		"viewAllLabel": {
+			"type": "string",
+			"default": "View All"
+		},
+		"viewAllUrl": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": true,
+		"reusable": false,
+		"lock": false,
+		"align": false
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "skaflow/site-header",
+  "version": "1.0.0",
+  "title": "Site Header",
+  "category": "theme",
+  "description": "PHP site header on the frontend; editor notice in wp-admin.",
+  "keywords": [
+    "header",
+    "navigation",
+    "menu"
+  ],
+  "textdomain": "skaflow",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "links": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": false,
+    "reusable": false,
+    "lock": false,
+    "multiple": false
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

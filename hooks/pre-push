@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# ai-tools: pre-push
+#
+# Activate once per clone, from the repo root:
+#   git config core.hooksPath hooks
+#
+# Bypass is deliberately available but is not a normal workflow:
+#   git push --no-verify
+#
+# Two independent checks. The gate always runs. The AI-tools check self-skips
+# unless this working tree is a split-repo client checkout.
+
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+verify="$repo_root/wp-content/themes/skaflow/tools/verify.sh"
+
+if [[ -x "$verify" ]]; then
+	"$verify"
+else
+	echo "WARNING: $verify missing or not executable. Gate skipped."
+fi
+
+# No-op unless AGENTS.md is an overlay symlink, so this costs nothing on the
+# starter and on client-only clones.
+ai_tools_check="$repo_root/hooks/client-pre-push"
+
+if [[ -x "$ai_tools_check" ]]; then
+	"$ai_tools_check" "$@"
+fi

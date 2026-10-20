@@ -1,0 +1,143 @@
+---
+description: Header and mega menu architecture — single breakpoint control point, menu token tier, scoped selectors to avoid theme collisions, and keyboard-safe open states
+globs: ["**/src/sass/menu/**", "**/src/sass/header/**", "**/src/js/site-header.js", "**/includes/menu/**", "**/includes/header/**", "**/lib/class-mega-menu.php", "**/lib/class-site-header.php", "**/partials/site-header.php"]
+alwaysApply: false
+---
+
+# Menu & Header Architecture
+
+Three goals, in priority order:
+
+1. **Self-contained token layer** — menu partials read menu tokens, not global
+   `theme.json` variables.
+2. **Single breakpoint control point** — one variable decides desktop nav versus
+   mobile drawer.
+3. **Keyboard-safe styling** — focus states paired with hover; open states driven
+   by ARIA and JS, never hover alone.
+
+## Split of responsibility
+
+`src/sass/header/` holds the header **shell** — announcement bar, search row,
+utility cluster, scroll behaviour. `src/sass/menu/` holds navigation — desktop
+nav row, mega panels, mobile drawer, link types.
+
+Both are `@use`'d once from `src/sass/index.scss`. Mega menu rules do not go in
+the global `_mixins.scss`; menu-specific mixins belong in `menu/_mixins.scss`.
+Header shell files load tokens via `header/_tools.scss`, not `../tools`.
+
+## Breakpoint control
+
+Define the menu breakpoint once, as a **key into `$breakpoints`**, then wrap it:
+
+```scss
+// menu/_variables.scss
+$menu-breakpoint-key: navigation;
+
+// menu/_mixins.scss
+@use "sass:map";
+@use "../settings" as *;
+@use "variables" as *;
+
+@mixin breakpoint-menu-up {
+	@media screen and (min-width: #{map.get($breakpoints, $menu-breakpoint-key)}) { @content; }
+}
+
+@mixin breakpoint-menu-down {
+	@media screen and (max-width: #{map.get($breakpoints, $menu-breakpoint-key)}) { @content; }
+}
+
+// readable aliases — use when intent matters more than direction
+@mixin menu-desktop-only { @include breakpoint-menu-up { @content; } }
+@mixin menu-mobile-only  { @include breakpoint-menu-down { @content; } }
+```
+
+Every desktop/mobile split inside menu partials uses these mixins — never a raw
+`@media`, and never the global `breakpoint()` mixin. Moving the switch point then
+means editing `$menu-breakpoint-key` alone.
+
+Desktop and mobile label visibility is a **CSS toggle** inside these mixins, not
+`wp_is_mobile()`. Server-side device detection breaks under page caching.
+
+## Token tier
+
+`menu/_variables.scss` defines `$menu-*` tokens referencing global Tier 1 tokens.
+Component partials consume `$menu-*` only:
+
+```scss
+// menu/_variables.scss
+$menu-nav-link-hover-color: $color-primary;
+
+// menu/_desktop.scss
+.site-header__nav-link:hover { color: $menu-nav-link-hover-color; }  // ✅
+.site-header__nav-link:hover { color: $color-primary; }              // ❌ skips the tier
+```
+
+## Selector scope
+
+All menu Sass scopes under `.site-header`, with BEM element names:
+
+```
+.site-header__mega-menu
+.site-header__mobile-drawer
+.site-header__nav-item--has-mega
+```
+
+**Never** bare `.mega-menu`, `.mobile-menu`, or `#mobile-menu`. Those collide with
+commercial themes and plugins that may still be installed during a rebuild. A
+nav walker will emit WordPress's own `.menu-item` classes — style them as
+`.site-header .menu-item`, never as global `.menu-item`.
+
+Menu locations are registered from constants rather than string literals, so a
+rename stays mechanical.
+
+## Open states must be keyboard-reachable
+
+Mega panels open on **click/tap**: JS sets `aria-expanded` and an `.is-open`
+class. CSS must not depend on `:hover` to reveal content.
+
+```scss
+.site-header__nav-item--has-mega {
+	&.is-open .site-header__mega-menu,
+	&[aria-expanded='true'] .site-header__mega-menu {
+		// panel visible
+	}
+
+	// keep the panel usable while focus is inside it
+	&:focus-within .site-header__mega-menu {
+		// match the open styles
+	}
+}
+```
+
+`:hover` may *supplement* desktop styling, but must never be the only selector
+that reveals content or communicates state.
+
+Pair hover with keyboard focus everywhere, preferring `:focus-visible`:
+
+```scss
+// ✅
+.site-header__nav-link {
+	&:hover,
+	&:focus-visible { color: $menu-nav-link-hover-color; }
+}
+
+// ❌ hover only — unreachable by keyboard
+.site-header__nav-link:hover { /* ... */ }
+
+// ❌ outline removed with no replacement
+outline: none;
+```
+
+## Mobile drawer
+
+- Open state on the drawer element via `[aria-hidden='false']`, plus a document-
+  level class for scroll lock
+- Body scroll lock belongs inside `menu-mobile-only`, so desktop is unaffected
+- Focus trap is JS; CSS provides visible focus on drawer links and on the close
+  and back buttons
+
+## Related
+
+- `PROJECT.md` — this project's breakpoint choice and menu locations
+- `.cursor/rules/sf-sass-architecture.mdc` — global token tiers
+- `.cursor/rules/sf-icons.mdc` — utility icons in the header cluster

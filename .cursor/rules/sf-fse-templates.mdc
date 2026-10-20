@@ -1,0 +1,106 @@
+---
+description: FSE template, template part and pattern conventions — theme asset URLs, pattern categories, and how templates compose from patterns
+globs: ["**/themes/*/templates/**", "**/themes/*/parts/**", "**/themes/*/patterns/**", "**/themes/*/partials/**", "**/themes/*/theme.json"]
+alwaysApply: false
+---
+
+# FSE Templates, Parts & Patterns
+
+| Directory | Contains | Format |
+|---|---|---|
+| `templates/` | Page-level layouts (`single.html`, `archive-{type}.html`) | HTML block markup |
+| `parts/` | Reusable areas referenced by `wp:template-part` | HTML block markup |
+| `patterns/` | Insertable content layouts, auto-registered | PHP with a header comment |
+| `partials/` | PHP fragments rendered by classes and hooks | PHP |
+
+`patterns/` and `partials/` are different things. Patterns are editor-insertable
+block markup; partials are PHP output called from a class or hook. Don't put
+block markup in `partials/` or PHP logic in `patterns/`.
+
+**Never lint or format `templates/`, `parts/`, or `patterns/`.** Gutenberg owns
+that markup. `npm run format`, Prettier, ESLint, stylelint, and PHPCS must not
+rewrite it. This is the theme-root directories only — `src/sass/patterns/` is
+hand-written Sass and stays in stylelint.
+
+## Template shape
+
+Templates stay thin — a header part, a `main` group, a footer part — and compose
+their content from patterns rather than inlining markup:
+
+```html
+<!-- wp:template-part {"slug":"header","theme":"skaflow","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+	<!-- wp:pattern {"slug":"skaflow/page-title"} /-->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","theme":"skaflow","tagName":"footer"} /-->
+```
+
+The `theme` attribute in `wp:template-part` carries the theme slug and is part of
+the rename surface.
+
+## Patterns
+
+Auto-registered from `patterns/` — no PHP registration needed. Every file needs a
+header comment:
+
+```php
+<?php
+/**
+ * Title: Human-readable name
+ * Slug: skaflow/slug-here
+ * Description: One sentence describing the pattern and its style.
+ * Categories: section, skaflow
+ * Keywords: keyword1, keyword2
+ */
+?>
+```
+
+`Title`, `Slug`, `Description` and `Categories` are all required. Missing
+`Description` and `Keywords` degrade discoverability in the inserter.
+
+**Only declare categories that are registered.** The theme registers its own in
+`lib/class-after-setup-theme.php` via `register_block_pattern_category()`;
+WordPress core provides the rest (`banner`, `about`, `call-to-action`, `footer`,
+`header`, `posts`, `query`, `text`, `gallery`, `columns`, `featured`,
+`testimonials`, `services`, `contact`, `team`, `portfolio`, `media`). Declaring
+an unregistered category silently drops the pattern out of that filter. Which
+categories this project registers — and which are retired — is in `PROJECT.md`.
+
+## Images — theme assets only
+
+Never leave a `/wp-content/uploads/` URL or a `wp_get_attachment_url()` call in a
+pattern. Uploads are site-specific; a pattern must work on any install of the
+theme.
+
+```php
+<img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/placeholder.png' ) ); ?>" alt="placeholder"/>
+```
+
+Also strip `wp-image-{ID}` classes, `class="size-full"`, and real `mediaId`
+values that the editor leaves behind. If a needed image isn't in `assets/images/`,
+add it there rather than referencing an upload.
+
+## Shortcodes in block markup
+
+The theme registers a shortcode for reading ACF fields inside otherwise static
+block markup, useful in patterns bound to a configured field:
+
+```html
+<!-- wp:heading -->
+<h2 class="wp-block-heading">[skaflow field="hero_title"]</h2>
+<!-- /wp:heading -->
+```
+
+Registered in `lib/class-shortcodes.php`. Prefer real block bindings or a
+dynamic block where the content is structural; the shortcode is for content
+authored once in options.
+
+## Related
+
+- `.cursor/skills/sf-block-patterns/` — creating and cleaning up pattern files
+- `.cursor/rules/sf-sass-architecture.mdc` — where pattern styles live
+- `PROJECT.md` — registered pattern categories, available placeholder images

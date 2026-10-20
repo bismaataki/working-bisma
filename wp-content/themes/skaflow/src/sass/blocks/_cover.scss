@@ -1,0 +1,10 @@
+.wp-block-cover {
+
+	.wp-block-cover.artwork-cover {
+
+		img.wp-block-cover__image-background {
+			object-fit: contain;
+			transform: scale(1.5);
+		}
+	}
+}

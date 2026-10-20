@@ -1,0 +1,101 @@
+---
+description: SEO coupling points — reading primary-term meta from whichever SEO plugin is live, and the theme's own FAQPage JSON-LD which can collide with a plugin's schema output
+globs: ["**/includes/taxonomy-terms-functions.php", "**/includes/faq/**", "**/includes/woocommerce/product-faqs-functions.php", "**/src-jsx-blocks/taxonomy-terms/**", "**/src-jsx-blocks/post-card/**"]
+alwaysApply: false
+---
+
+# SEO Coupling
+
+The SEO plugin is a **swappable capability** — check `PROJECT.md` § Stack for which
+one is live before writing anything against it. The theme does not own titles,
+meta descriptions, canonicals, sitemaps or robots directives; the plugin does. Do
+not add code for any of those.
+
+The theme touches SEO in exactly two places. Both are small, and both are easy to
+break in ways that do not show up until a crawler notices.
+
+## Primary term
+
+Blocks that show a single category ask the SEO plugin which term is primary, then
+fall back to assigned-term order. Support both readers, because a fork may run
+either plugin:
+
+```php
+function skaflow_get_primary_term_id_for_post( string $taxonomy_slug, int $post_id ): int {
+	if ( function_exists( 'yoast_get_primary_term_id' ) ) {
+		$term_id = (int) yoast_get_primary_term_id( $taxonomy_slug, $post_id );
+
+		if ( $term_id > 0 ) {
+			return $term_id;
+		}
+	}
+
+	$rank_math_term_id = (int) get_post_meta( $post_id, 'rank_math_primary_' . $taxonomy_slug, true );
+
+	return $rank_math_term_id > 0 ? $rank_math_term_id : 0;
+}
+```
+
+`includes/taxonomy-terms-functions.php` is the live implementation, consumed by
+`skaflow_get_taxonomy_terms_for_post_limited()` and through it by the
+`taxonomy-terms` and `post-card` blocks.
+
+Two properties to preserve:
+
+- **Yoast through `function_exists()`, Rank Math through raw post meta.** Yoast
+  exposes a helper; Rank Math does not, so its primary term is read as
+  `rank_math_primary_{taxonomy}`. A bare `get_post_meta()` on a site without the
+  plugin returns `''` and the function degrades to `0` — no guard needed, and no
+  fatal.
+- **Returning `0` must always be survivable.** Callers fall back to assigned-term
+  order. Never let an absent SEO plugin produce an empty category label.
+
+## FAQPage JSON-LD is theme-owned
+
+The theme emits its own `FAQPage` structured data from two independent
+queue-and-print pairs, both on `wp_footer` at priority 20:
+
+| Source | Queue | Printer |
+|---|---|---|
+| Product FAQ blocks | `skaflow_queue_faqpage_schema()` | `skaflow_print_faqpage_schema_json_ld()` |
+| FAQ archive / list blocks | `skaflow_queue_faq_archive_schema()` | `skaflow_print_faq_archive_schema_json_ld()` |
+
+The queue exists so repeated blocks on one page collapse into a single script
+rather than one per block. Keep that: adding a third emitter, or printing directly
+from a block's `render.php`, reintroduces duplicate entities.
+
+**These can collide with the SEO plugin.** Rank Math and Yoast both ship FAQ
+schema of their own, and a page carrying two `FAQPage` entities is a structured
+data error rather than a ranking bonus. Before adding FAQ schema anywhere, confirm
+the plugin is not already emitting it for that URL. The two theme emitters are also
+independent of each other, so a page with both a product FAQ block and a FAQ
+archive block prints two scripts — a known limitation, not a licence to add more.
+
+## When swapping the SEO plugin
+
+1. Add the new plugin's primary-term reader to
+   `skaflow_get_primary_term_id_for_post()`, keeping the existing branches.
+2. Check whether it emits FAQ schema, and if so disable one side.
+3. Update `PROJECT.md` § Stack and § Plugins.
+4. Verify with a real post that has a primary term set, not a fresh one.
+
+```bash
+cd <repo root>
+ddev wp post meta list <id> --keys=rank_math_primary_product_cat --format=json
+ddev wp eval 'echo skaflow_get_primary_term_id_for_post( "product_cat", <id> );'
+```
+
+## Anti-patterns
+
+- Theme code writing titles, meta descriptions, canonicals, or robots directives
+- Guarding a Rank Math meta read with `class_exists( 'RankMath' )` — unnecessary,
+  and it couples the theme to a class name the plugin may rename
+- A third `FAQPage` emitter, or schema printed from `render.php`
+- Assuming a primary term exists
+
+## Related
+
+- `PROJECT.md` — which SEO plugin is live, and explicit absences
+- `.cursor/skills/sf-plugin-integrations/` — where third-party hook files go
+- `.cursor/rules/sf-php-architecture.mdc` — why capability code belongs outside the
+  timeless root tier

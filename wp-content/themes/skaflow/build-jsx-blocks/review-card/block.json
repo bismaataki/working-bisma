@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "skaflow/review-card",
+  "version": "1.0.0",
+  "title": "Review Card",
+  "category": "woocommerce",
+  "description": "Verified WooCommerce product review card for the marketing reviews slider.",
+  "keywords": [
+    "review",
+    "testimonial",
+    "woocommerce",
+    "verified"
+  ],
+  "textdomain": "skaflow",
+  "icon": "star-filled",
+  "attributes": {
+    "commentId": {
+      "type": "number",
+      "default": 0
+    },
+    "variant": {
+      "type": "string",
+      "default": "carousel",
+      "enum": [
+        "carousel",
+        "single"
+      ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": false,
+    "reusable": false,
+    "lock": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

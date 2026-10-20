@@ -1,0 +1,19 @@
+@use "../../tools" as *;
+
+// YITH quote sits below Add to Cart in the card actions stack.
+.wc-block-product {
+
+	.yith-ywraq-add-to-quote {
+		text-align: center;
+	}
+
+	.yith-ywraq-add-to-quote + .clear {
+		display: none;
+	}
+}
+
+//li.product{
+//	.yith-ywraq-add-to-quote {
+//		padding: $spacing-small;
+//	}
+//}

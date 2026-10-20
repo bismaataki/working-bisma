@@ -1,0 +1,69 @@
+{
+    "key": "group_post_shop_the_look",
+    "title": "Shop the Look",
+    "fields": [
+        {
+			"key": "field_post_shop_the_look_heading",
+			"label": "Widget heading",
+			"name": "shop_the_look_heading",
+			"type": "text",
+			"instructions": "Sidebar widget title shown on this post. Leave empty to use the block fallback from the single post template.",
+			"required": 0,
+			"wrapper": {
+				"width": "50",
+				"class": "",
+				"id": ""
+			}
+		},
+        {
+			"key": "field_post_shop_the_look_message",
+			"label": "Widget message",
+			"name": "shop_the_look_message",
+			"type": "textarea",
+			"instructions": "Short supporting copy below the heading. Leave empty to use the block fallback.",
+			"required": 0,
+			"rows": 2,
+			"new_lines": "",
+			"wrapper": {
+				"width": "50",
+				"class": "",
+				"id": ""
+			}
+		},
+        {
+            "key": "field_post_shop_the_look_products",
+            "label": "Products",
+            "name": "shop_the_look_products",
+            "type": "relationship",
+            "instructions": "Hand-picked products for the sidebar Shop the Look widget on this post.",
+            "required": 0,
+            "post_type": [
+                "product"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "min": 0,
+            "max": 0,
+            "elements": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 20,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1770902400
+}

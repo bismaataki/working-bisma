@@ -1,0 +1,28 @@
+@use "../tools" as *;
+
+.pattern-section-hero-home {
+
+	@include breakpoint-large-down {
+
+		&.wp-block-cover {
+
+			&.sk-hide-bg-on-medium,
+			&.sk-hide-bg-on-small {
+				padding-left: 0;
+				padding-right: 0;
+			}
+		}
+
+		.wp-block-group {
+
+			&.sk-hide-bg-on-large {
+				padding: $grid-container-padding-left;
+			}
+		}
+
+		.wp-block-column {
+			padding-left: $grid-container-padding-left !important;
+			padding-right: $grid-container-padding-left !important;
+		}
+	}
+}

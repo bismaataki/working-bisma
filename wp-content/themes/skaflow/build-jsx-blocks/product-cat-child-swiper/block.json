@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "skaflow/product-cat-child-swiper",
+  "version": "1.0.0",
+  "title": "Product Category Child Swiper",
+  "category": "woocommerce",
+  "description": "Horizontal swiper of immediate child product categories on taxonomy archives.",
+  "keywords": [
+    "woocommerce",
+    "category",
+    "swiper",
+    "archive"
+  ],
+  "textdomain": "skaflow",
+  "attributes": {
+    "showArrowsDesktop": {
+      "type": "boolean",
+      "default": true
+    },
+    "showArrowsMobile": {
+      "type": "boolean",
+      "default": false
+    },
+    "showProgressBar": {
+      "type": "boolean",
+      "default": true
+    },
+    "showLabels": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "reusable": false,
+    "lock": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Thumbnails",
+      "isDefault": true
+    },
+    {
+      "name": "card",
+      "label": "Category cards"
+    }
+  ],
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

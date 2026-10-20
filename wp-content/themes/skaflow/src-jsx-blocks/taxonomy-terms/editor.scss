@@ -1,0 +1,28 @@
+@use "../../src/sass/tools" as *;
+
+.sk-taxonomy-terms-editor {
+	// Keep term links inert in the canvas; clicks should select the block.
+	a {
+		pointer-events: none;
+	}
+}
+
+.sk-taxonomy-terms-editor__placeholder {
+	align-items: center;
+	color: $color-neutral;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-x-small;
+	justify-content: center;
+	min-height: 3rem;
+	padding: $spacing-small;
+	text-align: center;
+
+	p {
+		margin: 0;
+	}
+}
+
+.sk-taxonomy-terms-editor__placeholder--error {
+	color: $color-secondary;
+}

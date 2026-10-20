@@ -1,0 +1,136 @@
+---
+description: Build pipeline traps — wp-scripts copies only render.php, enqueue_block_assets vs enqueue_block_editor_assets for the iframed editor, and what must stay outside webpack
+globs: ["**/themes/*/package.json", "**/themes/*/src-jsx-blocks/**/block.json", "**/themes/*/src-acf-blocks/**/block.json", "**/themes/*/src/*.js", "**/themes/*/config-dev/**", "**/themes/*/tools/**", "**/lib/class-blocks-jsx.php", "**/lib/class-acf.php", "**/lib/class-front.php"]
+alwaysApply: false
+---
+
+# Build Pipeline
+
+Two builds, run from the theme directory:
+
+| Command | Source | Output |
+|---|---|---|
+| `npm run build:assets` | every webpack entry in `package.json` | `build/` |
+| `npm run build:blocks` | `src-jsx-blocks/` | `build-jsx-blocks/` |
+| `npm run build` | both | both |
+| `npm run create-zip` | packlist of the theme dir | `skaflow.zip` |
+| `npm run dev` | browser-sync + both watchers | — |
+
+**Never run `wp-scripts build` / `start` on a subset of entries.** A command
+like `npx wp-scripts build src/my-account.js` treats `build/` as that run's
+only output and deletes `index.*` and `public.*`. `lib/class-front.php`
+then fatals on the missing `index.asset.php` — site-wide 500, not an
+account-only miss. Always `npm run build:assets` (or `npm run build` when
+blocks need it). Same for watchers: `npm run start:assets` / `npm run dev`.
+
+`src/index.js` imports `sass-admin/index.scss`, `js-admin` and `blocks-extension`.
+`src/public.js` imports `sass/index.scss` and `js/index`.
+
+`build/index.css` is nonetheless **not** admin-only: `src/sass-admin/index.scss`
+loads the frontend capability sheets with `meta.load-css()` inside
+`.editor-styles-wrapper` so editor previews match the front end. Nested
+`@import` / `@use` is not valid under the module system. Practical
+consequence — **a capability's Sass directory has two load sites**,
+`@use` in `src/sass/index.scss` and `meta.load-css()` in
+`src/sass-admin/index.scss`. Deleting the directory while removing only
+one line breaks the build with a missing-file error.
+
+Browser-sync needs `config-dev/.env` with `PROXY=yoursite.test`.
+
+## Theme zip
+
+`npm run create-zip` is the only zip path. It is `wp-scripts plugin-zip`.
+
+`package.json` `"files": ["*"]` is intentional: plugin-zip then uses
+`npm-packlist`, which ships the theme minus what `.gitignore` already
+excludes (`node_modules/`, `config-dev/.env`, `*.log`, `skaflow.zip` /
+`skaflow-*.zip`). That is the filter. **Do not add a `.distignore` and
+do not invent a custom archive.** `lib/plugins-zip/` stays in — those
+filenames are not `skaflow*.zip`.
+
+Output is `skaflow.zip` in the theme directory (gitignored). Run
+`npm run build` first. The two Skaflow plugins live outside the theme
+and are not in this zip.
+
+## Trap 1 — sibling PHP only ships if the blocks build copies it
+
+Default `wp-scripts` copies only the file named by `block.json`'s
+`render` key. This theme's `build:blocks` / `start:blocks` pass
+`--webpack-copy-php`, so every `.php` file under `src-jsx-blocks/` is
+copied into `build-jsx-blocks/`.
+
+**Never add that flag to `build:assets`.** That command lists entries
+from the theme root, and the flag would dump the whole PHP tree into
+`build/`.
+
+Also pass `--blocks-manifest`. Registration prefers
+`wp_register_block_types_from_metadata_collection()` in
+`lib/class-blocks-jsx.php` and falls back to a per-folder
+`register_block_type()` loop.
+
+Consequences:
+
+- Block-local PHP may live next to `block.json` and will ship.
+- Anything shared with hooks, REST routes, `lib/` classes, or another
+  block still goes in `includes/{capability}/`, and `render.php` calls
+  it as a shim.
+
+## Trap 2 — editor iframe vs editor chrome
+
+The block editor canvas renders inside an `<iframe>` (WP 6.3+). CSS that must
+render inside block **content** has to be enqueued on `enqueue_block_assets`,
+which loads in the iframe and on the frontend. `enqueue_block_editor_assets`
+loads only in the editor chrome — sidebars, toolbars — and WordPress will warn
+`"...-style-css was added to the iframe incorrectly"` if you use it for content
+styling.
+
+| What | Hook |
+|---|---|
+| Renders inside block content (icons, block styles) | `enqueue_block_assets` |
+| Editor UI only (inspector controls, toolbar) | `enqueue_block_editor_assets` |
+
+When in doubt for anything content-related, prefer `enqueue_block_assets` and
+guard with `is_admin()` only if the frontend genuinely must be excluded.
+
+## Trap 3 — some CSS must stay outside webpack
+
+Icon-font CSS is deliberately a static asset in `assets/css/`, not part of the
+Sass build. Three separate pipeline behaviours forced this:
+
+1. **Tree-shaking**: icon packages that set `"sideEffects": false` have their CSS
+   import stripped from production builds.
+2. **Font bloat**: upstream icon CSS often embeds a multi-megabyte SVG font
+   fallback in `@font-face`, which lands in `build/index.css`.
+3. **Minifier corruption**: cssnano silently empties `content: "\eXXX"`
+   escape-sequence values during minification. Literal glyph characters survive;
+   escapes do not.
+
+Do not "tidy" static icon CSS into the Sass pipeline. See
+`.cursor/rules/sf-icons.mdc`.
+
+## Block registration
+
+- `src-jsx-blocks/*/` → auto-registered from `build-jsx-blocks/` by
+  `lib/class-blocks-jsx.php`. Preferred approach.
+- `src-acf-blocks/*/` → auto-registered by `lib/class-acf.php`; needs
+  `block.json`, `render.php`, `index.php`. No per-block Sass — styles go in
+  `src/sass/`.
+
+Registration is directory-driven with no plugin-dependency check, so a block
+that requires a plugin will still register on a site without it. Guard inside
+`render.php`, or note the dependency so a fork can strip the block.
+
+## Asset URLs
+
+Use the build helpers, never hardcoded paths:
+
+```php
+$css_url = skaflow_get_build_url( 'index.css' );
+$js_path = skaflow_get_build_dir( 'public.js' );
+```
+
+## When a build looks broken
+
+Confirm `build/` and `build-jsx-blocks/` exist and are populated, then
+`npm install && npm run build` from the theme directory. See
+`.cursor/skills/sf-debug/`.

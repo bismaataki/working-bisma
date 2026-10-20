@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<ruleset name="Skaflow">
+	<description>WordPress Coding Standards for the Skaflow theme. Gutenberg markup is never in scope. Style-only Extra noise is excluded so phpcs can gate real safety issues.</description>
+
+	<!--
+		Hand-maintained PHP only. This is an allow list, so a directory absent
+		here is unscanned whether or not it also appears in exclude-pattern
+		below. Add new hand-written PHP here or nothing will ever check it.
+	-->
+	<file>includes</file>
+	<file>lib</file>
+	<file>public</file>
+	<file>partials</file>
+	<file>functions.php</file>
+	<file>src-jsx-blocks</file>
+	<file>src-acf-blocks</file>
+	<file>woocommerce</file>
+	<file>bin</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/build/*</exclude-pattern>
+	<exclude-pattern>*/build-jsx-blocks/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+	<exclude-pattern>*/lib/plugins-zip/*</exclude-pattern>
+	<exclude-pattern>*/templates/*</exclude-pattern>
+	<exclude-pattern>*/parts/*</exclude-pattern>
+	<exclude-pattern>*/patterns/*</exclude-pattern>
+	<exclude-pattern>*/tools/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+	<arg name="colors"/>
+	<arg name="cache" value=".phpcs-cache"/>
+	<arg value="sp"/>
+
+	<config name="minimum_wp_version" value="6.7"/>
+
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="skaflow"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="skaflow"/>
+				<element value="Skaflow"/>
+				<element value="SKAFLOW"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+		Project policy. These are wrong or low-value for this theme.
+		Keep escaping, nonces, SQL, and capabilities as hard fails.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.WP.GlobalVariablesOverride">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.PHP.YodaConditions">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.WP.I18n.TextDomainMismatch">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Universal.Operators.DisallowShortTernary">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Files.LineEndings">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Universal.Operators.StrictComparisons">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamName">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamType">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.ParamCommentFullStop">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.Empty">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.LongNotCapital">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.ShortNotCapital">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.SpacingBeforeTags">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.DocCommentAlignment">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.Commenting.BlockComment">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndLine">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Internal.LineEndings.Mixed">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Universal.WhiteSpace.CommaSpacing">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.DateTime.RestrictedFunctions">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.NamingConventions.ValidVariableName">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.CodeAnalysis.AssignmentInCondition">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Squiz.PHP.CommentedOutCode">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Generic.Strings.UnnecessaryStringConcat">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.WP.Capabilities.RoleFound">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.WP.EnqueuedResourceParameters">
+		<severity>0</severity>
+	</rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions">
+		<severity>0</severity>
+	</rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.PHP.DevelopmentFunctions">
+		<exclude-pattern>*/includes/helper-functions.php</exclude-pattern>
+		<exclude-pattern>*/lib/class-plugins-manager.php</exclude-pattern>
+	</rule>
+
+	<rule ref="Internal.NoCodeFound">
+		<exclude-pattern>*/index.php</exclude-pattern>
+		<exclude-pattern>*/partials/grid-overlay.php</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>*/includes/constants.php</exclude-pattern>
+	</rule>
+
+	<!-- File/doc comments: required on lib, public, includes functions. Not on Gutenberg shims or silence-is-golden files. -->
+	<rule ref="Squiz.Commenting.FileComment">
+		<exclude-pattern>*/src-jsx-blocks/*</exclude-pattern>
+		<exclude-pattern>*/src-acf-blocks/*</exclude-pattern>
+		<exclude-pattern>*/partials/*</exclude-pattern>
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment">
+		<exclude-pattern>*/src-jsx-blocks/*</exclude-pattern>
+		<exclude-pattern>*/src-acf-blocks/*</exclude-pattern>
+		<exclude-pattern>*/partials/*</exclude-pattern>
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment">
+		<exclude-pattern>*/src-jsx-blocks/*</exclude-pattern>
+		<exclude-pattern>*/src-acf-blocks/*</exclude-pattern>
+		<exclude-pattern>*/partials/*</exclude-pattern>
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+</ruleset>

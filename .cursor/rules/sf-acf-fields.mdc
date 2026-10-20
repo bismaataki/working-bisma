@@ -1,0 +1,112 @@
+---
+description: ACF conventions — JSON field groups auto-load from acf-json/, options page structure, and the get_field() context gotcha inside block render.php
+globs: ["**/acf-json/**", "**/lib/class-acf.php", "**/render.php", "**/src-acf-blocks/**"]
+alwaysApply: false
+---
+
+# ACF Fields
+
+`Skaflow\Acf` (`lib/class-acf.php`) owns the integration. There is **no manual
+PHP field registration** — every JSON file in `acf-json/` is loaded
+automatically, and field groups appear wherever their location rules say.
+
+## Creating a field group
+
+Write `acf-json/group_{context}_{purpose}.json`. Naming follows
+`group_{context}_{purpose}[_{specificity}]`, so groups sort into readable
+families:
+
+```
+group_theme_options.json
+group_product_additional_information.json
+group_showroom_locations_term_fields.json
+group_block_acf_field_display.json
+```
+
+Location rules decide where fields appear. For an ACF block:
+
+```json
+{
+  "key": "group_your_block",
+  "title": "Your Block",
+  "fields": [
+    { "key": "field_title", "label": "Title", "name": "title", "type": "text" }
+  ],
+  "location": [
+    [ { "param": "block", "operator": "==", "value": "acf/your-block-name" } ]
+  ]
+}
+```
+
+Editing a group through the wp-admin UI re-exports the JSON automatically. Hand-
+authored JSON is fine; keep `key` values unique.
+
+## Options pages
+
+A **Theme Options** page always exists, registered in `lib/class-acf.php` via
+`acf_add_options_page()`. Its `menu_slug` is referenced by field group location
+rules — changing the slug means updating every group that targets it.
+
+Capability-specific configuration belongs on a sub-page under the relevant post
+type, via `acf_add_options_sub_page()` with a `parent_slug`, rather than as
+another tab on the global Theme Options page. Which sub-pages exist is
+project-specific — see `PROJECT.md`.
+
+Read option fields with the `'option'` post ID:
+
+```php
+$value = get_field( 'field_name', 'option' );
+```
+
+## The `render.php` context gotcha
+
+Inside a block's `render.php`, a bare `get_field()` resolves against the
+**block's** field group, not the post. To read a post field, pass the ID
+explicitly:
+
+```php
+$block_field = get_field( 'block_setting' );              // block's own group
+$post_field  = get_field( 'post_setting', get_the_ID() ); // the post
+```
+
+Use `get_block_wrapper_attributes()` for the block's wrapper attributes rather
+than assembling a class string by hand.
+
+## Guarding
+
+ACF is a required plugin, but code should still degrade rather than fatal when a
+function is missing:
+
+```php
+if ( ! function_exists( 'get_field' ) ) {
+	return;
+}
+```
+
+Never assume a field returns a value. Check before use, and provide a fallback
+for anything rendered.
+
+## Term and variation fields
+
+Term fields work normally through a `taxonomy` location rule.
+
+**Do not** use a `post_type == product_variation` location rule. That post type
+has `show_ui: false`, so ACF has no screen to render on — variation fields need
+native WooCommerce hooks instead. See `.cursor/rules/sf-commerce.mdc`.
+
+## Debugging
+
+```php
+skaflow_write_log( get_fields() );
+skaflow_dump( get_field( 'field_name' ) );
+skaflow_write_log( acf_get_field_groups() );
+```
+
+When fields don't appear: check the location rules first, then that the group is
+active, then that the field `name` matches the code exactly.
+
+## Related
+
+- `.cursor/skills/sf-blocks/` — creating ACF blocks
+- `.cursor/rules/sf-commerce.mdc` — why variations bypass ACF
+- `PROJECT.md` — this project's options pages and field groups

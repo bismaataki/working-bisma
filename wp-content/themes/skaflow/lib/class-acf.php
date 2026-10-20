@@ -1,0 +1,434 @@
+<?php
+/**
+ * ACF options, blocks, and field-choice / validation hooks.
+ *
+ * @package Skaflow
+ */
+
+namespace Skaflow;
+
+// exit if file is called directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+// if class already defined, bail out.
+if ( class_exists( 'Skaflow\Acf' ) ) {
+	return;
+}
+
+
+/**
+ * This class will set up the Acf options and Acf Blocks.
+ *
+ * @package    Skaflow
+ * @subpackage Skaflow/lib
+ */
+class Acf {
+
+
+	/**
+	 * @var array a list of removed blocks
+	 */
+	private array $removed_blocks = array();
+
+	/**
+	 * @var array a list of blocks directories
+	 */
+	private array $blocks_directories = array();
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    0.0.1
+	 */
+	public function __construct() {
+
+		$this->register_hooks();
+	}
+
+	/**
+	 * Register required hooks
+	 */
+	public function register_hooks(): void {
+
+		/**
+		 * Register ACF Blocks
+		 */
+		add_action( 'acf/init', array( $this, 'register_blocks_with_acf' ) );
+		add_action( 'acf/init', array( $this, 'register_acf_options' ) );
+
+		add_filter( 'acf/blocks/wrap_frontend_innerblocks', array( $this, 'remove_innerblocks_wrapper_for_layout' ), 10, 2 );
+
+		/**
+		 * Dynamically update field choices
+		 */
+		add_filter( 'acf/load_field/name=registered_taxonomies', array( $this, 'acf_field_choices_taxonomies' ) );
+
+		add_filter(
+			'acf/fields/select/query/key=field_block_acf_field_display_field_reference',
+			array(
+				$this,
+				'acf_all_fields_select_query',
+			),
+			10,
+			2
+		);
+		add_filter(
+			'acf/prepare_field/key=field_block_acf_field_display_field_reference',
+			array(
+				$this,
+				'acf_all_fields_prepare',
+			)
+		);
+
+		add_filter( 'acf/fields/taxonomy/query/key=field_faq_category_term', array( $this, 'acf_faq_product_cat_taxonomy_query' ) );
+		add_filter( 'acf/fields/taxonomy/result/key=field_faq_category_term', array( $this, 'acf_faq_product_cat_taxonomy_result' ), 10, 4 );
+		add_filter( 'acf/validate_value/key=field_faq_category_term', array( $this, 'acf_validate_unique_faq_category_row' ), 10, 4 );
+
+		add_filter( 'acf/fields/taxonomy/query/key=field_banner_category_term', array( $this, 'acf_faq_product_cat_taxonomy_query' ) );
+		add_filter( 'acf/fields/taxonomy/result/key=field_banner_category_term', array( $this, 'acf_faq_product_cat_taxonomy_result' ), 10, 4 );
+	}
+
+	/**
+	 * Register ACF Options
+	 */
+	public function register_acf_options() {
+
+		if ( ! function_exists( 'acf_add_options_page' ) ) {
+			return null;
+		}
+
+		/** @noinspection SpellCheckingInspection */
+		acf_add_options_page(
+			array(
+				'page_title' => esc_html__( 'Theme Options', 'skaflow' ),
+				'menu_title' => esc_html__( 'Theme Options', 'skaflow' ),
+				'menu_slug'  => 'skaflow-theme-options', // after changing the slug, update Fields Group location as well
+				'capability' => 'manage_options',
+				'redirect'   => false,
+				// Infinity mark, derived from assets/images/skaflow-favicon.svg (cropped + recolored for the dark admin-menu background).
+				'icon_url'   => 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( get_theme_file_path( 'assets/images/skaflow-menu-icon.svg' ) ) ),
+			)
+		);
+
+		acf_add_options_sub_page(
+			array(
+				'page_title'  => esc_html__( 'FAQ Configurations', 'skaflow' ),
+				'menu_title'  => esc_html__( 'FAQ Configurations', 'skaflow' ),
+				'menu_slug'   => 'skaflow-faq-configurations',
+				'parent_slug' => 'edit.php?post_type=skaflow_faq',
+				'capability'  => 'manage_options',
+			)
+		);
+
+		acf_add_options_sub_page(
+			array(
+				'page_title'  => esc_html__( 'Banner Configurations', 'skaflow' ),
+				'menu_title'  => esc_html__( 'Banner Configurations', 'skaflow' ),
+				'menu_slug'   => 'skaflow-banner-configurations',
+				'parent_slug' => 'edit.php?post_type=skaflow_banner',
+				'capability'  => 'manage_options',
+			)
+		);
+	}
+
+	/**
+	 *
+	 */
+	public function remove_innerblocks_wrapper_for_layout( $wrap, $name ) {
+
+		$block_name_starts_with = 'skaflow';
+
+		if ( str_starts_with( $name, $block_name_starts_with ) ) {
+			$wrap = false;
+		}
+
+		return $wrap;
+	}
+
+	/**
+	 * Register ACF Blocks
+	 * This is an autoloader for the blocks
+	 * the block directories shall be auto registered under this path: wp-content/themes/skaflow/src-acf-blocks/
+	 *
+	 * @hooked acf/init
+	 */
+	public function register_blocks_with_acf() {
+
+		/**
+		 * If we do not have ACF activated, bail out early
+		 */
+		if ( ! function_exists( 'acf_register_block' ) ) {
+			return null;
+		}
+
+		$remove_blocks = $this->get_removed_blocks();
+
+		$blocks_directories = $this->get_blocks_directories();
+
+		if ( empty( $blocks_directories ) ) {
+			return null;
+		}
+
+		foreach ( $blocks_directories as $block_directory ) :
+			$block_json = $block_directory . '/block.json';
+
+			// Ensure that block.json exists for each block
+			if ( file_exists( $block_json ) ) {
+				// Register each block using its block.json metadata
+				$block_dir_name = basename( $block_directory );
+				/**
+				 * If this block name is in $remove_blocks, continue
+				 */
+				if ( in_array( $block_dir_name, $remove_blocks, true ) ) {
+					continue;
+				}
+
+				// Register each block using its block.json metadata
+				register_block_type( $block_json );
+			}
+
+		endforeach;
+	}
+
+	/**
+	 * Get removed blocks
+	 *
+	 * @return array directory names of blocks
+	 */
+	private function get_removed_blocks(): array {
+
+		return apply_filters( SKAFLOW_PREFIX . 'remove_block_types', $this->removed_blocks );
+	}
+
+	/**
+	 * @return array block directories paths
+	 */
+	public function get_blocks_directories(): array {
+
+		if ( ! $this->blocks_directories ) {
+			$blocks_dir = get_stylesheet_directory() . '/src-acf-blocks/';
+			// Loop over each block folder in the blocks directory
+			$dirs = glob( $blocks_dir . '*', GLOB_ONLYDIR );
+
+			if ( ! empty( $dirs ) ) {
+				$this->blocks_directories = $dirs;
+			}
+		}
+
+		return apply_filters( SKAFLOW_PREFIX . 'acf_blocks_directories', $this->blocks_directories );
+	}
+
+	/**
+	 * Populate ACF Field with choices
+	 *
+	 * @hooked 'acf/load_field/name=registered_taxonomies'
+	 */
+	public function acf_field_choices_taxonomies( $field ) {
+		$field['choices'] = array();
+
+		$taxonomies = get_taxonomies( array( 'show_ui' => true ), 'labels' );
+
+		foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
+			$field['choices'][ $taxonomy_slug ] = $taxonomy->label;
+
+		}
+
+		return $field;
+	}
+
+	/**
+	 * AJAX query provider (grouped by field group title).
+	 *
+	 * @hooked 'acf/fields/select/query/key=field_block_acf_field_display_field_reference'
+	 */
+	public function acf_all_fields_select_query( $response, $field ) {
+		$empty = array(
+			'results' => array(),
+			'more'    => false,
+		);
+
+		if ( function_exists( 'acf_verify_ajax' ) && ! acf_verify_ajax() ) {
+			return $empty;
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- acf_verify_ajax() above.
+		$search = '';
+		if ( isset( $_POST['s'] ) ) {
+			$search = (string) wp_unslash( $_POST['s'] );
+		}
+		if ( $search === '' && isset( $_POST['q'] ) ) {
+			$search = (string) wp_unslash( $_POST['q'] );
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+		$search = trim( sanitize_text_field( $search ) );
+
+		$response = array(
+			'results' => array(),
+			'more'    => false,
+		);
+
+		$groups = function_exists( 'acf_get_field_groups' ) ? acf_get_field_groups() : array();
+		if ( empty( $groups ) ) {
+			return $response;
+		}
+
+		foreach ( $groups as $group ) {
+			$group_key   = $group['key'];
+			$group_title = $group['title'] ?: $group_key;
+
+			$fields = function_exists( 'acf_get_fields' ) ? acf_get_fields( $group_key ) : array();
+			if ( empty( $fields ) ) {
+				continue;
+			}
+
+			$children = array();
+
+			foreach ( $fields as $acf_field ) {
+				$field_name = $acf_field['name'] ?? '';
+				if ( $field_name === '' ) {
+					continue;
+				}
+
+				if ( $search !== '' && stripos( $field_name, $search ) === false ) {
+					continue;
+				}
+
+				$children[] = array(
+					'id'   => $field_name,
+					'text' => $field_name,
+				);
+			}
+
+			if ( ! empty( $children ) ) {
+				$response['results'][] = array(
+					'text'     => $group_title,
+					'children' => $children,
+				);
+			}
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Ensure saved value displays as selected after save (critical for ajax=1).
+	 *
+	 * @hooked 'acf/prepare_field/key=field_block_acf_field_display_field_reference'
+	 */
+	public function acf_all_fields_prepare( $field ) {
+		$value = $field['value'] ?? '';
+		if ( ! $value ) {
+			return $field;
+		}
+
+		// Inject ONLY the selected key so Select2 can render it.
+		$field['choices'] = array(
+			$value => $value,
+		);
+
+		return $field;
+	}
+
+	/**
+	 * FAQ Configurations: include all product categories in the picker query.
+	 *
+	 * @param array<string, mixed> $args     Taxonomy query args.
+	 * @param array<string, mixed> $field    ACF field.
+	 * @param int|string           $post_id  Post ID (options pages may pass non-int).
+	 * @return array<string, mixed>
+	 *
+	 * @hooked acf/fields/taxonomy/query/key=field_faq_category_term
+	 */
+	public function acf_faq_product_cat_taxonomy_query( array $args, array $field = array(), $post_id = 0 ): array {
+		unset( $field, $post_id );
+
+		$args['taxonomy']   = 'product_cat';
+		$args['hide_empty'] = false;
+		$args['orderby']    = 'name';
+		$args['order']      = 'ASC';
+
+		return $args;
+	}
+
+	/**
+	 * FAQ Configurations: indent child categories in the taxonomy select.
+	 *
+	 * @param string              $text    Option label.
+	 * @param \WP_Term|mixed      $term    Term object.
+	 * @param array<string,mixed> $field   ACF field.
+	 * @param int|string|null     $post_id Post ID.
+	 * @return string
+	 *
+	 * @hooked acf/fields/taxonomy/result/key=field_faq_category_term
+	 */
+	public function acf_faq_product_cat_taxonomy_result( $text, $term, array $field = array(), $post_id = null ): string {
+		unset( $field, $post_id );
+
+		$text = (string) $text;
+
+		if ( ! $term instanceof \WP_Term ) {
+			return $text;
+		}
+
+		$depth = count( get_ancestors( (int) $term->term_id, 'product_cat', 'taxonomy' ) );
+
+		if ( $depth < 1 ) {
+			return $text;
+		}
+
+		return str_repeat( '— ', $depth ) . html_entity_decode( $term->name, ENT_QUOTES, 'UTF-8' );
+	}
+
+	/**
+	 * Prevent duplicate product category rows in FAQ Configurations repeater.
+	 *
+	 * @param mixed                $valid   Validation state.
+	 * @param mixed                $value   Field value.
+	 * @param array<string, mixed> $field   ACF field.
+	 * @param string               $input   Input name.
+	 * @return mixed
+	 *
+	 * @hooked acf/validate_value/key=field_faq_category_term
+	 */
+	public function acf_validate_unique_faq_category_row( $valid, $value, array $field, string $input ) {
+		unset( $field );
+
+		if ( true !== $valid || empty( $value ) ) {
+			return $valid;
+		}
+
+		$term_id = is_array( $value ) ? absint( reset( $value ) ) : absint( $value );
+
+		if ( ! $term_id ) {
+			return $valid;
+		}
+
+		if ( ! preg_match( '/acf\[faq_category_rows\]\[row-(\d+)\]/', $input, $matches ) ) {
+			return $valid;
+		}
+
+		$current_row = $matches[1];
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- ACF has already verified the request before acf/validate_value.
+		$rows = isset( $_POST['acf']['faq_category_rows'] ) && is_array( $_POST['acf']['faq_category_rows'] )
+			? wp_unslash( $_POST['acf']['faq_category_rows'] )
+			: array();
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+		foreach ( $rows as $row_key => $row ) {
+			if ( ! is_array( $row ) || $row_key === $current_row ) {
+				continue;
+			}
+
+			$row_term = isset( $row['product_category'] ) ? absint( $row['product_category'] ) : 0;
+
+			if ( $row_term === $term_id ) {
+				return esc_html__( 'This product category is already assigned in another row.', 'skaflow' );
+			}
+		}
+
+		return $valid;
+	}
+}

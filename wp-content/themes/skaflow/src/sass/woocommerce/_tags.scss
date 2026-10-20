@@ -1,0 +1,46 @@
+@use "../tools" as *;
+
+/**
+ * WooCommerce tag/badge styling via shared sk-tag mixins.
+ * Markup is owned by WooCommerce; theme applies pill styles through selectors.
+ *
+ * Sale badge selectors are not wrapped in :where() — WooCommerce's own
+ * `.wc-block-components-product-sale-badge` (white, bordered, 4px radius)
+ * would otherwise win. Stock lines stay zero-specificity; they are not
+ * fighting a plugin stylesheet.
+ */
+
+.wp-block-woocommerce-product-sale-badge .wc-block-components-product-sale-badge,
+.woocommerce span.onsale,
+.woocommerce-page span.onsale,
+span.onsale,
+.wc-block-grid__product-onsale {
+
+	@include sk-tag("sale");
+	display: inline-block;
+	width: auto;
+	height: auto;
+	min-height: unset;
+	min-width: unset;
+	line-height: 1.2;
+}
+
+.wc-block-components-product-sale-badge__text {
+	background: transparent;
+	color: inherit;
+}
+
+:where(.woocommerce) {
+
+	:where(p.stock.in-stock),
+	:where(.stock.in-stock) {
+
+		@include sk-tag("stock");
+	}
+
+	:where(p.stock.out-of-stock),
+	:where(.stock.out-of-stock) {
+
+		@include sk-tag("sale");
+	}
+}

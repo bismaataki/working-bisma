@@ -1,0 +1,47 @@
+{
+    "key": "group_showroom_locations_term_fields",
+    "title": "Showroom Location Settings",
+    "fields": [
+        {
+            "key": "field_showroom_locations_timezone",
+            "label": "Timezone",
+            "name": "timezone",
+            "type": "select",
+            "instructions": "IANA timezone for showrooms in this location. Leave empty to fall back to the theme map (by term slug), then the WordPress site timezone. The choices below are an example set; edit them for the project's regions.",
+            "required": 0,
+            "choices": {
+                "Australia/Sydney": "Australia/Sydney",
+                "Australia/Brisbane": "Australia/Brisbane",
+                "Australia/Melbourne": "Australia/Melbourne",
+                "Australia/Adelaide": "Australia/Adelaide",
+                "Australia/Perth": "Australia/Perth",
+                "Australia/Hobart": "Australia/Hobart",
+                "Australia/Darwin": "Australia/Darwin",
+                "Pacific/Auckland": "Pacific/Auckland"
+            },
+            "default_value": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "Use theme fallback map"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "showroom-locations"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "modified": 1754849600
+}

@@ -1,0 +1,37 @@
+@use "tools" as *;
+
+.site-header__announcement {
+	background-color: $header-announcement-bg;
+	color: $header-announcement-color;
+}
+
+.site-header__announcement-inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: $spacing-small;
+	min-height: $header-announcement-height;
+	text-align: center;
+}
+
+.site-header__announcement-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	font-size: 1.25rem;
+}
+
+.site-header__announcement-text {
+	margin: 0;
+	font-size: $font-size-small;
+	color: inherit;
+
+	&:hover,
+	&:focus-visible {
+		color: inherit;
+		text-decoration: underline;
+	}
+}

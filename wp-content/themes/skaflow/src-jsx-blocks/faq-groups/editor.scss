@@ -1,0 +1,21 @@
+@use "../../src/sass/tools" as *;
+
+.wp-block-skaflow-faq-groups,
+.sk-faq-groups-editor {
+
+	&__hint {
+		color: $color-neutral;
+		font-size: $font-size-small;
+		margin: 0;
+		text-align: center;
+	}
+
+	&__searching {
+		align-items: center;
+		color: $color-neutral;
+		display: flex;
+		font-size: $font-size-small;
+		gap: $spacing-x-small;
+		margin: $spacing-x-small 0 0;
+	}
+}

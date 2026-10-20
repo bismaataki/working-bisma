@@ -1,0 +1,19 @@
+@use "../../src/sass/tools" as *;
+@use "../../src/sass/components/review-stars" as *;
+
+.sk-verified-reviews-summary-block {
+	width: 100%;
+}
+
+.sk-verified-reviews-summary {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: $spacing-small;
+
+	&__text {
+		color: $color-neutral;
+		font-size: $font-size-small;
+		margin: 0;
+	}
+}

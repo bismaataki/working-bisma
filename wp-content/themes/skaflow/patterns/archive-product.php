@@ -1,0 +1,44 @@
+<?php
+/**
+ * Title: Archive Product
+ * Slug: skaflow/archive-product
+ * Description: Shop and product taxonomy archive shell with banner, child category swiper, and filter grid.
+ * Categories: page, skaflow
+ * Keywords: shop, archive, product, woocommerce, filters, catalogue
+ * Inserter: false
+ */
+?>
+<!-- wp:group {"tagName":"main","style":{"spacing":{"blockGap":"var:preset|spacing|0"}},"layout":{"inherit":true,"type":"constrained"}} -->
+<main class="wp-block-group">
+	<!-- wp:woocommerce/store-notices /-->
+
+	<!-- wp:skaflow/product-cat-banner {"align":"full"} /-->
+
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|medium"}}},"backgroundColor":"white","layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull has-white-background-color has-background" style="padding-top:var(--wp--preset--spacing--medium)">
+		<!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
+		<div class="wp-block-group alignwide">
+			<!-- wp:columns {"align":"wide","verticalAlignment":"center","style":{"spacing":{"blockGap":{"left":"var:preset|spacing|large"}}}} -->
+			<div class="wp-block-columns alignwide are-vertically-aligned-center">
+				<!-- wp:column -->
+				<div class="wp-block-column">
+					<!-- wp:query-title {"type":"archive","showPrefix":false,"align":"wide","style":{"spacing":{"margin":{"top":"0"}}}} /-->
+					<!-- wp:term-description {"align":"wide"} /-->
+				</div>
+				<!-- /wp:column -->
+
+				<!-- wp:column {"width":"60%"} -->
+				<div class="wp-block-column" style="flex-basis:60%">
+					<!-- wp:skaflow/product-cat-child-swiper /-->
+				</div>
+				<!-- /wp:column -->
+			</div>
+			<!-- /wp:columns -->
+		</div>
+		<!-- /wp:group -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:template-part {"slug":"shop-archive-shell","theme":"skaflow","tagName":"div","className":"alignfull shop-archive-shell-template-part"} /-->
+</main>
+<!-- /wp:group -->

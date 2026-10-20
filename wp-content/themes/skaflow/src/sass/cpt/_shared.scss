@@ -1,0 +1,11 @@
+@use "../tools" as *;
+
+.card-two-columns {
+
+	@include breakpoint-medium-up {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+		gap: $spacing-x-small;
+	}
+
+}

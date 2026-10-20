@@ -1,0 +1,103 @@
+@use "../../src/sass/tools" as *;
+
+// Lives inside the bordered column beneath the block heading — no extra shell.
+.wp-block-skaflow-showroom-location-details {
+	margin: 0;
+	min-width: 0;
+	padding: 0;
+
+	.sk-showroom-location-details__grid {
+		display: grid;
+		gap: $spacing-x-large;
+		grid-template-columns: minmax(0, 1fr);
+		min-width: 0;
+
+		@include breakpoint(medium) {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	.sk-showroom-location-details__contact,
+	.sk-showroom-location-details__hours {
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-large;
+		min-width: 0;
+	}
+
+	.sk-showroom-location-details__item {
+		margin: 0;
+		min-width: 0;
+	}
+
+	.sk-showroom-location-details__label {
+		font-family: $font-primary;
+		font-size: $font-size-small;
+		font-style: normal;
+		font-weight: $font-weight-bold;
+		color: $color-neutral;
+		margin: 0 0 $spacing-xx-small;
+	}
+
+	.sk-showroom-location-details__value,
+	.sk-showroom-location-details__meta {
+		color: $color-body;
+		margin: 0;
+	}
+
+	.sk-showroom-location-details__value {
+		//font-weight: 700;
+	}
+
+	.sk-showroom-location-details__meta {
+		color: $color-neutral;
+	}
+
+	.sk-showroom-location-details__link {
+		color: $color-primary;
+		font-weight: 600;
+		text-decoration: none;
+
+		&:hover,
+		&:focus-visible {
+			text-decoration: underline;
+		}
+	}
+
+	.sk-showroom-location-details__hours-list {
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-xxx-small;
+		margin: 0;
+	}
+
+	.sk-showroom-location-details__hours-row {
+		align-items: baseline;
+		border-bottom: 1px dashed $color-outline;
+		display: flex;
+		gap: $spacing-medium;
+		justify-content: space-between;
+		padding-bottom: $spacing-xxx-small;
+
+		&.is-closed .sk-showroom-location-details__hours-time {
+			color: $color-neutral;
+		}
+	}
+
+	.sk-showroom-location-details__hours-day,
+	.sk-showroom-location-details__hours-time {
+		margin: 0;
+	}
+
+	.sk-showroom-location-details__hours-day {
+		flex: 0 0 auto;
+		font-weight: 600;
+	}
+
+	.sk-showroom-location-details__hours-time {
+		color: $color-neutral;
+		flex: 0 1 auto;
+		text-align: right;
+	}
+
+}

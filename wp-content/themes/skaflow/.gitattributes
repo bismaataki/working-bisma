@@ -1,0 +1,21 @@
+# Starter default: LF for every text file in the theme.
+# Lives here so it travels with forks and `npm run create-zip`.
+* text=auto eol=lf
+
+# Binary — never convert.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.zip binary
+*.mo binary
+*.pot binary
+*.mp4 binary
+*.webm binary

@@ -1,0 +1,51 @@
+@use "../tools" as *;
+
+.woocommerce {
+
+	table.variations {
+
+		tbody {
+			display: flex;
+			flex-direction: column;
+			gap: $spacing-medium;
+
+			tr {
+				display: flex;
+				flex-direction: column;
+
+				th,
+				td {
+					padding-bottom: $spacing-xxx-small;
+				}
+
+				td {
+					gap: $spacing-small;
+				}
+
+				th {
+
+					label {
+						font-weight: $font-weight-semi-bold;
+					}
+				}
+			}
+
+		}
+
+	}
+
+	.single_variation_wrap {
+
+		.woocommerce-variation {
+			margin-bottom: $spacing-xxx-small;
+		}
+	}
+
+	.variations_button,
+	form.cart {
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-x-small;
+	}
+}
+

@@ -1,0 +1,170 @@
+---
+description: Sass architecture — token tiers from theme.json, breakpoint mixins, capability-scoped directories, and the theme.json TODO verification method
+globs: ["**/themes/*/src/**/*.scss", "**/themes/*/src-jsx-blocks/**/*.scss", "**/themes/*/assets/**/*.css", "**/themes/*/theme.json"]
+alwaysApply: false
+---
+
+# Sass Architecture
+
+## Directory shape
+
+```
+src/sass/
+├── index.scss                  # entry — @use order matters
+├── _tools.scss                 # @forward of tokens/mixins — no CSS
+├── _settings.scss              # breakpoints, radii, non-theme.json values
+├── _theme-json-variable.scss   # theme.json → Sass token bridge
+├── _mixins.scss                # global mixins
+├── _wp-default-overrides.scss  # core block resets
+└── {capability}/               # one directory per capability
+    ├── _index.scss             # required — @use's the directory's partials
+    └── _{component}.scss
+```
+
+Every capability directory carries an `_index.scss` and is `@use`'d once from
+`src/sass/index.scss` (as `@use "woocommerce"`, never `@use "woocommerce/index"`
+— two `*/index` paths collide on the `index` namespace). **Name directories
+after the capability**, matching the PHP convention — a project without that
+capability deletes the directory and its one `@use` line.
+
+Admin styles live in `src/sass-admin/`, entered from `src/index.js`.
+
+## Module system
+
+This tree is Dart Sass modules. **Never `@import`.** `@use` does not leak
+members, so every sheet that needs tokens or mixins loads them itself:
+
+```scss
+@use "../tools" as *;                 // from src/sass/{capability}/
+@use "../../src/sass/tools" as *;     // from src-jsx-blocks/{block}/
+```
+
+`_tools.scss` `@forward`s settings, mixins, icon-font tokens/mixins, form
+tokens/mixins, tag mixins, and menu tokens/mixins. **Do not `@forward`
+CSS-emitting partials from tools** — every `@use "tools"` would then dump
+that CSS at the root of the shop, the editor, and each JSX block.
+
+Header shell files use `src/sass/header/_tools.scss` instead. It hides the
+four header measurements in settings so `header/_variables.scss` (rem) can
+win. Do not `@use` both `../tools` and `header/variables` as `*`.
+
+Editor canvas: `@use` cannot nest. `src/sass-admin/index.scss` injects
+frontend sheets with `meta.load-css()` inside `.editor-styles-wrapper`.
+Adding a capability means a `@use` in `src/sass/index.scss` **and** a
+`meta.load-css()` line there.
+
+Built-in functions live in modules: `@use "sass:map"` then `map.get` /
+`map.has-key` / `map.keys`. Never global `map-get`. `lighten()` is
+`color.adjust(..., $lightness: ...)`.
+
+Never put `//` on the same line as a Sass map value
+(`wide: 1480px, // ...`). stylelint `--fix` will eat the key. Comments
+belong above the map. Do not `--fix` `icon-font/_variables.scss` — literal
+PUA glyphs.
+
+## Token tiers — never skip a tier
+
+**Tier 1** — `_theme-json-variable.scss` maps `theme.json` presets to Sass
+variables. This is the only file that writes `var(--wp--...)`:
+
+```scss
+$color-primary: var(--wp--preset--color--primary);
+$spacing-large: var(--wp--preset--spacing--large);
+$grid-container: var(--wp--style--global--content-size);
+```
+
+**Tier 2** — a capability's `_variables.scss` defines semantic tokens that
+*reference* Tier 1. Never paste a raw hex or px value from a design file here
+without mapping it through a Tier 1 token:
+
+```scss
+// menu/_variables.scss
+$menu-nav-link-hover-color: $color-primary;
+```
+
+**Tier 3** — component partials consume Tier 2 only. A component partial should
+not reach past its capability's variables to `$color-primary` directly, and must
+never write `var(--wp--preset--...)` inline.
+
+## Breakpoints
+
+```scss
+// navigation: header → mobile drawer. medium: WP columns wrap.
+// wide: matches theme.json settings.layout.wideSize.
+$breakpoints: (
+	small: 0,
+	wp-small: 600px,
+	navigation: 767px,
+	medium: 781px,
+	uagb-medium: 767px,
+	large: 1024px,
+	wide: 1480px,
+	hd: 1920px,
+	unlimited: 9999px
+);
+```
+
+Mobile-first, via the mixin — never a raw `@media` query:
+
+```scss
+.component {
+	padding: 1rem;
+
+	@include breakpoint(medium) { padding: 1.5rem; }
+	@include breakpoint(large)  { padding: 2rem; }
+}
+```
+
+A capability needing its own desktop/mobile split defines **one** breakpoint
+variable plus wrapper mixins in its own `_mixins.scss`, so the switch point moves
+from a single place. See `.cursor/rules/sf-menu-architecture.mdc`.
+
+## The `theme.json` TODO method
+
+`_settings.scss` carries deliberate TODO markers where a Sass value duplicates
+something `theme.json` owns:
+
+```scss
+// wide: matches theme.json settings.layout.wideSize.
+$radius-btn: 0; // matches theme.json styles.elements.button.border.radius
+```
+
+These are **verification checkpoints, not decoration**. When you touch a file
+containing one, resolve it: read the corresponding `theme.json` value
+(`settings.layout.wideSize`, `settings.color.palette`,
+`settings.spacing.spacingSizes`, `settings.typography.fontSizes`) and either
+align the Sass value or replace it with the Tier 1 token. Put the note
+**above** a map, never on the value line.
+
+Do not delete a TODO without aligning the values, and do not assume a TODO has
+already been resolved — at least one in this theme has been open long enough for
+the two values to diverge. Check `PROJECT.md` § Known debt.
+
+## Conventions
+
+- BEM for class names, kebab-case for files and directories
+- Partials are `_name.scss`; directory entry points are `_index.scss`
+- Keep selectors flat; avoid deep nesting
+- Prefix custom classes with the project prefix (`sk-`) so third-party plugin CSS
+  cannot collide. Generic names like `.has-icon` or `.mobile-menu` have collided
+  with plugin and commercial-theme styles before.
+- Pair `:hover` with `:focus-visible` on anything interactive. Never remove an
+  outline without providing a replacement indicator.
+
+## Styling markup you don't control
+
+For plugin or WooCommerce template output where no class can be injected, target
+the plugin's own selector and pull in what you need via a mixin rather than
+asking for markup changes:
+
+```scss
+.add_to_cart_button {
+	@include sk-icon-button( 'shopping-cart' );
+}
+```
+
+## Related
+
+- `.cursor/rules/sf-icons.mdc` — icon-font mixins and why their CSS bypasses this pipeline
+- `.cursor/rules/sf-menu-architecture.mdc` — capability-scoped token/mixin example
+- `context/kb/design-token-color.md`, `context/kb/design-token-typography.md` — design token mappings

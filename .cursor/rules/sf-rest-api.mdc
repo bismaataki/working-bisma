@@ -1,0 +1,185 @@
+---
+description: REST endpoint conventions — endpoint classes in public/ extending the abstract Api base, is_available() vs permission_callback, registration from a class_exists-filtered list, and the nonce contract for JS callers
+globs: ["**/public/**/*.php", "**/lib/class-init.php", "**/lib/class-front.php", "**/src/js/**/*.js"]
+alwaysApply: false
+---
+
+# REST Endpoints
+
+Every HTTP endpoint the theme exposes is a class in `public/class-api-{concern}.php`
+extending the abstract `Api` base. There is no second way to do this: no
+`register_rest_route()` at file scope in an `includes/` function file, no
+`admin-ajax.php` handler, no route namespace other than `skaflow/v1`.
+
+The procedural pattern — routes as `includes/**/rest-api/*.php` files pulled in by
+`require_once` — **was removed on 2026-08-17.** If you find a plan or comment
+describing it, it is stale. It fataled the site whenever a fork deleted the
+capability that owned those files.
+
+## The shape
+
+```php
+<?php
+
+namespace Skaflow;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( class_exists( 'Skaflow\Api_Thing' ) ) {
+	return;
+}
+
+class Api_Thing extends Api {
+
+	protected function is_available(): bool {
+		return class_exists( 'WooCommerce' );
+	}
+
+	public function register_routes(): void {
+		$this->route(
+			'/thing/(?P<id>\d+)',
+			[
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_thing' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'id' => [
+						'required'          => true,
+						'type'              => 'integer',
+						'sanitize_callback' => 'absint',
+					],
+				],
+			]
+		);
+	}
+
+	public function get_thing( \WP_REST_Request $request ): \WP_REST_Response {
+		return $this->respond( [ 'ok' => true ] );
+	}
+
+}
+```
+
+`register_routes()` declares routes and nothing else. Inherited from `Api`:
+
+| Member | Does |
+|---|---|
+| `Api::REST_NAMESPACE` | `skaflow/v1`, defined once |
+| `route( $route, $args )` | `register_rest_route()` inside that namespace |
+| `respond( $data, $status = 200 )` | `WP_REST_Response` |
+| `error( $code, $message, $status = 400 )` | `WP_Error` with a `skaflow_`-prefixed code |
+| `is_available()` | Availability gate, returns `true` unless overridden |
+
+Add to the base only what more than one endpoint needs. One endpoint's helper is a
+private method on that endpoint.
+
+## Two gates, not interchangeable
+
+| | Question | Where |
+|---|---|---|
+| `is_available()` | Does the code this endpoint needs exist? | Override in the subclass |
+| `permission_callback` | Is this request allowed right now? | Per route |
+
+`is_available()` runs at `functions.php` load — after plugins, before
+`after_setup_theme`. `class_exists( 'WooCommerce' )` is safe there.
+`post_type_exists()` and anything reading ACF options are **not**: neither is
+registered yet, so the gate would silently return false and the route would never
+appear.
+
+Login state, capabilities, and admin-flipped options belong in the
+`permission_callback` regardless — they are per-request answers, and a route that
+is gated off entirely can't return a useful 401 or 403.
+`public/class-api-wishlist.php` is the reference: WooCommerce presence in
+`is_available()`, the ACF on/off switch and `is_user_logged_in()` in
+`check_permission()`.
+
+## Registration
+
+`Init::define_api_hooks()` is a flat list plus one `class_exists()` test:
+
+```php
+$endpoints = [
+	Api_Product_Search::class, // commerce — delete with WooCommerce.
+	Api_Thing::class,
+];
+
+foreach ( $endpoints as $endpoint ) {
+	if ( class_exists( $endpoint ) ) {
+		new $endpoint();
+	}
+}
+```
+
+That test is the point, not defensive clutter: a fork deletes an endpoint file and
+the site still boots, the same delete-a-unit property the capability
+`bootstrap.php` requires in `includes/init.php` have. Never replace it with per-capability `if` statements in
+`Init`, and never give `Init` a property for an endpoint instance.
+
+Run `composer dump-autoload` after adding a file — the autoloader is a `classmap`
+over `lib` and `public`.
+
+## Callbacks a plugin addresses by name
+
+Endpoint logic attached to a plugin's template hooks stays a plain function in that
+capability's `includes/` directory, because `add_action()`/`remove_action()` match
+it by string and a method reference cannot be removed the same way.
+`public/class-api-quick-view.php` with
+`includes/woocommerce/quick-view-functions.php` is the reference pair: the class
+owns the route, the swap, and the output buffer; the functions are what
+`woocommerce_single_product_summary` calls.
+
+## Calling an endpoint from JS
+
+Take the URL from the localized config — never rebuild it from
+`window.location.origin`, which breaks on subdirectory installs and non-pretty
+permalinks. `Front::get_localize_script_data()` publishes both the URLs and a
+`wp_rest` nonce on `window.Skaflow_Public`.
+
+```js
+const response = await fetch( config.wishlistToggleUrl, {
+	method: 'POST',
+	credentials: 'same-origin',
+	headers: {
+		'Content-Type': 'application/json',
+		'X-WP-Nonce': config.nonce,
+	},
+	body: JSON.stringify( { productId } ),
+} );
+```
+
+`credentials` and `X-WP-Nonce` are both required for any endpoint whose
+`permission_callback` checks login state — without them WordPress treats the
+request as anonymous and `is_user_logged_in()` returns false. Handle `401` as
+"signed out", not as a failure. Reference: `src/js/shared/wishlist.js`.
+
+## Verification
+
+```bash
+cd <repo root>
+ddev wp eval 'do_action( "rest_api_init" );
+  foreach ( array_keys( rest_get_server()->get_routes() ) as $r ) {
+    if ( false !== strpos( $r, "skaflow" ) ) { echo $r . "\n"; }
+  }'
+```
+
+A missing route means `is_available()` returned false, the class name is absent
+from `define_api_hooks()`, or the autoloader is stale. Check in that order.
+
+## Anti-patterns
+
+- `register_rest_route()` anywhere outside a `public/` endpoint class
+- A route namespace other than `Api::REST_NAMESPACE`
+- `admin-ajax.php` for new work
+- Front-end rendering, asset enqueuing, or anything not an endpoint in `public/`
+- `post_type_exists()` or `get_field()` inside `is_available()`
+- Per-capability `if` blocks in `Init::define_api_hooks()`
+- Duplicating response shaping instead of using `respond()` / `error()`
+- Rebuilding a REST URL in JS instead of reading the localized value
+
+## Related
+
+- `.cursor/rules/sf-php-architecture.mdc` — where classes and function files live
+- `.cursor/rules/sf-commerce.mdc` — keeping commerce endpoints removable
+- `AGENTS.md` — the `public/` boundary rule

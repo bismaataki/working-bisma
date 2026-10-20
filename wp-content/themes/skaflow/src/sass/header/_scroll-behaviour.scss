@@ -1,0 +1,44 @@
+@use "tools" as *;
+
+/**
+ * Hide on scroll down, show on scroll up.
+ *
+ * `site-header--is-hidden` is toggled on the <header> by src/js/site-header.js,
+ * gated on the `site-header--hide-on-scroll` body class.
+ *
+ * Desktop and mobile stick different elements, so they hide different elements.
+ */
+
+// Desktop: <header> itself is the sticky chrome.
+.wp-site-blocks > header {
+
+	@include menu-desktop-only {
+		transition: transform 0.25s ease;
+
+		&.site-header--is-hidden {
+			transform: translateY(-100%);
+		}
+	}
+}
+
+// Mobile: the fixed element is the primary row, not <header>. Transforming
+// <header> here would make it the containing block for its own fixed child
+// and drag the stuck row offscreen with it, so move the row directly.
+.site-header__primary--is-stuck {
+
+	@include menu-mobile-only {
+		transition: transform 0.25s ease;
+
+		.site-header--is-hidden & {
+			transform: translateY(-100%);
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wp-site-blocks > header,
+	.site-header__primary--is-stuck {
+		transition: none;
+	}
+}

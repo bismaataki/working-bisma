@@ -1,0 +1,53 @@
+@use "../tools" as *;
+
+// Active style 3 — plain 1px border, gray-500 on hover/active.
+.sk-swatches--style-3 {
+
+	.sk-swatch--bg,
+	.sk-swatch--text {
+		border: 1px solid var(--sk-swatch-brd-color);
+	}
+
+	.sk-swatch--bg {
+		padding: var(--sk-swatch-inn-sp);
+	}
+
+	.sk-swatch--text .sk-swatch__text {
+		font-size: calc(var(--sk-swatch-text-size) - 2px);
+	}
+
+	@media (hover: hover) {
+
+		.sk-swatch--bg:hover:not(.sk-swatch--out-of-stock),
+		.sk-swatch--text:hover:not(.sk-swatch--out-of-stock) {
+			--sk-swatch-brd-color: #{$color-neutral};
+		}
+	}
+
+	.sk-swatch--active.sk-swatch--bg,
+	.sk-swatch--active.sk-swatch--text {
+		--sk-swatch-brd-color: #{$color-neutral};
+	}
+}
+
+// Disabled style 3 — 40% opacity + single gray diagonal line.
+.sk-swatches--dis-style-3 {
+
+	.sk-swatch--out-of-stock {
+		opacity: 0.4;
+		cursor: default;
+		--sk-swatch-brd-color: #{$color-neutral};
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--sk-swatch-brd-color) 50%, transparent calc(50% + 1px));
+			opacity: 1;
+			transition: opacity 0.2s ease;
+			z-index: 2;
+			pointer-events: none;
+		}
+	}
+}

@@ -1,0 +1,140 @@
+---
+description: Skaflow's Lucide icon configuration — curated slug list, file map, and the procedure for adding or removing an icon across all surfaces
+globs: ["**/src/js-admin/lucide-icon-options.js", "**/src/js-admin/skaflow-icon-block-icons.js", "**/src/js-admin/register-custom-icons.js", "**/src/blocks-extension/extend-core-button/**", "**/src/blocks-extension/extend-core-list/**", "**/assets/css/button-icon-font.css", "**/src/sass/icon-font/**", "**/lib/class-lucide-icons.php", "**/src/sass-admin/_button-icon-picker.scss", "**/includes/menu/skaflow-lucide-icon-choices.php", "**/tools/generate-icon-surfaces.mjs"]
+alwaysApply: false
+---
+
+# Lucide Icons — Skaflow Configuration
+
+This project's icon set is **Lucide**, a curated subset matching Figma. The
+curated list is the one in `src/js-admin/lucide-icon-options.js`; read the count
+from there rather than from any document. The
+architecture and its traps are in `.cursor/rules/sf-icons.mdc` — read that
+first. This file is the configuration and the change procedure.
+
+## Source of truth
+
+`src/js-admin/lucide-icon-options.js` → `SKAFLOW_LUCIDE_ICON_OPTIONS` is the
+canonical slug/label list. **Four surfaces are generated from it** by
+`tools/generate-icon-surfaces.mjs` (`npm run build:icons`) — edit the list, run
+the script, never hand-edit the generated regions.
+
+The webfonts are generated too — subset to exactly the curated glyphs, in the
+same run. Upstream ships ~2,000 glyphs in a 274KB woff2; the subset is ~15KB.
+
+## File map
+
+| Piece | Location | |
+|---|---|---|
+| Curated slug list | `src/js-admin/lucide-icon-options.js` | **source** |
+| Generator | `tools/generate-icon-surfaces.mjs` | |
+| Icon font CSS (`@font-face` + `content`) | `assets/css/button-icon-font.css` — **static, outside the build** | generated |
+| Sass codepoint map | `src/sass/icon-font/_variables.scss` | generated |
+| Icon Block plugin data | `src/js-admin/skaflow-icon-block-icons.js` | generated |
+| Menu ACF choices + slug sanitiser | `includes/menu/skaflow-lucide-icon-choices.php` | generated |
+| Subset webfonts | `assets/fonts/lucide/lucide.woff2`, `.woff` | generated |
+| Sass mixins | `src/sass/icon-font/_mixins.scss` | |
+| PHP enqueue | `lib/class-lucide-icons.php` (`Skaflow\Lucide_Icons`), via `enqueue_block_assets` | |
+| Button block editor UI | `src/blocks-extension/extend-core-button/button-icons.js` | |
+| Picker styling | `src/sass-admin/_button-icon-picker.scss` | |
+| Icon Block filter registration | `src/js-admin/register-custom-icons.js`, wired from `src/js-admin/index.js` | |
+
+Generated regions are delimited by `sk-icons:start` / `sk-icons:end` markers.
+Everything outside them — headers, `@font-face`, base rules, the sanitiser
+function — is hand-written and preserved across runs.
+
+Note the PHP choices file is a real surface, not a convenience copy:
+`skaflow_sanitize_lucide_icon_slug()` validates against it, so a slug missing
+there is **silently discarded on save** rather than rendering as a blank box.
+
+## The webfonts are generated, never copied
+
+`assets/fonts/lucide/*.woff2` / `*.woff` are **not** the upstream files. They are
+produced by `subset-font` from `node_modules/lucide-static/font/lucide.ttf`,
+carrying only the curated codepoints.
+
+Never hand-copy a font out of `node_modules` over them. That was the old
+practice, and it is a live hazard: `codepoints.json` and the font must come from
+the same `lucide-static` version, or every icon renders as the wrong glyph with
+nothing to indicate why. Generating both in one run makes that impossible.
+
+Upgrading Lucide is therefore:
+
+```bash
+npm update lucide-static
+npm run build:icons     # re-reads codepoints AND re-subsets the fonts
+npm run build:assets
+```
+
+Subsetting is only safe because nothing references the font outside the curated
+list — no raw `font-family: 'Lucide'` and no hardcoded `\eXXX` escapes exist
+anywhere but the generated file. Re-check that before adding either.
+
+`Lucide_Icons` is registered from `lib/class-init.php` and enqueues the static CSS
+globally — editor iframe and frontend.
+
+## Button block attributes
+
+`src/blocks-extension/extend-core-button/button-icons.js` registers `skaflowIcon` and
+`skaflowIconPosition` on `core/button`, adds a `ComboboxControl` plus preview
+swatch in `InspectorControls`, and emits the `sk-*` classes into saved markup.
+
+Classes: `sk-has-icon`, `sk-icon-left` / `sk-icon-right`, `sk-icon-{slug}`. Picker
+UI classes: `sk-icon-picker`, `sk-icon-picker__combobox`,
+`sk-icon-picker__preview`, `sk-icon-picker__preview-empty`,
+`sk-icon-picker__option`, `sk-icon-preview`.
+
+No backward compatibility is required for these class names.
+
+## Icon Block plugin entries
+
+`skaflow-icon-block-icons.js` reshapes the same slugs for the plugin's
+`iconBlock.icons` filter (namespace `skaflow/icon-block-custom-icons`), adding a
+`"Skaflow"` icon category:
+
+```js
+{ name, title, icon: '<raw SVG>', categories: [ 'skaflow' ], hasNoIconFill: true }
+```
+
+SVG bodies come from `node_modules/lucide-static/icons/{slug}.svg` with `width`,
+`height`, and `class` stripped from the root `<svg>` only.
+
+`hasNoIconFill: true` is **mandatory** on every entry: Lucide is stroke-based, and
+without the flag the plugin's colour control fights `fill="none"`.
+
+## Custom (non-font) icons
+
+An entry flagged `custom: true` is not a Lucide glyph. It has no codepoint, is
+skipped in the Sass map, and renders from `assets/icons/{slug}.svg` through a CSS
+mask instead. `paper-plane` is the only one.
+
+## Adding or removing an icon
+
+1. Edit `SKAFLOW_LUCIDE_ICON_OPTIONS` in `lucide-icon-options.js`.
+2. `npm run build:icons` — regenerates all four dependent surfaces and
+   re-subsets the webfonts. It fails loudly on a duplicate slug, a slug that
+   isn't in the font, or a missing SVG.
+3. `npm run build:assets`, then verify the compiled glyph bytes survived
+   minification rather than trusting how they render in an editor:
+
+```bash
+rg -o 'content:"[^"]*"' build/public.css | head
+```
+
+Removing an icon is the same two steps. Check for existing references first —
+Sass `sk-icon-*` mixin calls, and menu ACF values already saved in the database,
+which the sanitiser will start discarding once the slug leaves the list.
+
+## Design-source caveat
+
+Lucide component names in Figma are not always trustworthy: at the last sync,
+six variants in `Skaflow [MAIN] → Winning Design directions` were drawn with
+different artwork than their layer name (`copy` was a clipboard-list, `layout` a
+briefcase, `send` a layers icon, `flame` a leaf, `trending-down` a trending-up,
+and `tool` a duplicate wrench). Render the node and look at it before trusting a
+slug taken from a Figma layer name.
+
+## Related
+
+- `.cursor/rules/sf-icons.mdc` — the architecture and why each constraint exists
+- `context/kb/map-edit.md` — Icons start files

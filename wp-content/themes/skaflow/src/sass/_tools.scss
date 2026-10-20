@@ -1,0 +1,12 @@
+// Shared Sass module surface. CSS-emitting partials must not be forwarded
+// from here — @use of this file would then dump that CSS at the root of
+// every compilation (frontend, editor, and each JSX block).
+@forward "settings";
+@forward "mixins";
+@forward "icon-font/variables";
+@forward "icon-font/mixins";
+@forward "base/forms/variables";
+@forward "base/forms/mixins";
+@forward "components/tag/mixins";
+@forward "menu/variables";
+@forward "menu/mixins";

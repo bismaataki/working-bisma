@@ -1,0 +1,12 @@
+# Gutenberg block markup — never format.
+templates/
+parts/
+patterns/
+
+# Generated / third-party
+build/
+build-jsx-blocks/
+assets/
+vendor/
+node_modules/
+lib/plugins-zip/

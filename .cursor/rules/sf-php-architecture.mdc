@@ -1,0 +1,182 @@
+---
+description: PHP class and hook architecture — namespaced classes in lib/, REST endpoints in public/, registration through class-init.php, capability-named function files in includes/
+globs: ["**/lib/**/*.php", "**/public/**/*.php", "**/includes/**/*.php", "**/functions.php", "**/composer.json"]
+alwaysApply: false
+---
+
+# PHP Architecture
+
+Homes for PHP, chosen by shape rather than by topic.
+
+| Shape | Home |
+|---|---|
+| Stateful feature that registers hooks | `lib/class-{name}.php`, a `Skaflow\` class |
+| REST endpoint | `public/class-api-{concern}.php`, extending `Api` |
+| Procedural functions for one capability | `includes/{capability}/{name}-functions.php` |
+| Hook wiring for a capability | `includes/{capability}/{name}-hooks.php` |
+| Genuinely generic machinery, no capability | `includes/{name}-functions.php` (root) |
+| Third-party plugin integration | `includes/integrations/{plugin}.php` |
+
+## Classes
+
+```php
+<?php
+
+namespace Skaflow;
+
+class Custom_Feature {
+
+	public function __construct() {
+		$this->register_hooks();
+	}
+
+	private function register_hooks(): void {
+		add_action( 'init', [ $this, 'do_thing' ] );
+	}
+
+	public function do_thing(): void {
+		// ...
+	}
+
+}
+```
+
+- **File name must match the class name exactly.** `composer.json` uses a
+  `classmap` autoloader over `lib` and `public` — not PSR-4. Case-sensitive
+  filesystems will fail silently on a mismatch.
+- Hooks are registered in a private `register_hooks()` called from the
+  constructor. Nothing registers hooks at file scope.
+- Use WordPress default priorities unless there is a stated reason not to.
+- Run `composer dump-autoload` after adding a class.
+
+Instantiate from `lib/class-init.php`, never anywhere else:
+
+```php
+// lib/class-init.php
+public function __construct() {
+	// ...existing calls...
+	$this->define_custom_feature_hooks();
+}
+
+private function define_custom_feature_hooks(): void {
+	new Custom_Feature();
+}
+```
+
+Guard classes that depend on a plugin, so the theme degrades instead of fataling:
+
+```php
+public function __construct() {
+	if ( ! class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+	// ...
+}
+```
+
+## REST endpoints
+
+The one exception to `lib/`. Endpoints live in `public/class-api-{concern}.php`
+and extend the abstract `Api` base class, which owns the `skaflow/v1`
+namespace, the `rest_api_init` wiring, and response shaping. A subclass declares
+routes in `register_routes()` and nothing else.
+
+**`public/` holds endpoint classes and nothing else.** Not front-end rendering,
+not asset enqueuing — those are `lib/`. The name describes the HTTP surface, not
+the audience; read as "public-facing" it turns into a second junk drawer.
+
+Never write `register_rest_route()` into an `includes/` function file. That was
+the old pattern and it fataled a fork that deleted the owning capability.
+
+**Full convention: `.cursor/rules/sf-rest-api.mdc`** — the base class members, the
+`is_available()` versus `permission_callback` split, registration from
+`Init::define_api_hooks()`, and the nonce contract for JS callers. Read it before
+adding or changing an endpoint.
+
+## Function files
+
+`require_once` new files from that capability's `bootstrap.php`. `includes/init.php`
+is a map of those bootstraps plus the timeless root files — do not add a
+capability file to `init.php` directly. Header and menu bootstraps are loaded
+from their `lib/` classes, not from `init.php`.
+
+`includes/` has two tiers:
+
+```
+includes/
+  init.php  constants.php  helper-functions.php     ← timeless, never deletable
+  accordion-functions.php  taxonomy-terms-functions.php
+  category-swiper-functions.php  load-more-functions.php
+  archive-shell-functions.php
+
+  woocommerce/  post/  faq/  showroom/              ← capabilities, each with bootstrap.php
+  header/  menu/  integrations/                     ← header/menu bootstraps load from lib/
+```
+
+Root `load-more-functions.php` is generic (per-page helper and filters). Catalog
+per-page, orderby, and shop query gates live in
+`includes/woocommerce/load-more-functions.php`. Unscoped `/?s=` product scoping
+lives in `includes/woocommerce/search-hooks.php`. Do not put those branches back
+in the timeless tier.
+
+**Default to a capability directory.** The root tier is only for machinery with no
+capability of its own — accordions, taxonomy term lookups, generic swipers. A
+capability directory plus its one `bootstrap.php` require is deleted as a unit; a file at
+the root can never be deleted, so a capability-specific file placed there welds
+that capability into the starter for good.
+
+**Name directories after the capability, never the layer.** `woocommerce/`,
+`showroom/`, `faq/` are right. `helpers/`, `utils/`, `services/`, `shared/` are
+not — a layer directory grows into a grab-bag that no project can remove.
+
+`includes/helper-functions.php` is for genuinely generic utilities only — build
+paths, array and string helpers, debug. If a function calls a plugin's API, it
+belongs in a capability directory. Current inventory:
+`context/kb/map-helpers.md`.
+
+Wrap redefinable helpers so a child theme or plugin can pre-empt them:
+
+```php
+if ( ! function_exists( 'skaflow_write_log' ) ) {
+	function skaflow_write_log( $log ): void { /* ... */ }
+}
+```
+
+## Naming
+
+- Functions and hooks: `skaflow_` prefix
+- Constants: `SKAFLOW_` prefix, defined in `includes/constants.php`
+- Nonces and custom hook names: build from `SKAFLOW_PREFIX` rather than
+  hardcoding, so a rename stays mechanical
+
+```php
+wp_create_nonce( SKAFLOW_PREFIX . 'custom_action' );
+```
+
+## Checking before adding
+
+Search before writing a helper — this theme descends from a starter whose
+documentation described functions that were never ported. Confirm a function
+exists in the codebase rather than trusting a reference to it.
+
+`context/kb/map-helpers.md` inventories the generic helpers and lists the
+ones documentation has claimed but that do not exist. It is generated from code;
+regenerate it rather than trusting a stale copy.
+
+What loads today: `context/kb/map-load.md`.
+
+## File size
+
+Review a new or growing hand-written file once it passes about **300–400
+lines**, unless it is generated (`build/`, `build-jsx-blocks/`, icon font
+output). That is a review prompt, not a lint gate. Split by responsibility
+the way cart, catalog filters, reviews, and showroom singles already do —
+keep public function and `init*` names so callers do not move.
+
+## Related
+
+- `AGENTS.md` — command locations, non-negotiables
+- `context/kb/map-load.md` — what `init.php` and `class-init.php` load today
+- `.cursor/rules/sf-rest-api.mdc` — the full REST endpoint convention
+- `.cursor/skills/sf-php-class/` — step-by-step for adding a class
+- `.cursor/rules/sf-build-pipeline.mdc` — why block PHP cannot live beside `block.json`

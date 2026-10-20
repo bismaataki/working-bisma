@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "skaflow/faq-groups",
+  "version": "1.0.0",
+  "title": "FAQ Groups",
+  "category": "widgets",
+  "description": "Grouped FAQ accordions by selected FAQ categories.",
+  "keywords": [
+    "faq",
+    "accordion",
+    "questions",
+    "help"
+  ],
+  "textdomain": "skaflow",
+  "attributes": {
+    "terms": {
+      "type": "array",
+      "default": []
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "manual",
+      "enum": [
+        "manual",
+        "menu_order",
+        "name",
+        "slug",
+        "term_id",
+        "count",
+        "description",
+        "term_group"
+      ]
+    },
+    "order": {
+      "type": "string",
+      "default": "asc",
+      "enum": [
+        "asc",
+        "desc"
+      ]
+    },
+    "accordionTitleTag": {
+      "type": "string",
+      "default": "h3",
+      "enum": [
+        "h3",
+        "span"
+      ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "reusable": true,
+    "lock": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

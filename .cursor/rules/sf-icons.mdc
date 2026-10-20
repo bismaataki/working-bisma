@@ -1,0 +1,146 @@
+---
+description: Icon-font architecture that holds for any icon set — surfaces, iframe enqueue, why icon CSS bypasses webpack, literal glyphs over escape sequences, and stroke-icon fill handling
+globs: ["**/assets/css/*icon*.css", "**/src/sass/icon-font/**", "**/src/js-admin/*icon*.js", "**/src/blocks-extension/extend-core-button/**", "**/src/blocks-extension/extend-core-list/**", "**/src/sass-admin/*icon*.scss", "**/lib/class-*icons*.php", "**/src/sass/blocks/_button.scss"]
+alwaysApply: false
+---
+
+# Icon Font Architecture
+
+Which icon set is in use is a project decision — see `PROJECT.md`, and the
+matching `project-*-icons` rule for slugs and codepoints. Everything here holds
+regardless of the set.
+
+**One curated set, one source of truth.** A single JS module lists the available
+slugs and labels; every surface reads from it. Never let two surfaces maintain
+independent icon lists.
+
+## The four surfaces
+
+| Surface | Renders as | Used when |
+|---|---|---|
+| Button block picker | Icon font glyph via CSS `::before` | Editing a `core/button` |
+| PHP programmatic buttons | Icon font glyph, via the button helper | Buttons output from PHP |
+| Sass mixins | Icon font glyph via CSS `::before` | Styling markup you don't control |
+| Icon Block plugin | Inline SVG | Editors inserting a standalone icon |
+
+Buttons use the **icon font**, not JS-injected SVG. Injecting `<svg data-lucide>`
+markup and calling a library's `createIcons()` does not work reliably against the
+iframed editor canvas — the script never runs there. CSS glyphs do.
+
+## Enqueue rule
+
+Icon CSS must render inside block **content** in both the editor iframe and the
+frontend, so it enqueues on `enqueue_block_assets`. Using
+`enqueue_block_editor_assets` loads it only in the editor chrome and triggers
+`"...-style-css was added to the iframe incorrectly"`. See
+`.cursor/rules/sf-build-pipeline.mdc`.
+
+## Keep icon-font CSS out of the build
+
+The `@font-face` + `content` rules live as a **static file in `assets/css/`**,
+hand-maintained, outside webpack and Sass. Three pipeline behaviours forced this
+and will recur with any icon package:
+
+1. Packages declaring `"sideEffects": false` have their CSS import tree-shaken
+   out of production builds.
+2. Upstream icon CSS often embeds a multi-megabyte SVG font fallback in
+   `@font-face`, which ends up inside `build/index.css`.
+3. cssnano silently empties `content: "\eXXX"` escape values during
+   minification.
+
+The static file should contain only a minimal `woff2`/`woff` `@font-face` and
+`content` rules for the icons actually curated — not the upstream full set.
+
+## Subset the font, and generate it
+
+Icon packages ship every glyph they have — Lucide's woff2 is 274KB for roughly
+two thousand glyphs. A curated set uses a fraction of that, so ship a **subset**
+built from the curated list, not the upstream file. For a typical curated set of
+a few dozen icons that is 274KB against ~15KB, an order of magnitude that dwarfs
+any saving from trimming the icon list itself.
+
+Subset in the **same run that writes the codepoints**, from the same package
+version. The failure this prevents is quiet and expensive: if the font is a
+hand-copy and someone upgrades the icon package, the codepoint map moves while
+the font does not, and every icon renders as some other icon with no error
+anywhere. Generating both together makes the two incapable of disagreeing.
+
+`subset-font` (harfbuzz via WASM) does this with no system dependencies, so it
+works the same locally and in CI.
+
+Two things to confirm before subsetting: nothing references the font family
+outside the curated system, and no hardcoded codepoint escapes exist elsewhere.
+Either would silently render tofu once the glyph is gone.
+
+## Literal glyphs, not escape sequences
+
+Where codepoints *do* go through Sass — the `$sk-icon-codepoints` map in
+`src/sass/icon-font/_variables.scss` — each entry stores a **literal Unicode
+character**, not a `"\eXXX"` escape string. This is load-bearing, for reason 3
+above: literal characters survive minification, escapes get emptied.
+
+Do not "clean up" that map into escapes. To regenerate or verify it, write a
+short script that emits the file via `chr( int( hex, 16 ) )` — copy-pasting
+Private Use Area characters through chat or an editor silently drops them. Then
+verify the compiled output's raw bytes rather than trusting how the characters
+render:
+
+```bash
+npm run build:assets
+rg -o 'content:"."' build/public.css | xxd | head
+```
+
+## Class naming
+
+Prefix every icon class with the project prefix. A previous generic `has-icon`
+class collided with third-party plugin CSS.
+
+```
+sk-has-icon                     on the button wrapper when an icon is set
+sk-icon-left / sk-icon-right    position
+sk-icon-{slug}                  the specific glyph
+```
+
+## Sass mixin API
+
+For plugin or WooCommerce markup where no class can be injected, target the
+plugin's own selector:
+
+```scss
+// icon + label treatment: inline-flex, gap, correct pseudo-element
+.add_to_cart_button { @include sk-icon-button( 'shopping-cart' ); }
+.next-button        { @include sk-icon-button( 'arrow-right', right ); }
+
+// bare pseudo-element, no layout changes
+.some-selector    { @include sk-icon-before( 'search' ); }
+.another-selector { @include sk-icon-after( 'chevron-down' ); }
+```
+
+These only add `font-family` and `content` — they rely on the `@font-face` being
+loaded globally by the icon class, and do not re-declare it. The mixins are
+forwarded from `src/sass/_tools.scss`; `@use` that, do not `@import`
+`icon-font/mixins`.
+
+## Stroke-based icons in the Icon Block plugin
+
+The Icon Block plugin (`outermost/icon-block`) exposes an `iconBlock.icons` JS
+filter for registering custom icons. Any icon set that is **stroke**-based
+(`stroke="currentColor"`, `fill="none"`) must set `hasNoIconFill: true` on every
+entry, or the plugin's colour control fights the icon's `fill="none"` and renders
+incorrectly. Fill-based sets don't need it.
+
+Strip `width`, `height`, and `class` from the root `<svg>` only — the plugin
+controls sizing. Leave child shapes untouched.
+
+## WordPress core's Icon block
+
+Core ships `core/icon` backed by `WP_Icons_Registry`, closed to third parties in
+current versions. WP 7.1 adds public `wp_register_icon_collection()` /
+`wp_register_icon()`. Once core is new enough, register the same curated set as a
+collection so the icons also appear in the native picker.
+
+## Related
+
+- `PROJECT.md` — which icon set is live
+- `.cursor/rules/sf-build-pipeline.mdc` — enqueue hooks and pipeline traps
+- `AGENTS.md` — the button helper that carries icon classes

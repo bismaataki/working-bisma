@@ -1,0 +1,87 @@
+---
+description: Block editing conventions — static save.js vs dynamic render.php, where block PHP may live, attribute defaults, and delegated frontend behaviour
+globs: ["**/src-jsx-blocks/**", "**/src-acf-blocks/**"]
+alwaysApply: false
+---
+
+# Block Conventions
+
+This rule covers **editing** an existing block. For scaffolding a new one, use
+`.cursor/skills/sf-blocks/`.
+
+## Static or dynamic
+
+| `save.js` returns markup | `save.js` returns `null` |
+|---|---|
+| Content known at edit time | Content depends on database, user, or request |
+| No `render` key in `block.json` | `"render": "file:./render.php"` |
+
+Returning `null` without a `render` key produces a block that renders nothing on
+the frontend and gives no error. Changing a static block's markup invalidates
+existing content — expect block validation warnings and plan a deprecation.
+
+## Where block PHP may live
+
+`build:blocks` passes `--webpack-copy-php`, so every `.php` file beside
+`block.json` is copied into `build-jsx-blocks/`. Default `wp-scripts`
+copies only the `render` file; the flag lifts that.
+
+- Block-local PHP may live next to `block.json`.
+- Anything shared with a hook, REST route, `lib/` class, or another block
+  goes in `includes/{capability}/`, and `render.php` calls it as a thin
+  shim.
+
+Most commerce blocks here are still shims of that second kind. Do not
+relocate existing `includes/` helpers into a block folder just because
+the copy flag exists.
+
+## In `render.php`
+
+```php
+$wrapper = get_block_wrapper_attributes();                  // never hand-build the class string
+$mine    = get_field( 'block_setting' );                    // the block's own field group
+$post    = get_field( 'post_setting', get_the_ID() );        // the post — ID is required
+```
+
+Escape all output. Guard plugin-dependent code: block registration is
+directory-driven and does **not** check whether the plugin exists.
+
+## Attributes
+
+Declare every attribute in `block.json` with an explicit `type`. When an attribute
+has a non-empty `default`, an "empty" value must be set explicitly in content or
+the default leaks through — this bites when authoring patterns. Check `block.json`
+before assuming an omitted attribute renders blank.
+
+## Editor code
+
+Functional components with hooks. Prefer `@wordpress/components` and
+`@wordpress/block-editor` over hand-rolled UI. Wrap user-facing strings in
+`@wordpress/i18n` with the `skaflow` text domain.
+
+## Frontend behaviour
+
+Add `view.js` and declare `viewScript` in `block.json`. **Anything touching a card,
+swatch, or grid item must be delegated** — direct `addEventListener` works on page
+one and breaks silently after Load More or a filter refresh. See
+`.cursor/rules/sf-event-delegation.mdc`.
+
+## Styles
+
+Per-block `style.scss` / `editor.scss` are for JSX blocks only; ACF blocks style
+from `src/sass/`. Content styles must enqueue on `enqueue_block_assets`, not
+`enqueue_block_editor_assets`, or they won't reach the editor iframe.
+
+## After changing a block
+
+```bash
+cd wp-content/themes/skaflow && npm run build:blocks
+```
+
+Source-only changes never register — the registry reads `build-jsx-blocks/`.
+
+## Related
+
+- `.cursor/skills/sf-blocks/` — creating a block from scratch
+- `.cursor/rules/sf-build-pipeline.mdc` — the copy trap and enqueue hooks
+- `.cursor/rules/sf-acf-fields.mdc` — field groups for ACF blocks

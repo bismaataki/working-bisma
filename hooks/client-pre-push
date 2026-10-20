@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# ai-tools: client-pre-push
+#
+# Marker above is matched verbatim by setup.sh to decide whether an existing
+# pre-push hook is ours and safe to replace. It is deliberately slug-free so a
+# theme rename does not have to touch it. Keep the two in sync.
+#
+# Installed locally as the client repo's .git/hooks/pre-push.
+# Do not copy this file into the client Git history.
+#
+# Blocks a client-repo push when the sibling AI-tools working tree is
+# dirty or ahead of its upstream. Bypass:
+#   SKIP_AI_TOOLS_PUSH_CHECK=1 git push
+
+set -euo pipefail
+
+if [[ "${SKIP_AI_TOOLS_PUSH_CHECK:-}" == "1" ]]; then
+	exit 0
+fi
+
+# Git runs hooks from the client work tree, with GIT_DIR pointed at
+# the client .git. Discover the AI-tools repo from the overlay symlink
+# so a client-only clone (no overlay) is a no-op.
+if [[ ! -L AGENTS.md ]]; then
+	exit 0
+fi
+
+agents_target="$(readlink -f AGENTS.md 2>/dev/null || true)"
+if [[ -z "$agents_target" || ! -f "$agents_target" ]]; then
+	exit 0
+fi
+
+ai_repo="$(dirname "$agents_target")"
+if [[ ! -d "$ai_repo/.git" ]]; then
+	exit 0
+fi
+
+# A client hook's GIT_DIR/GIT_WORK_TREE would otherwise leak into
+# these calls and inspect the wrong repository.
+git_ai() {
+	env -u GIT_DIR -u GIT_WORK_TREE git -C "$ai_repo" "$@"
+}
+
+dirty="$(git_ai status --porcelain)"
+ahead="0"
+upstream="$(git_ai rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)"
+if [[ -n "$upstream" ]]; then
+	ahead="$(git_ai rev-list --count "${upstream}..HEAD")"
+fi
+
+if [[ -z "$dirty" && "$ahead" == "0" ]]; then
+	exit 0
+fi
+
+echo "ERROR: $(basename "$ai_repo") has uncommitted or unpushed work."
+echo "Client push blocked so the AI-tools remote is not left behind."
+echo
+echo "AI-tools repo: $ai_repo"
+if [[ -n "$dirty" ]]; then
+	echo
+	echo "Uncommitted:"
+	echo "$dirty"
+fi
+if [[ "$ahead" != "0" ]]; then
+	echo
+	echo "Unpushed: $ahead commit(s) ahead of ${upstream}"
+fi
+echo
+echo "Commit and push the AI-tools repo, then retry this client push:"
+echo "  cd \"$ai_repo\""
+echo "  git status"
+echo "  git add ."
+echo "  git commit && git push"
+echo
+echo "Or push the client repo only:"
+echo "  SKIP_AI_TOOLS_PUSH_CHECK=1 git push"
+exit 1

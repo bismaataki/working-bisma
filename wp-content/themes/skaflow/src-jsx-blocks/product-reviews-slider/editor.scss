@@ -1,0 +1,23 @@
+.sk-product-reviews-slider-editor {
+	min-height: 12rem;
+
+	&__searching {
+		align-items: center;
+		display: flex;
+		font-size: 0.8125rem;
+		gap: 0.5rem;
+		margin: 0;
+	}
+}
+
+.sk-product-reviews-slider__viewport {
+
+	.swiper-wrapper {
+		display: flex;
+		//flex-wrap: wrap;
+		gap: 1rem;
+
+
+	}
+
+}

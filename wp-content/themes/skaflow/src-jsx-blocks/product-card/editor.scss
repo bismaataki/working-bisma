@@ -1,0 +1,14 @@
+// SSR preview — disable interactive card UI (swatches, QV, wishlist, add to
+// cart).
+.wp-block-skaflow-product-card,
+.wp-block-skaflow-product-card * {
+	pointer-events: none;
+}
+
+.wp-block-skaflow-product-card {
+
+	> div:has(.wp-block-skaflow-product-card) {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+}

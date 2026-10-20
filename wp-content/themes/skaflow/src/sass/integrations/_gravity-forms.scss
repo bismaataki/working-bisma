@@ -1,0 +1,229 @@
+@use "../tools" as *;
+
+// Gravity Forms Theme Framework (Orbital) — map GF CSS API tokens to Skaflow
+// form field tokens from base/forms/_variables.scss.
+// https://docs.gravityforms.com/css-api/
+
+
+.gform-theme--framework {
+
+	.gform-body,
+	.gform-footer {
+
+		// Brand / semantic colors
+		--gf-color-primary: #{$color-primary};
+		--gf-color-primary-contrast: #{$color-white};
+		--gf-color-danger: #{$color-secondary};
+		--gf-color-in-ctrl: #{$form-field-background-color};
+		--gf-color-in-ctrl-contrast: #{$form-field-color};
+		--gf-color-in-ctrl-primary: #{$color-primary};
+		--gf-color-in-ctrl-primary-contrast: #{$color-white};
+
+		// Layout spacing
+		--gf-radius: #{$form-field-border-radius};
+		--gf-padding-x: #{$form-field-padding-x};
+		--gf-field-gap-x: #{$form-field-gap-horizontal};
+		--gf-field-gap-y: #{$form-field-gap-vertical};
+		--gf-form-gap-x: #{$spacing-medium};
+		--gf-form-gap-y: #{$spacing-large};
+
+		// Text fields, selects, textareas
+		--gf-ctrl-appearance: none;
+		--gf-ctrl-bg-color: #{$form-field-background-color};
+		--gf-ctrl-bg-color-hover: #{$form-field-background-color};
+		--gf-ctrl-bg-color-focus: #{$form-field-background-color-focus};
+		--gf-ctrl-bg-color-error: #{$form-field-background-color};
+		--gf-ctrl-bg-color-disabled: #{$color-surface};
+
+		--gf-ctrl-border-color: #{$form-field-border-color};
+		--gf-ctrl-border-color-hover: #{$form-field-border-color};
+		--gf-ctrl-border-color-focus: #{$form-field-border-color-focus};
+		--gf-ctrl-border-color-error: #{$form-field-border-color-error};
+		--gf-ctrl-border-width: #{$form-field-border-width};
+		--gf-ctrl-border-style: #{$form-field-border-style};
+		--gf-ctrl-radius: #{$form-field-border-radius};
+
+		--gf-ctrl-color: #{$form-field-color};
+		--gf-ctrl-color-hover: #{$form-field-color};
+		--gf-ctrl-color-focus: #{$form-field-color-focus};
+		--gf-ctrl-color-error: #{$form-field-color};
+		--gf-ctrl-color-disabled: #{$color-neutral};
+
+		--gf-ctrl-size: #{$form-field-min-height};
+		--gf-ctrl-padding-x: #{$form-field-padding-x};
+		--gf-ctrl-padding-y: #{$form-field-padding-y};
+
+		--gf-ctrl-font-family: inherit;
+		--gf-ctrl-font-size: #{$form-field-font-size};
+		--gf-ctrl-font-style: normal;
+		--gf-ctrl-font-weight: #{$font-weight-regular};
+		--gf-ctrl-letter-spacing: normal;
+		--gf-ctrl-line-height: #{$line-height-small};
+
+		--gf-ctrl-placeholder-color: #{$form-placeholder-color};
+		--gf-ctrl-placeholder-opacity: 1;
+
+		--gf-ctrl-outline-color: transparent;
+		--gf-ctrl-outline-color-focus: #{$form-field-border-color-focus};
+		--gf-ctrl-outline-style: #{$form-field-border-style};
+		--gf-ctrl-outline-width: 0;
+		--gf-ctrl-outline-width-focus: #{$form-field-outline-width-focus};
+		--gf-ctrl-outline-offset: 0;
+
+		--gf-ctrl-shadow: none;
+		--gf-ctrl-transition: border-color #{$transition-duration} ease-in-out;
+
+		// Labels
+		--gf-ctrl-label-color-primary: #{$form-label-color};
+		--gf-ctrl-label-font-size-primary: #{$form-label-font-size};
+		--gf-ctrl-label-font-weight-primary: #{$form-label-font-weight};
+		--gf-ctrl-label-line-height-primary: #{$line-height-small};
+		--gf-ctrl-label-color-req: #{$color-secondary};
+
+		// Descriptions / validation copy
+		--gf-ctrl-desc-color: #{$color-body};
+		--gf-ctrl-desc-font-size: #{$font-size-small};
+		--gf-ctrl-desc-color-error: #{$color-secondary};
+
+		// Checkboxes / radios
+		--gf-ctrl-choice-size: #{$form-checkbox-size};
+		--gf-ctrl-choice-check-color: #{$color-primary};
+
+		// Primary submit button — match theme form buttons
+		--gf-ctrl-btn-radius: #{$button-border-radius};
+		--gf-ctrl-btn-font-family: inherit;
+		--gf-ctrl-btn-font-size: #{$button-font-size};
+		--gf-ctrl-btn-font-weight: #{$button-font-weight};
+		--gf-ctrl-btn-text-transform: #{$button-text-transform};
+		--gf-ctrl-btn-line-height: #{$button-line-height};
+		--gf-ctrl-btn-padding-x: #{$button-padding-sides};
+		--gf-ctrl-btn-padding-y: #{$button-padding-vertical};
+		--gf-ctrl-btn-shadow: none;
+		--gf-ctrl-btn-shadow-hover: none;
+		--gf-ctrl-btn-shadow-focus: none;
+
+		--gf-ctrl-btn-bg-color-primary: #{$button-background-color};
+		--gf-ctrl-btn-bg-color-hover-primary: #{$button-background-color-hover};
+		--gf-ctrl-btn-bg-color-focus-primary: #{$button-background-color-hover};
+		--gf-ctrl-btn-border-color-primary: #{$button-border-color};
+		--gf-ctrl-btn-border-color-hover-primary: #{$color-body};
+		--gf-ctrl-btn-border-color-focus-primary: #{$color-body};
+		--gf-ctrl-btn-border-width-primary: 1px;
+		--gf-ctrl-btn-color-primary: #{$button-text-color};
+		--gf-ctrl-btn-color-hover-primary: #{$button-text-color-hover};
+		--gf-ctrl-btn-color-focus-primary: #{$button-text-color-hover};
+	}
+
+	// Submit button icon layout — glyph injected via gform_submit_button filter.
+	.gform_footer .gform_button.sk-has-icon,
+	.gform-footer .gform_button.sk-has-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+	}
+}
+
+.has-primary-background-color {
+
+	.gform-theme--framework {
+
+		.gform-body,
+		.gform-footer {
+			--gf-ctrl-btn-bg-color-primary: #{$color-secondary};
+			--gf-ctrl-btn-bg-color-hover-primary: #{$color-white};
+			--gf-ctrl-btn-bg-color-focus-primary: #{$color-white};
+			--gf-ctrl-btn-color-hover-primary: #{$color-secondary};
+			--gf-ctrl-btn-color-focus-primary: #{$color-secondary};
+			--gf-ctrl-btn-border-color-hover-primary: #{$color-white};
+			--gf-ctrl-btn-border-color-focus-primary: #{$color-white};
+			--gf-local-text-transform: initial;
+		}
+	}
+}
+
+// Confirmation message — replaces the form after successful submission.
+.gform_confirmation_wrapper {
+	margin: 0;
+}
+
+.gform_confirmation_message {
+
+	@include sk-icon-button("check-circle", left, $spacing-small);
+
+	align-items: flex-start;
+	background-color: $color-white;
+	border: 2px solid $color-outline;
+	color: $color-body;
+	font-size: $font-size-medium;
+	line-height: $line-height-small;
+	padding: $spacing-medium;
+	width: 100%;
+
+	&::before {
+		color: $color-tertiary;
+		flex-shrink: 0;
+		font-size: 1.25em;
+		margin-top: 0.1em;
+	}
+
+	p {
+		margin: 0;
+
+		+ p {
+			margin-top: $spacing-x-small;
+		}
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
+}
+
+
+/**
+ * Subscribe form
+ *
+ * Keyed to the `sk-form-subscribe` class on a wrapping `core/group`, not to a
+ * Gravity Forms ID. Form IDs are per-environment, so `#gform_2` broke the
+ * moment the theme was reused. Add the class in the pattern; see
+ * `patterns/section-offers-subscribe.php` and `patterns/sidebar.php`.
+ *
+ * The wrapper is a group rather than a `className` on the Gravity Forms block
+ * itself because that block is dynamic and does not emit
+ * `get_block_wrapper_attributes()`, so a `className` on it is dropped at
+ * render.
+ */
+.sk-form-subscribe {
+
+	.gform-field-label {
+
+		@include invisibleText;
+	}
+
+	input[type="email"] {
+		min-height: 58px;
+	}
+
+	.sk-gform-submit {
+		text-transform: capitalize;
+	}
+}
+
+aside {
+
+	.sk-form-subscribe {
+
+		.gform_footer {
+			margin-block-start: $spacing-small;
+		}
+	}
+}
+
+.sk-sidebar-aside {
+
+	.gform-theme--foundation .gfield--width-half {
+		grid-column: span 12;
+	}
+}
+

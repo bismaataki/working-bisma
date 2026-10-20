@@ -1,0 +1,32 @@
+@use "../../src/sass/tools" as *;
+
+.sk-showroom-card-editor {
+
+	.sk-showroom-card-editor__placeholder {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-small;
+		justify-content: center;
+		min-height: 8rem;
+		padding: $spacing-medium;
+		text-align: center;
+	}
+
+	.sk-showroom-card-editor__placeholder--error {
+		color: $color-secondary;
+	}
+
+	.sk-showroom-card-editor__cta-control {
+
+		.components-button-group {
+			display: flex;
+			width: 100%;
+
+			.components-button {
+				flex: 1 1 50%;
+				justify-content: center;
+			}
+		}
+	}
+}

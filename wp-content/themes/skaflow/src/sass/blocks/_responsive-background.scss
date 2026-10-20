@@ -1,0 +1,84 @@
+@use "../tools" as *;
+
+/**
+ * core/group + core/cover — responsive background visibility toggles.
+ *
+ * Inspector: Responsive background panel (Skaflow).
+ * Breakpoint tiers match theme $breakpoints (non-overlapping ranges):
+ * - small:  below medium (< 781px)
+ * - medium: medium → large − 1 (781px–1023px)
+ * - large:  large and up (≥ 1024px)
+ */
+
+@mixin sk-hide-group-background {
+	background: transparent !important;
+	background-color: transparent !important;
+	background-image: none !important;
+}
+
+@mixin sk-hide-cover-background {
+
+	@include sk-hide-group-background;
+
+	> .wp-block-cover__background,
+	> .wp-block-cover__image-background,
+	> .wp-block-cover__gradient-background,
+	> img.wp-block-cover__image-background,
+	> video.wp-block-cover__video-background {
+		display: none !important;
+	}
+}
+
+.wp-block-group {
+
+	&.sk-hide-bg-on-small {
+
+		@include breakpoint-min-max(small, medium) {
+
+			@include sk-hide-group-background;
+		}
+	}
+
+	&.sk-hide-bg-on-medium {
+
+		@include breakpoint-min-max(medium, large) {
+
+			@include sk-hide-group-background;
+		}
+	}
+
+	&.sk-hide-bg-on-large {
+
+		@include breakpoint(large) {
+
+			@include sk-hide-group-background;
+		}
+	}
+}
+
+.wp-block-cover {
+
+	&.sk-hide-bg-on-small {
+
+		@include breakpoint-min-max(small, medium) {
+
+			@include sk-hide-cover-background;
+		}
+	}
+
+	&.sk-hide-bg-on-medium {
+
+		@include breakpoint-min-max(medium, large) {
+
+			@include sk-hide-cover-background;
+		}
+	}
+
+	&.sk-hide-bg-on-large {
+
+		@include breakpoint(large) {
+
+			@include sk-hide-cover-background;
+		}
+	}
+}

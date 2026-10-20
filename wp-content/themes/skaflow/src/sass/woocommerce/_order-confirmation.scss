@@ -1,0 +1,219 @@
+@use "../tools" as *;
+
+// Order confirmation (Figma Step 4).
+// Cards sit on the page background. The sidebar uses the theme columns
+// style; this file only skins the confirmation chrome and WC totals.
+
+.sk-order-confirmation {
+
+	.sk-sidebar-main,
+	.sk-sidebar-aside {
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-medium;
+	}
+}
+
+.sk-order-confirmation-card {
+	background-color: $color-white;
+	border: 1px solid $color-outline;
+	padding: $spacing-large;
+	border-radius: 0;
+
+	.wp-block-heading,
+	&__title {
+		display: flex;
+		align-items: center;
+		gap: $spacing-x-small;
+		margin: 0 0 $spacing-medium;
+		font-size: $font-size-large;
+		font-weight: var(--wp--custom--font-weight--semibold, 600);
+	}
+}
+
+.sk-order-confirmation__icon {
+	flex-shrink: 0;
+	font-size: 1.25em;
+	color: $color-primary;
+}
+
+.sk-order-confirmation-fulfillment {
+
+	&__heading {
+		margin: 0 0 $spacing-x-small;
+	}
+
+	&__grid {
+		display: grid;
+		gap: $spacing-large $spacing-medium;
+
+		@include breakpoint(wp-small) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	&__fact-label {
+		display: flex;
+		align-items: center;
+		gap: $spacing-xx-small;
+		margin: 0 0 $spacing-xx-small;
+		font-size: $font-size-small;
+		font-weight: var(--wp--custom--font-weight--semibold, 600);
+	}
+
+	&__fact-value {
+		margin: 0;
+		white-space: pre-line;
+
+		br {
+			display: block;
+		}
+	}
+
+	&__paid {
+		display: inline-block;
+		margin-top: $spacing-xxx-small;
+		font-size: $font-size-x-small;
+		font-weight: var(--wp--custom--font-weight--semibold, 600);
+		color: $color-primary;
+	}
+
+	&__notes {
+		margin-top: $spacing-large;
+		padding: $spacing-small $spacing-medium;
+		background-color: $color-surface;
+	}
+
+	&__notes-label {
+		margin: 0 0 $spacing-xxx-small;
+		font-size: $font-size-small;
+		font-weight: var(--wp--custom--font-weight--semibold, 600);
+	}
+
+	&__notes p {
+		margin: 0;
+	}
+
+	&__answers {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: $spacing-xx-small $spacing-medium;
+		margin: $spacing-large 0 0;
+
+		dt,
+		dd {
+			margin: 0;
+		}
+
+		dt {
+			font-weight: var(--wp--custom--font-weight--semibold, 600);
+		}
+	}
+}
+
+.sk-order-confirmation-placeholder {
+	padding: $spacing-medium;
+	border: 1px dashed $color-outline;
+	background-color: $color-surface;
+}
+
+@media print {
+
+	.sk-order-confirmation-page {
+
+		.wp-site-blocks > header,
+		.wp-site-blocks > footer,
+		.pattern-breadcrumbs-wrapper,
+		.sk-order-confirmation-aside,
+		.sk-order-confirmation-help,
+		.sk-order-confirmation-actions {
+			display: none !important;
+		}
+
+		.sk-order-confirmation {
+			padding: 0 !important;
+			background: $color-white !important;
+		}
+
+		.wp-block-columns.is-style-has-sidebar-right {
+			display: block !important;
+		}
+	}
+}
+
+.wc-block-order-confirmation-status {
+	text-align: center;
+}
+
+.wc-block-order-confirmation-summary-list {
+
+	&-item {
+
+		display: flex;
+		padding: $spacing-x-small;
+		background-color: $color-surface;
+		border: 1px solid $color-outline;
+		align-items: flex-end;
+		justify-content: space-between;
+
+		@include breakpoint(wp-small) {
+			padding: $spacing-small $spacing-x-large;
+			text-align: center;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		&__key {
+			margin: 0 0 $spacing-xxx-small;
+			font-size: $font-size-x-small;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: $color-neutral;
+			font-weight: $font-weight-semi-bold !important;
+		}
+
+		&__value {
+			margin: 0;
+			font-size: $font-size-x-large;
+			font-weight: $font-weight-semi-bold !important;
+		}
+
+	}
+}
+
+.wc-block-order-confirmation-summary {
+
+	ul {
+		justify-content: center;
+	}
+}
+
+.wc-block-order-confirmation-totals table {
+	border: 0;
+	border-radius: 0;
+}
+
+.wc-block-order-confirmation-billing-address,
+.wc-block-order-confirmation-shipping-address {
+	border-radius: 0;
+}
+
+.wc-block-order-confirmation-create-account {
+
+	.wp-block-heading {
+		font-size: var(--wp--preset--font-size--x-large);
+	}
+}
+
+.wc-block-order-confirmation-totals-wrapper,
+.wc-block-order-confirmation-additional-fields-wrapper,
+.wc-block-order-confirmation-additional-information,
+.wc-block-order-confirmation-downloads-wrapper {
+	border: 1px solid $color-outline;
+	padding: $spacing-medium $spacing-large;
+	background-color: $white;
+
+	.wp-block-heading {
+		margin-top: 0;
+	}
+}

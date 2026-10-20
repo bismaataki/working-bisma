@@ -1,0 +1,116 @@
+@use "tools" as *;
+
+/**
+ * Header shell — fixed positioning and main content offset.
+ *
+ * Templates use tagName:header only. Sticky chrome attaches to the
+ * <header> WordPress already wraps around the header template part.
+ */
+
+.wp-site-blocks > header {
+	position: sticky;
+	top: 0;
+	z-index: $header-z-index;
+	width: 100%;
+	background-color: $header-background-color;
+	border-bottom: 1px solid $header-border-color;
+
+	@include menu-mobile-only {
+		position: relative;
+		z-index: auto;
+		border-bottom: 0;
+	}
+}
+
+.site-header__primary {
+
+	@include menu-mobile-only {
+		position: relative;
+		z-index: $header-z-index;
+		background-color: $header-background-color;
+
+		&.site-header__primary--is-stuck {
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: 0;
+			border-bottom: 1px solid $header-border-color;
+
+			//body.admin-bar & {
+			//  top: $admin-bar-height-mobile;
+			//}
+		}
+	}
+}
+
+.site-header__primary-spacer {
+	display: none;
+
+	@include menu-mobile-only {
+		display: block;
+		height: var(--site-header-primary-spacer-height, 0);
+	}
+}
+
+.wp-site-blocks {
+
+	.pattern-breadcrumbs-wrapper {
+		border-bottom: 1px solid $header-border-color;
+
+		+ main {
+			margin-block-start: 0;
+		}
+	}
+
+	.wp-block-post-content {
+
+		&:has(> .wp-block-breadcrumbs:first-child),
+		&:has(> .pattern-breadcrumbs-wrapper:first-child) {
+			margin-block-start: 0;
+
+		}
+	}
+
+
+}
+
+.site-header__announcement-inner,
+.site-header__primary-inner,
+.site-header__search-row-inner,
+.site-header__nav-inner {
+	//width: 100%;
+	max-width: $grid-container-wide;
+	margin-inline: auto;
+	padding-inline: $grid-container-padding;
+}
+
+.wp-site-blocks > header {
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+
+		&:hover,
+		&:focus-visible {
+			color: $header-link-hover-color;
+		}
+	}
+}
+
+.screen-reader-text {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	overflow-wrap: normal !important;
+}
