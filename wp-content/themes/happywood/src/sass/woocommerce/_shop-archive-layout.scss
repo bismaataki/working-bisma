@@ -1,0 +1,139 @@
+@use "../tools" as *;
+
+$hw-shop-archive-sidebar-width: 20rem; // Match $hw-filters-sidebar-width in _product-filters.scss
+
+.shop-archive-shell-template-part {
+	margin-block-start: 0;
+}
+
+// Shop archive — two full-bleed bands (white filters + body-bg grid).
+// Chrome lives in the filters band; sidebar + main share the grid band row.
+// Markup: parts/shop-archive-shell.html
+
+.hw-shop-archive-shell,
+.hw-shop-archive-layout {
+	width: 100%;
+}
+
+.hw-shop-archive-shell {
+
+	.product-collection-template-part,
+	.wc-block-product-template,
+	[data-block-name="woocommerce/legacy-template"][data-template="archive-product"] ul.products {
+		margin-block-start: 0;
+	}
+}
+
+.hw-shop-archive-filters-band {
+	padding-block: $spacing-medium;
+}
+
+.hw-shop-archive-grid-band {
+	margin-block-start: 0;
+	//padding-block: $spacing-medium $spacing-section-m;
+}
+
+// Figma bar row: filter buttons + chips left, sort + view right.
+.hw-shop-archive-filters-band > .alignwide {
+	display: grid;
+	grid-template-columns: minmax(25rem, 1fr) auto auto;
+	grid-template-areas:
+		"bar sort view"
+		"chips sort view";
+	column-gap: $spacing-large;
+	row-gap: $spacing-x-small;
+	align-items: center;
+	position: relative;
+
+	@include breakpoint-medium-down {
+		grid-template-columns: minmax(0, 1fr) auto;
+		row-gap: $block-gap;
+		grid-template-areas:
+			"bar bar"
+			"sort view";
+
+
+		.hw-product-filters__chrome {
+			grid-area: bar;
+		}
+
+		.wc-block-catalog-sorting {
+			justify-self: start;
+		}
+	}
+
+	> * {
+		margin-block-start: 0;
+	}
+}
+
+.hw-shop-archive-filters-band .hw-product-filters__bar {
+	grid-area: bar;
+	min-width: 0;
+}
+
+.hw-shop-archive-filters-band .hw-active-filters--chrome {
+	grid-area: chips;
+}
+
+.hw-shop-archive-filters-band .wp-block-woocommerce-catalog-sorting,
+.hw-shop-archive-filters-band .wc-block-catalog-sorting {
+	grid-area: sort;
+	align-self: baseline;
+	justify-self: end;
+}
+
+.hw-shop-archive-filters-band .hw-product-view-switcher,
+.hw-shop-archive-filters-band .wp-block-happywood-product-view-switcher {
+	grid-area: view;
+	align-self: flex-start;
+	justify-self: end;
+	margin-bottom: 1em;
+}
+
+.hw-shop-archive-grid {
+	min-width: 0;
+}
+
+.hw-shop-archive-main {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-medium;
+	min-width: 0;
+}
+
+.hw-shop-archive-sidebar {
+	min-width: 0;
+}
+
+@include breakpoint(medium) {
+	// Desktop vertical — push sidebar beside the shop grid (both in grid band).
+	.hw-shop-archive-layout:has(.hw-filters-panel--vertical) {
+
+		.hw-shop-archive-grid {
+			display: grid;
+			grid-template-columns: 0 minmax(0, 1fr);
+			grid-template-areas: "filters-sidebar shop-main";
+			column-gap: 0;
+			transition: grid-template-columns 0.35s ease;
+		}
+
+		&.is-filters-open .hw-shop-archive-grid {
+			grid-template-columns: min($hw-shop-archive-sidebar-width, 100%) minmax(0, 1fr);
+			column-gap: $spacing-medium;
+		}
+
+		.hw-shop-archive-sidebar {
+			grid-area: filters-sidebar;
+			align-self: start;
+		}
+
+		.hw-shop-archive-main {
+			grid-area: shop-main;
+		}
+	}
+
+	.hw-shop-archive-filters-band > .alignwide:has(.hw-filters-panel--horizontal) {
+		position: relative;
+	}
+}

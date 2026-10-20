@@ -1,4 +1,4 @@
-# PROJECT.md — Skaflow
+# PROJECT.md — Happy Wood
 
 Project-specific facts for this build. Starter conventions are in `AGENTS.md`.
 
@@ -14,27 +14,28 @@ prefix is not derivable from the slug, so it must be declared here.
 
 | | |
 |---|---|
-| Theme slug | `skaflow` |
-| Theme path | `wp-content/themes/skaflow/` |
-| Namespace | `Skaflow\` |
-| Function prefix | `skaflow_` |
-| Constant prefix | `SKAFLOW_` |
-| CSS + JS class prefix | `sk-` |
-| Text domain | `skaflow` |
-| DDEV project | `skaflow` (repo dir `skaflow`), PHP 8.4, docroot = repo root |
+| Theme slug | `happywood` |
+| Theme path | `wp-content/themes/happywood/` |
+| Namespace | `Happywood\` |
+| Function prefix | `happywood_` |
+| Constant prefix | `HAPPYWOOD_` |
+| CSS + JS class prefix | `hw-` |
+| Text domain | `happywood` |
+| DDEV project | `happywood` (repo dir `happywood`), PHP 8.4, docroot = repo root |
 | WordPress | 7.1, `theme.json` v3 |
 
 ## Repositories
 
 One in-tree repo. Theme, WordPress install, and AI tooling (`AGENTS.md`,
 `PROJECT.md`, `context/`, `.cursor/`) live together. There is no client /
-AI-tools overlay on this copy.
+AI-tools overlay on this copy. This is an internal project, so that split
+is not used.
 
 | | |
 |---|---|
-| Local DDEV | `https://skaflow.test` |
-| Origin | `git@github-ataki:atakidevelopers/skaflow.git` |
-| GitHub | `https://github.com/atakidevelopers/skaflow` |
+| Local DDEV | `https://happywood.test` |
+| Origin | `git@github-ataki:atakidevelopers/happywood.git` |
+| GitHub | `https://github.com/atakidevelopers/happywood` |
 | Local git identity | `AtakiDev` / `developers@ataki.dev` |
 
 ## Stack — which implementation is live
@@ -50,8 +51,8 @@ files for anything marked absent.
 | Card rendering | **custom** (`includes/woocommerce/product-card-functions.php`, `includes/post/post-card-functions.php`) |
 | SEO | **Rank Math** |
 | Grid builder | **none** |
-| FAQ | **kept** (`skaflow_faq` + `skaflow_faq_category`) |
-| Showroom | **kept** (`showrooms` + `showroom-locations`) |
+| FAQ | **kept** (`happywood_faq` + `happywood_faq_category`) |
+| Showroom | **kept for now** (`showrooms` + `showroom-locations`). Remove later if Happy Wood does not need it |
 
 Explicitly absent: no Blokki, no WP Grid Builder, no Yoast, no JetEngine,
 no Jet Smart Filters, no Elementor, no Woodmart. Do not create `blokki/`,
@@ -90,57 +91,35 @@ Gravity Forms embeds in patterns use `formId` `1` (contact) and `2`
 ## Content model
 
 Custom post types and taxonomies all register from
-`lib/class-content-types.php` (`Skaflow\Content_Types`):
-`skaflow_faq` + `skaflow_faq_category` (admin + REST only, not publicly
-queryable), `skaflow_banner`, and `showrooms` + `showroom-locations`.
+`lib/class-content-types.php` (`Happywood\Content_Types`):
+`happywood_faq` + `happywood_faq_category` (admin + REST only, not publicly
+queryable), `happywood_banner`, and `showrooms` + `showroom-locations`.
 Product catalog facets are WooCommerce categories, tags, and attributes.
 There is no Review CPT (WooCommerce product reviews stay).
 
-ACF options pages: **Theme Options** (`skaflow-theme-options`) with
+ACF options pages: **Theme Options** (`happywood-theme-options`) with
 **FAQ Configurations** and **Banner Configurations** sub-pages. Field groups
 auto-load from `acf-json/`.
 
 Pattern categories registered by `lib/class-after-setup-theme.php`: `page`,
-`component`, `section`, `stats`, `skaflow`. The `elements` category is
+`component`, `section`, `stats`, `happywood`. The `elements` category is
 retired. Use `component`.
 
 ## Known debt
 
-**Delivery estimate is dormant.** `templates/single-product.html` includes
-`skaflow/delivery-estimate`. Lookups post to `cf_postcode_estimate`, which no
+**Delivery estimate is dormant**, inherited from the starter. `templates/single-product.html` includes
+`happywood/delivery-estimate`. Lookups post to `cf_postcode_estimate`, which no
 bundled plugin registers. The card renders and returns the error state. That
 AJAX action and the `cf_delivery_postcode` / `cf_delivery_quantity` field
 names are an external plugin contract: do not rename them with the theme
 prefix. Deletion path is in
 `includes/woocommerce/delivery-estimate-functions.php`.
 
-**`npm audit --omit=dev` reports two toolchain advisories** after the
-`@wordpress/scripts` 35 bump (`fast-uri`, `js-yaml`). They land in the
-build toolchain rather than shipped output.
-
-**The quality gate is a local hook, not CI.** `tools/verify.sh` runs build
-freshness, both linters, and PHPCS; `hooks/pre-push` invokes it. This is
-deliberate: a fork may push to any Git host, including a host-provided remote
-that runs nothing, so a GitHub Actions workflow would not travel. There is still
-no `.github/workflows/` — the root `.gitignore` whitelists `.github/` and
-`context/kb/sop-github-to-wpengine-gitpush.md` covers deployment, but the
-workflow is stood up per project with that project's environment names.
-
-Know the gate's limits rather than trusting it blindly. It needs
-`git config core.hooksPath hooks` per clone and is silently absent until then,
-`--no-verify` bypasses it, and it depends on `node_modules` plus Composer or
-DDEV being available locally.
-
-Node is a **window**, not a pin: `^20.19.0 || ^22.13.0 || >=24.0.0`, derived
-from what the dependency tree declares. Build output was verified
-byte-identical on 20.20.2, 22.22.0 and 24.13.1, so build-freshness holds
-anywhere in range and developers need not match each other. `verify.sh` checks
-the range before building because `npm run` ignores `engines`.
-
 ## Lineage
 
-This file is the skaflow starter identity, written 2026-09-07. Treat any
-undocumented foreign function prefix as absent unless verified.
+Forked from the skaflow starter on 2026-10-20 for the internal Happy Wood
+project. AI tooling stays in this repository. Showroom stays in the theme
+until a later decision removes it.
 
 ## Where the detail lives
 

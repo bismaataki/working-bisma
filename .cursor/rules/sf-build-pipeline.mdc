@@ -13,7 +13,7 @@ Two builds, run from the theme directory:
 | `npm run build:assets` | every webpack entry in `package.json` | `build/` |
 | `npm run build:blocks` | `src-jsx-blocks/` | `build-jsx-blocks/` |
 | `npm run build` | both | both |
-| `npm run create-zip` | packlist of the theme dir | `skaflow.zip` |
+| `npm run create-zip` | packlist of the theme dir | `happywood.zip` |
 | `npm run dev` | browser-sync + both watchers | — |
 
 **Never run `wp-scripts build` / `start` on a subset of entries.** A command
@@ -43,13 +43,13 @@ Browser-sync needs `config-dev/.env` with `PROXY=yoursite.test`.
 
 `package.json` `"files": ["*"]` is intentional: plugin-zip then uses
 `npm-packlist`, which ships the theme minus what `.gitignore` already
-excludes (`node_modules/`, `config-dev/.env`, `*.log`, `skaflow.zip` /
-`skaflow-*.zip`). That is the filter. **Do not add a `.distignore` and
+excludes (`node_modules/`, `config-dev/.env`, `*.log`, `happywood.zip` /
+`happywood-*.zip`). That is the filter. **Do not add a `.distignore` and
 do not invent a custom archive.** `lib/plugins-zip/` stays in — those
-filenames are not `skaflow*.zip`.
+filenames are not `happywood*.zip`.
 
-Output is `skaflow.zip` in the theme directory (gitignored). Run
-`npm run build` first. The two Skaflow plugins live outside the theme
+Output is `happywood.zip` in the theme directory (gitignored). Run
+`npm run build` first. The two Happywood plugins live outside the theme
 and are not in this zip.
 
 ## Trap 1 — sibling PHP only ships if the blocks build copies it
@@ -125,8 +125,8 @@ that requires a plugin will still register on a site without it. Guard inside
 Use the build helpers, never hardcoded paths:
 
 ```php
-$css_url = skaflow_get_build_url( 'index.css' );
-$js_path = skaflow_get_build_dir( 'public.js' );
+$css_url = happywood_get_build_url( 'index.css' );
+$js_path = happywood_get_build_dir( 'public.js' );
 ```
 
 ## When a build looks broken

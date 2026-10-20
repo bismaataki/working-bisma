@@ -10,7 +10,7 @@ Homes for PHP, chosen by shape rather than by topic.
 
 | Shape | Home |
 |---|---|
-| Stateful feature that registers hooks | `lib/class-{name}.php`, a `Skaflow\` class |
+| Stateful feature that registers hooks | `lib/class-{name}.php`, a `Happywood\` class |
 | REST endpoint | `public/class-api-{concern}.php`, extending `Api` |
 | Procedural functions for one capability | `includes/{capability}/{name}-functions.php` |
 | Hook wiring for a capability | `includes/{capability}/{name}-hooks.php` |
@@ -22,7 +22,7 @@ Homes for PHP, chosen by shape rather than by topic.
 ```php
 <?php
 
-namespace Skaflow;
+namespace Happywood;
 
 class Custom_Feature {
 
@@ -77,7 +77,7 @@ public function __construct() {
 ## REST endpoints
 
 The one exception to `lib/`. Endpoints live in `public/class-api-{concern}.php`
-and extend the abstract `Api` base class, which owns the `skaflow/v1`
+and extend the abstract `Api` base class, which owns the `happywood/v1`
 namespace, the `rest_api_init` wiring, and response shaping. A subclass declares
 routes in `register_routes()` and nothing else.
 
@@ -137,20 +137,20 @@ belongs in a capability directory. Current inventory:
 Wrap redefinable helpers so a child theme or plugin can pre-empt them:
 
 ```php
-if ( ! function_exists( 'skaflow_write_log' ) ) {
-	function skaflow_write_log( $log ): void { /* ... */ }
+if ( ! function_exists( 'happywood_write_log' ) ) {
+	function happywood_write_log( $log ): void { /* ... */ }
 }
 ```
 
 ## Naming
 
-- Functions and hooks: `skaflow_` prefix
-- Constants: `SKAFLOW_` prefix, defined in `includes/constants.php`
-- Nonces and custom hook names: build from `SKAFLOW_PREFIX` rather than
+- Functions and hooks: `happywood_` prefix
+- Constants: `HAPPYWOOD_` prefix, defined in `includes/constants.php`
+- Nonces and custom hook names: build from `HAPPYWOOD_PREFIX` rather than
   hardcoding, so a rename stays mechanical
 
 ```php
-wp_create_nonce( SKAFLOW_PREFIX . 'custom_action' );
+wp_create_nonce( HAPPYWOOD_PREFIX . 'custom_action' );
 ```
 
 ## Checking before adding

@@ -13,7 +13,7 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-verify="$repo_root/wp-content/themes/skaflow/tools/verify.sh"
+verify="$repo_root/wp-content/themes/happywood/tools/verify.sh"
 
 if [[ -x "$verify" ]]; then
 	"$verify"

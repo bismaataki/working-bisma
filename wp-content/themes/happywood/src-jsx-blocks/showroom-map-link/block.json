@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "happywood/showroom-map-link",
+	"version": "1.0.0",
+	"title": "Showroom Map Link",
+	"category": "widgets",
+	"description": "Stylised map graphic, address, and Open in Google Maps button for a showroom.",
+	"keywords": ["showroom", "map", "directions", "google maps"],
+	"textdomain": "happywood",
+	"icon": "location-alt",
+	"usesContext": ["postId", "postType"],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"anchor": true,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

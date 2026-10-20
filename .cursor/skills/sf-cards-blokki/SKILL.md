@@ -47,9 +47,9 @@ override or add partials.
 One filter per post type, named `blokki_get_post_type_config_{post_type}`:
 
 ```php
-add_filter( 'blokki_get_post_type_config_post', 'skaflow_blokki_post_type_post' );
+add_filter( 'blokki_get_post_type_config_post', 'happywood_blokki_post_type_post' );
 
-function skaflow_blokki_post_type_post( $post_type_config ) {
+function happywood_blokki_post_type_post( $post_type_config ) {
 
 	$post_type_config = array_merge(
 		$post_type_config,
@@ -99,7 +99,7 @@ if ( ! $custom_field ) {
 	return;
 }
 ?>
-<div class="sk-card__custom">
+<div class="hw-card__custom">
 	<?php echo wp_kses_post( $custom_field ); ?>
 </div>
 ```

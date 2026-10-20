@@ -1,0 +1,35 @@
+@use "../../src/sass/tools" as *;
+
+.hw-product-cat-child-swiper-editor {
+
+	&__note {
+		color: $color-neutral;
+		font-size: $font-size-small;
+		margin: $spacing-small 0 0;
+	}
+
+	.hw-category-swiper__slides {
+		display: flex;
+		gap: $spacing-small;
+		overflow: hidden;
+	}
+
+	.hw-category-swiper__slide--preview {
+		flex: 0 0 auto;
+		width: var(--hw-category-swiper-slide-width, 6.25rem);
+	}
+
+	.hw-category-swiper__image--placeholder {
+		background: rgb(0 0 0 / 8%);
+		border-radius: 0.125rem;
+		display: block;
+		height: 100%;
+		min-height: 4.5rem;
+		width: 100%;
+	}
+
+	.hw-category-swiper__scrollbar--preview {
+		margin-top: $spacing-small;
+		position: static;
+	}
+}

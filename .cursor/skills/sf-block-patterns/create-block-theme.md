@@ -38,7 +38,7 @@ The template's markup is then written to **`patterns/{template-slug}.php`** with
 
 This bites hardest on a theme that composes its templates from patterns of the same
 name — where `parts/footer.html` is just
-`<!-- wp:pattern {"slug":"skaflow/footer"} /-->`. That is the convention here, and
+`<!-- wp:pattern {"slug":"happywood/footer"} /-->`. That is the convention here, and
 it is also what this plugin generates, so template slugs and pattern filenames
 collide by design.
 
@@ -47,7 +47,7 @@ from a remembered list; derive it, because it changes as templates and patterns 
 added:
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 find templates parts -maxdepth 1 -name '*.html' -printf '%f\n' | sed 's/\.html$//' | sort -u > /tmp/slugs
 find patterns -maxdepth 1 -name '*.php' -printf '%f\n' | sed 's/\.php$//' | sort -u > /tmp/pats
 comm -12 /tmp/slugs /tmp/pats

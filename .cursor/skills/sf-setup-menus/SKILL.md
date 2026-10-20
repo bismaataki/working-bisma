@@ -6,7 +6,7 @@ description: Build or rebuild this theme's Primary Nav mega menu and Utility Nav
 # Setting up the navigation menus
 
 Menus live in the **database**, not the theme. A fresh clone of this repo has
-none, so `Skaflow\Site_Header::render_primary_nav()` hits its `has_nav_menu()`
+none, so `Happywood\Site_Header::render_primary_nav()` hits its `has_nav_menu()`
 guard and the header nav row renders empty. That is expected, not a bug.
 
 This skill owns getting from there to a working mega menu.
@@ -15,8 +15,8 @@ This skill owns getting from there to a working mega menu.
 
 | Constant | Location slug | Renders |
 |---|---|---|
-| `SKAFLOW_MENU_PRIMARY` | `skaflow-primary-nav` | The main nav row and its mega-menu panels |
-| `SKAFLOW_MENU_UTILITY` | `skaflow-utility-nav` | Small top-bar links with icons |
+| `HAPPYWOOD_MENU_PRIMARY` | `happywood-primary-nav` | The main nav row and its mega-menu panels |
+| `HAPPYWOOD_MENU_UTILITY` | `happywood-utility-nav` | Small top-bar links with icons |
 
 Both are registered in `lib/class-after-setup-theme.php`. The seeders create and
 assign them if missing, so there is no manual step in Appearance > Menus first.
@@ -28,7 +28,7 @@ and will sit alongside what is there.
 
 ```bash
 cd <repo root>
-wp eval-file wp-content/themes/skaflow/bin/backup-primary-nav-menu.php
+wp eval-file wp-content/themes/happywood/bin/backup-primary-nav-menu.php
 # or: ddev wp eval-file ...
 ```
 
@@ -43,9 +43,9 @@ A derived menu needs content to derive from.
 
 ```bash
 wp eval '
-require_once ABSPATH."wp-content/themes/skaflow/bin/lib/menu-setup-helpers.php";
-require_once ABSPATH."wp-content/themes/skaflow/bin/lib/menu-setup-from-content.php";
-foreach ( skaflow_menu_setup_survey_content() as $k => $v ) { printf("%-20s %d\n", $k, $v); }
+require_once ABSPATH."wp-content/themes/happywood/bin/lib/menu-setup-helpers.php";
+require_once ABSPATH."wp-content/themes/happywood/bin/lib/menu-setup-from-content.php";
+foreach ( happywood_menu_setup_survey_content() as $k => $v ) { printf("%-20s %d\n", $k, $v); }
 '
 ```
 
@@ -95,7 +95,7 @@ Put the trade-off to the user plainly, because the failure modes differ:
   gets one heading and you split them by hand afterwards.
 - **Hand-authored** gives exact control over grouping, column spans, and
   ordering. It costs the term IDs up front, and `menu-setup-tree.php` ships with
-  placeholders (`SKAFLOW_MENU_SETUP_TERMS`, all zero) that log a skip until
+  placeholders (`HAPPYWOOD_MENU_SETUP_TERMS`, all zero) that log a skip until
   filled in.
 
 **Never seed placeholder links into a live nav.** A menu of `Category A` and
@@ -108,13 +108,13 @@ flags it. If there is no content and no design, leave the nav empty and say so.
 cd <repo root>
 
 # Derived
-wp eval-file wp-content/themes/skaflow/bin/setup-primary-nav-from-content.php
+wp eval-file wp-content/themes/happywood/bin/setup-primary-nav-from-content.php
 
-# Hand-authored, after filling in SKAFLOW_MENU_SETUP_TERMS
-wp eval-file wp-content/themes/skaflow/bin/setup-primary-nav-menu.php
+# Hand-authored, after filling in HAPPYWOOD_MENU_SETUP_TERMS
+wp eval-file wp-content/themes/happywood/bin/setup-primary-nav-menu.php
 
 # Articles, added on top of either of the above
-wp eval-file wp-content/themes/skaflow/bin/setup-primary-nav-articles.php
+wp eval-file wp-content/themes/happywood/bin/setup-primary-nav-articles.php
 ```
 
 All three are idempotent per top-level item: they reuse an existing item for the
@@ -134,7 +134,7 @@ derive. The derived runner leaves it alone.
 ## Step 5 — verify
 
 ```bash
-wp eval-file wp-content/themes/skaflow/bin/dump-primary-nav-menu.php
+wp eval-file wp-content/themes/happywood/bin/dump-primary-nav-menu.php
 wp menu list --fields=term_id,name,locations,count
 ```
 
@@ -145,7 +145,7 @@ Then load the front end and check three things, because each fails differently:
 2. **A panel opens** with columns. If items appear but no panel, the mega-menu
    ACF fields did not save.
 3. **Thumbnails render.** Check what the item links to before assuming content
-   is at fault. `skaflow_menu_get_thumbnail_id()` resolves an ACF `image`
+   is at fault. `happywood_menu_get_thumbnail_id()` resolves an ACF `image`
    override first, then a `product_cat` term image, then a post's featured
    image. So a blank tile on a **category** item means the term has no image,
    and a blank tile on an **article** item means the post has no featured

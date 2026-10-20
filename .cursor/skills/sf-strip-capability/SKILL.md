@@ -31,7 +31,7 @@ doesn't trust a stale copy. Do not invent a subfolder. Add the new file
 to `context/kb/README.md`.
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 
 ls lib/ | rg -i '{capability}|{related-nouns}'
 ls public/ | rg '^class-api-'
@@ -118,11 +118,11 @@ cd <repo root>
 ddev wp eval 'echo "ok\n";'
 
 # nothing references what you deleted
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 rg -n '{deleted_function_or_class}' --glob '!vendor/**' --glob '!build*/**' .
 
 # deleted block names left in patterns or templates
-rg -n 'skaflow/{deleted-block}' patterns/ templates/ parts/
+rg -n 'happywood/{deleted-block}' patterns/ templates/ parts/
 
 # builds clean
 npm run build
@@ -136,7 +136,7 @@ If the capability owned REST endpoints, confirm they are gone rather than errori
 ```bash
 ddev wp eval 'do_action( "rest_api_init" );
   foreach ( array_keys( rest_get_server()->get_routes() ) as $r ) {
-    if ( false !== strpos( $r, "skaflow" ) ) { echo $r . "\n"; }
+    if ( false !== strpos( $r, "happywood" ) ) { echo $r . "\n"; }
   }'
 ```
 

@@ -14,7 +14,7 @@ no WordPress bootstrap:
 cd <repo root>
 ddev wp option get <name>
 ddev wp eval '...'
-ddev exec tail -40 wp-content/themes/skaflow/debug.log
+ddev exec tail -40 wp-content/themes/happywood/debug.log
 ```
 
 npm runs from the theme directory. Mixing these up produces confusing failures
@@ -23,8 +23,8 @@ that look like code bugs.
 Use the theme's logger, not `error_log()`:
 
 ```php
-skaflow_write_log( $thing );   // → wp-content/themes/skaflow/debug.log
-skaflow_dump( $thing );        // → <pre> in the response
+happywood_write_log( $thing );   // → wp-content/themes/happywood/debug.log
+happywood_dump( $thing );        // → <pre> in the response
 ```
 
 Query Monitor answers most questions about queries, hooks, and HTTP requests
@@ -50,7 +50,7 @@ Establish which layer is broken before changing code.
 ## Missing or stale build output
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 ls -la build/ build-jsx-blocks/
 npm install && npm run build
 ```
@@ -69,7 +69,7 @@ belong in `includes/{capability}/`.
 ## Blocks not registering
 
 ```bash
-ddev wp eval 'foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $n => $b ) { if ( str_starts_with( $n, "skaflow/" ) ) echo "$n\n"; }'
+ddev wp eval 'foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $n => $b ) { if ( str_starts_with( $n, "happywood/" ) ) echo "$n\n"; }'
 ```
 
 If a block is absent: build didn't run, `block.json` has a syntax error, or an
@@ -100,7 +100,7 @@ type has `show_ui: false`. See `.cursor/rules/sf-commerce.mdc`.
 ## Class not loading
 
 ```bash
-ddev wp eval 'var_dump( class_exists( "Skaflow\\Your_Class" ) );'
+ddev wp eval 'var_dump( class_exists( "Happywood\\Your_Class" ) );'
 ```
 
 Causes, in order of likelihood: `composer dump-autoload` not run; file name

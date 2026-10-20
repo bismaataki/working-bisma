@@ -1,0 +1,32 @@
+{
+	"name": "happywood/post-type-label",
+	"title": "Post Type Label",
+	"description": "Displays the current post type label inside a query loop.",
+	"category": "theme",
+	"icon": "category",
+	"apiVersion": 3,
+	"keywords": [
+		"happywood",
+		"post type",
+		"query loop",
+		"search"
+	],
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "render.php"
+	},
+	"supports": {
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"typography": {
+			"fontSize": true,
+			"textTransform": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	}
+}

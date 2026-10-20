@@ -1,0 +1,16 @@
+@use "../tools" as *;
+
+.hw-widget-title {
+	font-size: $widget-title-font-size;
+	font-weight: $widget-title-font-weight;
+	font-family: $widget-title-font-family;
+	color: $widget-title-color;
+	line-height: $widget-title-line-height;
+}
+
+.hw-widget-description {
+	color: $widget-description-color;
+	font-size: $widget-description-font-size;
+	line-height: 1.5;
+}
+

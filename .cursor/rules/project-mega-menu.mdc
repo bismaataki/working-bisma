@@ -1,10 +1,10 @@
 ---
-description: Skaflow mega menu specifics — 767px breakpoint, menu location constants, current Sass partial inventory, and what not to port from the shineon reference
+description: Happywood mega menu specifics — 767px breakpoint, menu location constants, current Sass partial inventory, and what not to port from the shineon reference
 globs: ["**/src/sass/menu/**", "**/src/sass/header/**", "**/src/js/site-header.js", "**/includes/menu/**", "**/includes/header/**", "**/lib/class-mega-menu.php", "**/lib/class-site-header.php", "**/partials/site-header.php"]
 alwaysApply: false
 ---
 
-# Mega Menu — Skaflow Configuration
+# Mega Menu — Happywood Configuration
 
 Architecture and conventions are in `.cursor/rules/sf-menu-architecture.mdc`.
 This file is the project's configuration and current state.
@@ -26,13 +26,13 @@ Menu locations are PHP constants in `includes/constants.php`:
 
 | Constant | Value |
 |---|---|
-| `SKAFLOW_MENU_PRIMARY` | `skaflow-primary-nav` |
-| `SKAFLOW_MENU_UTILITY` | `skaflow-utility-nav` |
-| `SKAFLOW_MENU_THUMB_SIZE` | `skaflow-menu-thumb` |
-| `SKAFLOW_MENU_THUMB_DISPLAY` | `54` (px, 2× source) |
-| `SKAFLOW_MENU_THUMB_PLACEHOLDER` | `assets/images/menu-thumb-placeholder.png` |
+| `HAPPYWOOD_MENU_PRIMARY` | `happywood-primary-nav` |
+| `HAPPYWOOD_MENU_UTILITY` | `happywood-utility-nav` |
+| `HAPPYWOOD_MENU_THUMB_SIZE` | `happywood-menu-thumb` |
+| `HAPPYWOOD_MENU_THUMB_DISPLAY` | `54` (px, 2× source) |
+| `HAPPYWOOD_MENU_THUMB_PLACEHOLDER` | `assets/images/menu-thumb-placeholder.png` |
 
-Mobile drawer element: `#skaflow-mobile-drawer`.
+Mobile drawer element: `#happywood-mobile-drawer`.
 
 ## Current Sass inventory
 
@@ -59,7 +59,7 @@ expect. Do not write a rule or an import that assumes they exist.
 
 ## What not to port from shineon
 
-- Tab, block and cards link-type partials — not in the Skaflow Figma
+- Tab, block and cards link-type partials — not in the Happywood Figma
 - `breakpoint-menu-up` wired to `large` — wrong breakpoint here
 - Generic `.header-nav` / `.mobile-menu` selectors — Woodmart collision risk
   while the legacy theme is still installed

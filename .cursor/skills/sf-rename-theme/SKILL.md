@@ -49,31 +49,31 @@ starter and is unused until someone chooses the split.
 
 Derive the rest:
 
-| Convention | From `skaflow` → `brayco` |
+| Convention | From `happywood` → `brayco` |
 |---|---|
-| Namespace | `Skaflow\` → `Brayco\` |
-| Function prefix | `skaflow_` → `brayco_` |
-| Constant prefix | `SKAFLOW_` → `BRAYCO_` |
-| Kebab slugs | `skaflow-` → `brayco-` |
-| Block / pattern namespace | `skaflow/` → `brayco/` |
-| Text domain | `'skaflow'` → `'brayco'` |
-| Short prefix | `sk-` → `bc-` (declared, not derived) |
+| Namespace | `Happywood\` → `Brayco\` |
+| Function prefix | `happywood_` → `brayco_` |
+| Constant prefix | `HAPPYWOOD_` → `BRAYCO_` |
+| Kebab slugs | `happywood-` → `brayco-` |
+| Block / pattern namespace | `happywood/` → `brayco/` |
+| Text domain | `'happywood'` → `'brayco'` |
+| Short prefix | `hw-` → `bc-` (declared, not derived) |
 
 Confirm all seven with the user before touching anything.
 
 ## Order matters
 
-Do the **longest, most specific patterns first**. Renaming `skaflow` before
-`skaflow_` leaves mangled identifiers.
+Do the **longest, most specific patterns first**. Renaming `happywood` before
+`happywood_` leaves mangled identifiers.
 
-1. `SKAFLOW_` (constants)
-2. `Skaflow\` (namespace) and `Skaflow` (bootstrap function, class refs)
-3. `skaflow_` (functions and hooks)
-4. `skaflow/` (block and pattern slugs)
-5. `skaflow-` (kebab slugs, menu locations, image sizes, admin page slugs)
-6. `'skaflow'` (text domain)
-7. `skaflow` (remaining bare occurrences — check each)
-8. `sk-` → the new short prefix
+1. `HAPPYWOOD_` (constants)
+2. `Happywood\` (namespace) and `Happywood` (bootstrap function, class refs)
+3. `happywood_` (functions and hooks)
+4. `happywood/` (block and pattern slugs)
+5. `happywood-` (kebab slugs, menu locations, image sizes, admin page slugs)
+6. `'happywood'` (text domain)
+7. `happywood` (remaining bare occurrences — check each)
+8. `hw-` → the new short prefix
 
 ## Measure the surface first
 
@@ -82,23 +82,23 @@ every line must read `0` except the short-prefix rows, which move to the new
 prefix. This is the completeness gate — a table in a document is not.
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 
 # -I skips binaries. Without it the release zip and the bundled plugin zips in
 # lib/plugins-zip/ report "binary file matches" and pollute every count.
 EX=(-I --exclude-dir={node_modules,vendor,build,build-jsx-blocks}
     --exclude='*.zip' --exclude=package-lock.json --exclude=composer.lock)
 
-for pat in 'SKAFLOW_' 'Skaflow' 'skaflow_' 'skaflow/' 'skaflow-' 'skaflow'; do
+for pat in 'HAPPYWOOD_' 'Happywood' 'happywood_' 'happywood/' 'happywood-' 'happywood'; do
   printf '%-12s %s\n' "$pat" "$(grep -rF "$pat" . "${EX[@]}" | wc -l)"
 done
 
 # Short CSS/JS prefix. Every directory, not just src/ and patterns/.
-grep -roh '\bsk-' . "${EX[@]}" | wc -l
+grep -roh '\bhw-' . "${EX[@]}" | wc -l
 
-# Filenames, which no search-and-replace will touch. `skaflow.zip` is build
+# Filenames, which no search-and-replace will touch. `happywood.zip` is build
 # output, not a file to rename — `npm run create-zip` renames it via package.json.
-find . -name '*skaflow*' ! -name '*.zip' \
+find . -name '*happywood*' ! -name '*.zip' \
   -not -path './node_modules/*' -not -path './vendor/*' -not -path './build*'
 ```
 
@@ -110,17 +110,17 @@ Locations, not counts. Verify each group after substituting.
 
 | Target | Where |
 |---|---|
-| `namespace Skaflow;` | every file in `lib/` and `public/` |
+| `namespace Happywood;` | every file in `lib/` and `public/` |
 | Composer `classmap` paths | `composer.json` — `lib` and `public`; run `composer dump-autoload` after renaming |
-| Bootstrap `function Skaflow()` + `Skaflow\Init::get_instance()` | `functions.php` |
+| Bootstrap `function Happywood()` + `Happywood\Init::get_instance()` | `functions.php` |
 | Constants | defined in `includes/constants.php`, called throughout |
-| REST namespace `skaflow/v1` | `Api::REST_NAMESPACE` in `public/class-api.php`; consumers in `lib/class-front.php` (localized) and `src/js/product-search.js` |
+| REST namespace `happywood/v1` | `Api::REST_NAMESPACE` in `public/class-api.php`; consumers in `lib/class-front.php` (localized) and `src/js/product-search.js` |
 | Function definitions and calls | `includes/`, `lib/`, `public/`, `partials/`, and block `render.php` files |
 | Text domain in `__()` / `esc_html__()` | everywhere a string is translated |
 | TGMPA `id` and `menu` slugs | `lib/class-plugins-manager.php` |
 | ACF options page `menu_slug` values | `lib/class-acf.php` — and every field group JSON targeting them |
-| Filter/action names | `skaflow_init_construct`, `skaflow_tgmpa_plugins`, `skaflow_tgmpa_config` |
-| Registered image sizes | e.g. `skaflow-menu-thumb` |
+| Filter/action names | `happywood_init_construct`, `happywood_tgmpa_plugins`, `happywood_tgmpa_config` |
+| Registered image sizes | e.g. `happywood-menu-thumb` |
 
 **Three PHP directories are easy to miss** because they are neither `lib/` nor
 `includes/`. All three are in the PHPCS scope, so skipping them turns every
@@ -148,9 +148,9 @@ shipped files and must be substituted directly.
 
 | Target | Where |
 |---|---|
-| `Slug: skaflow/...` headers | every file in `patterns/` |
-| `wp:pattern {"slug":"skaflow/..."}` cross-references | `patterns/`, `templates/`, `parts/` |
-| `theme":"skaflow"` in `wp:template-part` | `templates/`, `parts/` |
+| `Slug: happywood/...` headers | every file in `patterns/` |
+| `wp:pattern {"slug":"happywood/..."}` cross-references | `patterns/`, `templates/`, `parts/` |
+| `theme":"happywood"` in `wp:template-part` | `templates/`, `parts/` |
 | Theme-registered pattern category slug | `lib/class-after-setup-theme.php` + every pattern header declaring it |
 
 ### CSS and JS
@@ -158,19 +158,19 @@ shipped files and must be substituted directly.
 | Target | Where |
 |---|---|
 | Short prefix classes | `src/`, `assets/`, `includes/`, `lib/`, `src-jsx-blocks/`, `patterns/`, `templates/`, `parts/`, `tools/`. The two heaviest are `src/` and `src-jsx-blocks/`; `assets/` is the one most often missed because the icon font CSS lives there |
-| Sass icon variables | `$sk-icon-*`, `sk-icon-button` mixin in `src/sass/icon-font/` |
+| Sass icon variables | `$hw-icon-*`, `hw-icon-button` mixin in `src/sass/icon-font/` |
 | Icon font `content` classes | `assets/css/button-icon-font.css` |
-| Custom event names | `skaflow:content-updated` in `src/js/shared/delegated-events.js` and consumers |
+| Custom event names | `happywood:content-updated` in `src/js/shared/delegated-events.js` and consumers |
 
 ### Config and metadata
 
 | Target | Where |
 |---|---|
 | Theme header | `style.css` — Name, Description, Author, Author URI, Text Domain. Keep `Version` in step with `package.json`. Author is identity, not a leftover agency |
-| `composer.json` | `name` (`ataki/skaflow` → `client/slug`), `authors`, `description` |
-| `package.json` | `name`, `description`, `author`, `homepage`, `bugs`, `repository.directory`. `name` is also the `create-zip` filename (`skaflow.zip`) |
+| `composer.json` | `name` (`ataki/happywood` → `client/slug`), `authors`, `description` |
+| `package.json` | `name`, `description`, `author`, `homepage`, `bugs`, `repository.directory`. `name` is also the `create-zip` filename (`happywood.zip`) |
 | **`phpcs.xml.dist`** | `<ruleset name>`, the `text_domain` property, and the three `PrefixAllGlobals` prefixes. **Miss this and every function fails PHPCS after the rename** |
-| Zip filename rules | both `.gitignore` and `.npmignore` — `skaflow.zip` / `skaflow-*.zip` |
+| Zip filename rules | both `.gitignore` and `.npmignore` — `happywood.zip` / `happywood-*.zip` |
 | Language files | `languages/` — regenerate with `npm run build:makepot`, do not hand-edit |
 | DDEV project name | `.ddev/config.yaml` (`name`, and the `.test` hostname) — plus `ddev restart` |
 | Debug log path | `includes/helper-functions.php` writes to the theme root; no change needed, but the path in `AGENTS.md` § Debugging is spelled out |
@@ -184,13 +184,13 @@ working from a list, since new ones appear over time. Current shape:
 
 | Kind | Example | Referenced from |
 |---|---|---|
-| Function files | `includes/menu/skaflow-lucide-icon-choices.php` | that capability's `bootstrap.php` |
-| Template part targets | `includes/menu/skaflow-menu-thumbnail-link.php` | `get_template_part()` calls in `menu-hooks.php` |
-| Admin JS | `src/js-admin/skaflow-icon-block-icons.js` | its entry point's `import` |
-| ACF field group | `acf-json/group_skaflow_menu_options.json` | ACF loads by directory scan; the `key` inside also changes |
-| CPT archive template | `templates/archive-skaflow_faq.html` | resolved by post type name — **rename only if the CPT is renamed** |
-| Theme images | `assets/images/skaflow-art.{png,svg}` | `get_theme_file_uri()` calls in patterns |
-| Translation catalogue | `languages/skaflow.pot` | regenerated, so delete rather than rename |
+| Function files | `includes/menu/happywood-lucide-icon-choices.php` | that capability's `bootstrap.php` |
+| Template part targets | `includes/menu/happywood-menu-thumbnail-link.php` | `get_template_part()` calls in `menu-hooks.php` |
+| Admin JS | `src/js-admin/happywood-icon-block-icons.js` | its entry point's `import` |
+| ACF field group | `acf-json/group_happywood_menu_options.json` | ACF loads by directory scan; the `key` inside also changes |
+| CPT archive template | `templates/archive-happywood_faq.html` | resolved by post type name — **rename only if the CPT is renamed** |
+| Theme images | `assets/images/happywood-art.{png,svg}` | `get_theme_file_uri()` calls in patterns |
+| Translation catalogue | `languages/happywood.pot` | regenerated, so delete rather than rename |
 
 ### Agent instruction layer
 
@@ -260,7 +260,7 @@ git config core.hooksPath hooks              # Git never clones .git/hooks/
 wp-content/themes/<new>/tools/verify.sh      # must pass before the first push
 ```
 
-`tools/verify.sh` needs no substitution except the `skaflow` path segment in its
+`tools/verify.sh` needs no substitution except the `happywood` path segment in its
 PHPCS fallback, which the slug pass handles. `hooks/pre-push` and
 `hooks/client-pre-push` need none at all: their marker strings are deliberately
 slug-free.
@@ -271,8 +271,8 @@ will catch a `build/` directory still holding the old theme's output.
 
 ## Verify
 
-Re-run the measurement block from the top of this file. Every `skaflow` row must
-be `0` and the `sk-` count must be `0`, with the equivalent counts for the new
+Re-run the measurement block from the top of this file. Every `happywood` row must
+be `0` and the `hw-` count must be `0`, with the equivalent counts for the new
 prefix roughly matching what the old ones were. A non-zero row is an incomplete
 rename, not an acceptable remainder.
 
@@ -281,7 +281,7 @@ cd <repo root>
 
 # Whole tree, including the agent instruction layer. context/ is excluded
 # because it documents the previous project and is handled separately.
-rg -i 'skaflow' \
+rg -i 'happywood' \
   --glob '!context/**' \
   --glob '!**/node_modules/**' \
   --glob '!**/vendor/**' \
@@ -291,12 +291,12 @@ rg -i 'skaflow' \
 
 # Short prefix, every theme directory. Scoping this to src/ and patterns/
 # reports success on a half-finished rename.
-rg -o '\bsk-' wp-content/themes/<new> \
+rg -o '\bhw-' wp-content/themes/<new> \
   --glob '!**/node_modules/**' --glob '!**/vendor/**' \
   --glob '!**/build/**' --glob '!**/build-jsx-blocks/**'
 
 # Filenames.
-find wp-content/themes/<new> -name '*skaflow*' \
+find wp-content/themes/<new> -name '*happywood*' \
   -not -path '*/node_modules/*' -not -path '*/vendor/*'
 ```
 
@@ -325,14 +325,14 @@ changed), and icons still render (the short prefix changed).
 
 ## Leftover prefixes and dataset contracts
 
-Counting `skaflow` / `sk-` is not enough. A half-finished earlier rename left
-`data-sk-products-view` in PHP and `dataset.cfProductsView` in JS: the selector
+Counting `happywood` / `hw-` is not enough. A half-finished earlier rename left
+`data-hw-products-view` in PHP and `dataset.cfProductsView` in JS: the selector
 matched, the click did nothing, and no linter saw it. Run these after the
 slug pass.
 
 ### `data-*` writers must match `dataset` readers
 
-`data-sk-foo-bar` is `dataset.skFooBar`. A leftover previous prefix on only
+`data-hw-foo-bar` is `dataset.hwFooBar`. A leftover previous prefix on only
 one side is a silent storefront bug.
 
 ```bash
@@ -349,14 +349,14 @@ rg -n 'dataset\.[a-zA-Z]+' src src-jsx-blocks --glob '*.js'
 
 Init-only flags written and read in the same JS file (accordion already-bound,
 swiper already-inited) are fine if **both** sides use the new prefix. The
-failure is a PHP `data-sk-*` paired with a JS `dataset.cf*` leftover.
+failure is a PHP `data-hw-*` paired with a JS `dataset.cf*` leftover.
 
 Click the archive grid/list toggle, add-to-cart label restore, and any other
 control that stores its mode on a data attribute. Lint will not catch this.
 
 ### Leftover previous-project prefixes
 
-This starter's pre-skaflow prefix was `cf`. After the skaflow freeze the only
+This starter's pre-happywood prefix was `cf`. After the happywood freeze the only
 remaining `cf_` identifiers are an **external plugin contract**. Do not rename
 them with the theme prefix, and do not treat them as missed substitutions:
 
@@ -372,15 +372,15 @@ prefix during a rename.
 ```bash
 cd <repo root>
 
-# After a skaflow → new rename, this should be only the three contract names
+# After a happywood → new rename, this should be only the three contract names
 # above (plus comments that mention them).
 rg -n '\bcf_|dataset\.cf|cfHide|cfFilters' wp-content/themes/<new> \
   --glob '!**/node_modules/**' --glob '!**/vendor/**' \
   --glob '!**/build/**' --glob '!**/build-jsx-blocks/**'
 
-# After renaming away from skaflow, leftover `sk-` / `dataset.sk` / `sk_` on
+# After renaming away from happywood, leftover `hw-` / `dataset.sk` / `hw_` on
 # the theme-owned side is the same class of bug.
-rg -n 'dataset\.sk|data-sk-|\bsk_' wp-content/themes/<new> \
+rg -n 'dataset\.sk|data-hw-|\bsk_' wp-content/themes/<new> \
   --glob '!**/node_modules/**' --glob '!**/vendor/**' \
   --glob '!**/build/**' --glob '!**/build-jsx-blocks/**'
 ```

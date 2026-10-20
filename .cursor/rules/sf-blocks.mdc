@@ -57,7 +57,7 @@ before assuming an omitted attribute renders blank.
 
 Functional components with hooks. Prefer `@wordpress/components` and
 `@wordpress/block-editor` over hand-rolled UI. Wrap user-facing strings in
-`@wordpress/i18n` with the `skaflow` text domain.
+`@wordpress/i18n` with the `happywood` text domain.
 
 ## Frontend behaviour
 
@@ -75,7 +75,7 @@ from `src/sass/`. Content styles must enqueue on `enqueue_block_assets`, not
 ## After changing a block
 
 ```bash
-cd wp-content/themes/skaflow && npm run build:blocks
+cd wp-content/themes/happywood && npm run build:blocks
 ```
 
 Source-only changes never register — the registry reads `build-jsx-blocks/`.

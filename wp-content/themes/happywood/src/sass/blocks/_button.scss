@@ -1,0 +1,208 @@
+@use "../tools" as *;
+
+:where(.wp-block-buttons.is-style-full-on-small) {
+
+	@include breakpoint-max(wp-small) {
+
+		.wp-block-button {
+			width: 100%;
+		}
+
+
+		.wp-block-button__link {
+			width: 100%;
+			text-align: center;
+		}
+
+		.wp-block-button.hw-has-icon {
+
+			.wp-block-button__link {
+				justify-content: center;
+			}
+		}
+	}
+}
+
+.wp-block-button {
+
+	&.hw-has-icon {
+		display: inherit;
+		justify-content: inherit;
+		align-items: inherit;
+	}
+}
+
+// Button icon layout & glyphs (the `hw-has-icon`/`hw-icon-{slug}`/
+// `hw-icon-right` classes) are styled by the static Lucide icon font
+// stylesheet, enqueued globally by Happywood\Lucide_Icons - see
+// assets/css/button-icon-font.css.
+
+:where(.wp-block-button.is-style-primary) {
+
+	.wp-block-button__link {
+
+		@include button-primary-default;
+	}
+}
+
+:where(.wp-block-button.is-style-secondary) {
+
+	.wp-block-button__link {
+
+		@include button-secondary;
+	}
+}
+
+:where(.wp-block-button.is-style-ghost) {
+
+	.wp-block-button__link {
+
+		@include button-ghost;
+	}
+}
+
+:where(.wp-block-button.is-style-light) {
+
+	.wp-block-button__link {
+
+		@include button-light;
+	}
+}
+
+// Native submits keep the theme.json `elements.button` fill. :where() above
+// cannot beat that; this selector is only the <button> case.
+.wp-block-button.is-style-light button.wp-block-button__link {
+
+	@include button-light;
+}
+
+:where(.wp-block-button.is-style-link) {
+
+	.wp-block-button__link {
+
+		@include button-link;
+	}
+
+	.wp-block-button__link.is-disabled,
+	.wp-block-button__link[aria-disabled="true"] {
+		opacity: 0.4;
+		pointer-events: none;
+		cursor: not-allowed;
+	}
+}
+
+// Contextual overrides using :where() to keep selector specificity low.
+// This avoids fighting editor/user color overrides while letting us set
+// intentional contrast behavior for known background contexts.
+:where(
+	.has-black-background-color,
+	.has-primary-background-color,
+	.has-body-background-color,
+	.has-secondary-background-color
+) {
+
+	:where(.wp-block-button.is-style-ghost) {
+
+		.wp-block-button__link {
+
+			@include button-ghost-on-dark-background;
+		}
+	}
+
+	:where(.wp-block-button.is-style-link) {
+
+		.wp-block-button__link {
+
+			@include button-link-on-dark-background;
+		}
+	}
+}
+
+:where(.has-primary-background-color) {
+
+	:where(.wp-block-button.is-style-primary) {
+
+		.wp-block-button__link {
+
+			@include button-primary-on-primary-background;
+		}
+	}
+}
+
+:where(
+	.has-black-background-color,
+	.has-body-background-color
+) {
+
+	:where(.wp-block-button.is-style-primary) {
+
+		.wp-block-button__link {
+
+			@include button-primary-on-dark-background;
+		}
+	}
+}
+
+:where(
+	.has-black-background-color,
+	.has-body-background-color,
+	.has-primary-background-color
+) {
+
+	:where(.wp-block-button.is-style-secondary) {
+
+		.wp-block-button__link {
+
+			@include button-secondary-on-dark-background;
+		}
+	}
+
+	:where(.wp-block-button.is-style-light) {
+
+		.wp-block-button__link {
+
+			@include button-light-on-dark-background;
+		}
+	}
+}
+
+:where(.has-secondary-background-color) {
+
+	:where(.wp-block-button.is-style-primary) {
+
+		.wp-block-button__link {
+
+			@include button-primary-on-secondary-background;
+		}
+	}
+
+	:where(.wp-block-button.is-style-secondary) {
+
+		.wp-block-button__link {
+
+			@include button-secondary-on-secondary-background;
+		}
+	}
+}
+
+:where(
+	.wp-block-buttons,
+	.wp-block-button
+) {
+
+	&:where(.has-small-font-size) {
+
+		.wp-block-button__link:not(.has-custom-font-size) {
+			padding: 10px 18px;
+		}
+
+	}
+}
+
+.is-inline-small-button {
+
+	.wp-block-button__link {
+		padding-top: 0.5rem !important;
+		padding-bottom: 0.5rem !important;
+	}
+}

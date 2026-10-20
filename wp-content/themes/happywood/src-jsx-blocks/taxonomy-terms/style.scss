@@ -1,0 +1,53 @@
+@use "../../src/sass/tools" as *;
+
+// Available tokens (unset here — fallbacks below are theme defaults):
+// --hw-taxonomy-terms--gap
+// --hw-taxonomy-terms--term-color
+// --hw-taxonomy-terms--term-background
+// --hw-taxonomy-terms--term-padding-y
+// --hw-taxonomy-terms--term-padding-x
+// --hw-taxonomy-terms--term-font-family
+// --hw-taxonomy-terms--term-font-size
+// --hw-taxonomy-terms--term-font-weight
+// --hw-taxonomy-terms--term-line-height
+// --hw-taxonomy-terms--term-letter-spacing
+// --hw-taxonomy-terms--term-text-transform
+// --hw-taxonomy-terms--term-border-width
+// --hw-taxonomy-terms--term-border-style
+// --hw-taxonomy-terms--term-border-color
+// --hw-taxonomy-terms--term-border-radius
+
+.wp-block-happywood-taxonomy-terms {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--hw-taxonomy-terms--gap, #{$spacing-x-small});
+	margin: 0;
+
+	.hw-taxonomy-terms__term {
+		background-color: var(--hw-taxonomy-terms--term-background, #{$color-primary});
+		border-color: var(--hw-taxonomy-terms--term-border-color, transparent);
+		border-radius: var(--hw-taxonomy-terms--term-border-radius, 0);
+		border-style: var(--hw-taxonomy-terms--term-border-style, solid);
+		border-width: var(--hw-taxonomy-terms--term-border-width, 0);
+		box-sizing: border-box;
+		color: var(--hw-taxonomy-terms--term-color, #{$color-white});
+		display: inline-block;
+		font-family: var(--hw-taxonomy-terms--term-font-family, #{$font-primary});
+		font-size: var(--hw-taxonomy-terms--term-font-size, #{$font-size-x-small});
+		font-style: normal;
+		font-weight: var(--hw-taxonomy-terms--term-font-weight, #{$font-weight-semi-bold});
+		letter-spacing: var(--hw-taxonomy-terms--term-letter-spacing, 0.04em);
+		line-height: var(--hw-taxonomy-terms--term-line-height, 1.2);
+		margin: 0;
+		padding:
+			var(--hw-taxonomy-terms--term-padding-y, #{$spacing-tag-y})
+			var(--hw-taxonomy-terms--term-padding-x, #{$spacing-x-small});
+		text-decoration: none;
+		text-transform: var(--hw-taxonomy-terms--term-text-transform, uppercase);
+
+		&:focus-visible {
+			outline: 2px solid $color-primary;
+			outline-offset: 2px;
+		}
+	}
+}

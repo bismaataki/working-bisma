@@ -74,7 +74,7 @@ Either would silently render tofu once the glyph is gone.
 
 ## Literal glyphs, not escape sequences
 
-Where codepoints *do* go through Sass — the `$sk-icon-codepoints` map in
+Where codepoints *do* go through Sass — the `$hw-icon-codepoints` map in
 `src/sass/icon-font/_variables.scss` — each entry stores a **literal Unicode
 character**, not a `"\eXXX"` escape string. This is load-bearing, for reason 3
 above: literal characters survive minification, escapes get emptied.
@@ -96,9 +96,9 @@ Prefix every icon class with the project prefix. A previous generic `has-icon`
 class collided with third-party plugin CSS.
 
 ```
-sk-has-icon                     on the button wrapper when an icon is set
-sk-icon-left / sk-icon-right    position
-sk-icon-{slug}                  the specific glyph
+hw-has-icon                     on the button wrapper when an icon is set
+hw-icon-left / hw-icon-right    position
+hw-icon-{slug}                  the specific glyph
 ```
 
 ## Sass mixin API
@@ -108,12 +108,12 @@ plugin's own selector:
 
 ```scss
 // icon + label treatment: inline-flex, gap, correct pseudo-element
-.add_to_cart_button { @include sk-icon-button( 'shopping-cart' ); }
-.next-button        { @include sk-icon-button( 'arrow-right', right ); }
+.add_to_cart_button { @include hw-icon-button( 'shopping-cart' ); }
+.next-button        { @include hw-icon-button( 'arrow-right', right ); }
 
 // bare pseudo-element, no layout changes
-.some-selector    { @include sk-icon-before( 'search' ); }
-.another-selector { @include sk-icon-after( 'chevron-down' ); }
+.some-selector    { @include hw-icon-before( 'search' ); }
+.another-selector { @include hw-icon-after( 'chevron-down' ); }
 ```
 
 These only add `font-family` and `content` — they rely on the `@font-face` being

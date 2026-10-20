@@ -1,0 +1,545 @@
+<?php
+/**
+ * PHP site header shell and logo/utility chrome.
+ *
+ * @package Happywood
+ */
+
+namespace Happywood;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( class_exists( 'Happywood\Site_Header' ) ) {
+	return;
+}
+
+/**
+ * Site header render pipeline, options access, and header-specific hooks.
+ *
+ * @package Happywood
+ */
+class Site_Header {
+
+	/**
+	 * @var self|null
+	 */
+	private static ?self $instance = null;
+
+	/**
+	 * Site_Header constructor.
+	 */
+	public function __construct() {
+
+		$this->register_hooks();
+	}
+
+	/**
+	 * @return self
+	 */
+	public static function get_instance(): self {
+
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Output the site header partial.
+	 */
+	public static function render(): void {
+
+		get_template_part( 'partials/site', 'header' );
+	}
+
+	/**
+	 * Register WordPress hooks.
+	 */
+	private function register_hooks(): void {
+
+		require_once get_theme_file_path( 'includes/header/bootstrap.php' );
+		require_once get_theme_file_path( 'includes/menu/happywood-lucide-icon-choices.php' );
+
+		add_filter( 'body_class', array( $this, 'filter_body_class' ) );
+	}
+
+	/**
+	 * Add header behaviour classes to the body element.
+	 *
+	 * @param string[] $classes Body classes.
+	 *
+	 * @return string[]
+	 */
+	public function filter_body_class( array $classes ): array {
+
+		if ( $this->hide_on_scroll_enabled() ) {
+			$classes[] = 'site-header--hide-on-scroll';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Read a header options field with graceful fallbacks when ACF is inactive.
+	 *
+	 * @param string $field_name ACF field name.
+	 * @param mixed  $default    Default when empty or ACF unavailable.
+	 *
+	 * @return mixed
+	 */
+	public function get_option( string $field_name, $default = '' ) {
+
+		if ( ! function_exists( 'get_field' ) ) {
+			return $default;
+		}
+
+		$value = get_field( $field_name, 'option' );
+
+		if ( null === $value || '' === $value || false === $value ) {
+			return $default;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Whether hide-on-scroll behaviour is enabled (default on).
+	 */
+	public function hide_on_scroll_enabled(): bool {
+
+		return $this->get_boolean_option( 'header_hide_on_scroll', true );
+	}
+
+	/**
+	 * Whether the desktop quotes utility widget should render.
+	 */
+	public function display_quotes_enabled(): bool {
+
+		return $this->get_boolean_option( 'header_display_quotes', true );
+	}
+
+	/**
+	 * Whether the mini cart should render in the header.
+	 */
+	public function display_cart_enabled(): bool {
+
+		return $this->get_boolean_option( 'header_display_cart', true );
+	}
+
+	/**
+	 * Lucide icon slug for the announcement bar.
+	 */
+	public function get_announcement_icon_slug(): string {
+
+		$slug = (string) $this->get_option( 'announcement_icon', 'truck' );
+		$slug = happywood_sanitize_lucide_icon_slug( $slug );
+
+		return $slug ?: 'truck';
+	}
+
+	/**
+	 * Read a boolean theme option with an explicit default.
+	 *
+	 * @param string $field_name ACF field name.
+	 * @param bool   $default    Default when unset or ACF unavailable.
+	 */
+	private function get_boolean_option( string $field_name, bool $default ): bool {
+
+		if ( ! function_exists( 'get_field' ) ) {
+			return $default;
+		}
+
+		$value = get_field( $field_name, 'option' );
+
+		if ( null === $value ) {
+			return $default;
+		}
+
+		return (bool) $value;
+	}
+
+	/**
+	 * Desktop header logo attachment ID.
+	 */
+	public function get_logo_id(): int {
+
+		return (int) $this->get_option( 'logo', 0 );
+	}
+
+	/**
+	 * Mobile header logo attachment ID with fallbacks.
+	 */
+	public function get_mobile_logo_id(): int {
+
+		$mobile_logo = (int) $this->get_option( 'logo_mobile', 0 );
+
+		if ( $mobile_logo ) {
+			return $mobile_logo;
+		}
+
+		return $this->get_logo_id();
+	}
+
+	/**
+	 * Compact mobile logo shown after the announcement bar scrolls away.
+	 */
+	public function get_mobile_sticky_logo_id(): int {
+
+		$sticky_logo = (int) $this->get_option( 'logo_mobile_sticky', 0 );
+
+		if ( $sticky_logo ) {
+			return $sticky_logo;
+		}
+
+		return $this->get_mobile_logo_id();
+	}
+
+	/**
+	 * Whether the mobile header should swap to the sticky logo asset.
+	 */
+	public function has_distinct_mobile_sticky_logo(): bool {
+
+		return $this->get_mobile_sticky_logo_id() !== $this->get_mobile_logo_id();
+	}
+
+	/**
+	 * Output a header logo link.
+	 *
+	 * @param int    $attachment_id Logo attachment ID.
+	 * @param string $modifier      BEM modifier for the logo link (desktop|mobile).
+	 * @param string $image_class   Optional extra class on the image element.
+	 */
+	public function render_logo_link( int $attachment_id, string $modifier = 'desktop', string $image_class = '' ): void {
+
+		$classes = 'site-header__logo site-header__logo--' . sanitize_html_class( $modifier );
+
+		if ( ! $attachment_id ) {
+			printf(
+				'<a class="%1$s site-header__logo--text" href="%2$s"><span class="site-header__site-title">%3$s</span></a>',
+				esc_attr( $classes ),
+				esc_url( home_url( '/' ) ),
+				esc_html( get_bloginfo( 'name', 'display' ) )
+			);
+			return;
+		}
+
+		$img_class = trim( 'site-header__logo-img ' . $image_class );
+		$attrs     = array(
+			'class'   => $img_class,
+			'alt'     => get_bloginfo( 'name', 'display' ),
+			'loading' => false,
+		);
+
+		printf(
+			'<a class="%1$s" href="%2$s" aria-label="%3$s">%4$s</a>',
+			esc_attr( $classes ),
+			esc_url( home_url( '/' ) ),
+			esc_attr__( 'Home', 'happywood' ),
+			wp_get_attachment_image( $attachment_id, 'medium', false, $attrs )
+		);
+	}
+
+	/**
+	 * Render the hardcoded mobile primary row (logo, phone, cart, menu).
+	 */
+	public function render_mobile_primary_row(): void {
+
+		// No fallback: an unconfigured number omits the link rather than dialling
+		// a previous project's switchboard.
+		$phone_number = $this->get_option( 'phone_number' );
+		$phone_href   = $this->get_phone_href( (string) $phone_number );
+		$mobile_logo  = $this->get_mobile_logo_id();
+		$sticky_logo  = $this->get_mobile_sticky_logo_id();
+		?>
+		<div class="site-header__mobile-logo">
+			<?php if ( $mobile_logo ) : ?>
+				<a class="site-header__logo site-header__logo--mobile" href="<?php echo esc_url( home_url( '/' ) ); ?>"
+					aria-label="<?php esc_attr_e( 'Home', 'happywood' ); ?>">
+					<?php
+					echo wp_get_attachment_image(
+						$mobile_logo,
+						'medium',
+						false,
+						array(
+							'class'   => 'site-header__logo-img site-header__logo-img--default',
+							'alt'     => get_bloginfo( 'name', 'display' ),
+							'loading' => false,
+						)
+					);
+
+					if ( $this->has_distinct_mobile_sticky_logo() ) {
+						echo wp_get_attachment_image(
+							$sticky_logo,
+							'medium',
+							false,
+							array(
+								'class'   => 'site-header__logo-img site-header__logo-img--sticky',
+								'alt'     => '',
+								'loading' => false,
+							)
+						);
+					}
+					?>
+				</a>
+			<?php else : ?>
+				<?php $this->render_logo_link( 0, 'mobile' ); ?>
+			<?php endif; ?>
+		</div>
+
+		<div class="site-header__mobile-actions">
+			<?php if ( $phone_href ) : ?>
+				<a class="site-header__mobile-phone" href="<?php echo esc_url( $phone_href ); ?>" aria-label="<?php echo esc_attr( $phone_number ); ?>">
+					<span class="site-header__mobile-phone-icon" aria-hidden="true"></span>
+				</a>
+			<?php endif; ?>
+
+			<?php $this->render_mini_cart( 'mobile' ); ?>
+
+			<button
+				class="site-header__menu-toggle"
+				type="button"
+				aria-expanded="false"
+				aria-controls="happywood-mobile-drawer"
+				aria-label="<?php esc_attr_e( 'Open menu', 'happywood' ); ?>"
+			>
+				<span class="site-header__menu-toggle-icon" aria-hidden="true"></span>
+			</button>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Sanitized tel: href from a display phone string.
+	 *
+	 * @param string $phone_number Display phone number.
+	 */
+	public function get_phone_href( string $phone_number ): string {
+
+		$digits = preg_replace( '/[^\d+]/', '', $phone_number );
+
+		return $digits ? 'tel:' . $digits : '';
+	}
+
+	/**
+	 * Whether YITH Request a Quote mini widget is available.
+	 */
+	public function is_request_quote_available(): bool {
+
+		return shortcode_exists( 'yith_ywraq_mini_widget_quote' );
+	}
+
+	/**
+	 * YITH Request a Quote mini widget (desktop utilities only).
+	 */
+	public function render_request_quote_widget(): void {
+
+		if ( ! $this->display_quotes_enabled() || ! $this->is_request_quote_available() || ! function_exists( 'do_blocks' ) ) {
+			return;
+		}
+
+		$block = <<<'BLOCK'
+<!-- wp:yith/yith-ywraq-mini-widget-quote {"title":"Quotes"} -->
+[yith_ywraq_mini_widget_quote title="Quotes" item_name="item" item_plural_name="items" button_label="View list" show_title_inside="true" show_thumbnail="true" show_price="true" show_quantity="true" show_variations="true"]
+<!-- /wp:yith/yith-ywraq-mini-widget-quote -->
+BLOCK;
+
+		?>
+		<div class="site-header__utility-widget site-header__utility-widget--quotes">
+			<div class="site-header__utility-widget-control">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block/shortcode output is escaped by plugins.
+				echo do_shortcode( do_blocks( $block ) );
+				?>
+			</div>
+			<?php
+			$this->render_utility_label_link(
+				$this->get_quotes_page_url(),
+				__( 'Quotes', 'happywood' )
+			);
+			?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * WooCommerce Mini Cart block.
+	 *
+	 * @param string $context `desktop` shows a label under the icon; `mobile` is icon-only.
+	 */
+	public function render_mini_cart( string $context = 'desktop' ): void {
+
+		if ( ! $this->display_cart_enabled() || ! function_exists( 'do_blocks' ) || ! function_exists( 'WC' ) ) {
+			return;
+		}
+
+		$is_desktop = 'desktop' === $context;
+		$classes    = 'site-header__utility-widget site-header__utility-widget--cart';
+
+		if ( ! $is_desktop ) {
+			$classes .= ' site-header__utility-widget--mobile';
+		}
+
+		?>
+		<div class="<?php echo esc_attr( $classes ); ?>">
+			<div class="site-header__utility-widget-control">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block output is escaped by core.
+				echo do_blocks( '<!-- wp:woocommerce/mini-cart {"productCountVisibility":"always"} /-->' );
+				?>
+			</div>
+			<?php if ( $is_desktop ) : ?>
+				<?php
+				$this->render_utility_label_link(
+					function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '',
+					__( 'Cart', 'happywood' )
+				);
+				?>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Request a Quote page URL from YITH, or empty.
+	 */
+	private function get_quotes_page_url(): string {
+
+		if ( ! class_exists( 'YITH_Request_Quote' ) ) {
+			return '';
+		}
+
+		$url = YITH_Request_Quote()->get_raq_page_url();
+
+		return is_string( $url ) ? $url : '';
+	}
+
+	/**
+	 * Desktop label under a Quotes/Cart icon, as a skip-tab link.
+	 *
+	 * The icon stays the keyboard target. The label is for pointer users.
+	 *
+	 * @param string $url   Destination, or empty to render a non-link label.
+	 * @param string $label Visible text.
+	 */
+	private function render_utility_label_link( string $url, string $label ): void {
+
+		if ( '' === $url ) {
+			echo '<span class="site-header__utility-label">';
+			echo '<span class="site-header__menu-label site-header__menu-label--desktop">';
+			echo esc_html( $label );
+			echo '</span></span>';
+
+			return;
+		}
+
+		printf(
+			'<a class="site-header__utility-label" href="%s" tabindex="-1">',
+			esc_url( $url )
+		);
+		echo '<span class="site-header__menu-label site-header__menu-label--desktop">';
+		echo esc_html( $label );
+		echo '</span></a>';
+	}
+
+	/**
+	 * Shared wp_nav_menu() args for header menus.
+	 *
+	 * @param string $context desktop-nav|mobile-drawer.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function get_nav_menu_args( string $context = 'desktop-nav' ): array {
+
+		return array(
+			'container'              => false,
+			'fallback_cb'            => false,
+			'walker'                 => new Primary_Walker(),
+			'happywood_menu_context' => $context,
+		);
+	}
+
+	/**
+	 * Render primary navigation in the desktop nav row.
+	 */
+	public function render_primary_nav(): void {
+
+		if ( ! has_nav_menu( HAPPYWOOD_MENU_PRIMARY ) ) {
+			return;
+		}
+
+		wp_nav_menu(
+			array_merge(
+				$this->get_nav_menu_args( 'desktop-nav' ),
+				array(
+					'theme_location' => HAPPYWOOD_MENU_PRIMARY,
+					'menu_class'     => 'site-header__nav-list',
+				)
+			)
+		);
+	}
+
+	/**
+	 * Render primary navigation inside the mobile drawer.
+	 */
+	public function render_mobile_primary_nav(): void {
+
+		if ( ! has_nav_menu( HAPPYWOOD_MENU_PRIMARY ) ) {
+			return;
+		}
+
+		wp_nav_menu(
+			array_merge(
+				$this->get_nav_menu_args( 'mobile-drawer' ),
+				array(
+					'theme_location' => HAPPYWOOD_MENU_PRIMARY,
+					'menu_class'     => 'site-header__mobile-drawer-list',
+				)
+			)
+		);
+	}
+
+	/**
+	 * Render utility navigation in the desktop utility cluster.
+	 */
+	public function render_utility_nav(): void {
+
+		if ( ! has_nav_menu( HAPPYWOOD_MENU_UTILITY ) ) {
+			return;
+		}
+
+		wp_nav_menu(
+			array_merge(
+				$this->get_nav_menu_args( 'desktop-nav' ),
+				array(
+					'theme_location' => HAPPYWOOD_MENU_UTILITY,
+					'menu_class'     => 'site-header__utilities-list',
+					'depth'          => 1,
+				)
+			)
+		);
+	}
+
+	/**
+	 * Render utility navigation in the mobile drawer.
+	 */
+	public function render_mobile_utility_nav(): void {
+
+		if ( ! has_nav_menu( HAPPYWOOD_MENU_UTILITY ) ) {
+			return;
+		}
+
+		wp_nav_menu(
+			array_merge(
+				$this->get_nav_menu_args( 'mobile-drawer' ),
+				array(
+					'theme_location' => HAPPYWOOD_MENU_UTILITY,
+					'menu_class'     => 'site-header__mobile-drawer-list site-header__mobile-drawer-list--utility',
+					'depth'          => 1,
+				)
+			)
+		);
+	}
+}

@@ -1,0 +1,181 @@
+@use "../tools" as *;
+
+/* stylelint-disable @stylistic/max-line-length -- plugin API map; a table does not wrap. */
+
+/**
+ * Heroic Table of Contents — Happywood sidebar styling.
+ *
+ * Plugin CSS API (set on `.wp-block-ht-block-toc`, consumed by
+ * blocks.style.build.css):
+ *
+ * | Block attribute (isPost)   | CSS variable              | Plugin use                    |
+ * |----------------------------|---------------------------|-------------------------------|
+ * | activeBackgroundColor      | --kb-toc-primary          | Active link background        |
+ * | activeTextColor            | --kb-toc-text             | Active link text              |
+ * | (theme only)               | --kb-toc-primary-hover    | Active link hover background  |
+ * | hoverBackgroundColor       | --kb-toc-background-hover | Link hover background         |
+ * | hoverTextColor             | --kb-toc-text-hover       | Link / active hover text      |
+ * | fontSize + fontSizeUnit    | --kb-toc-font-size        | Link size                     |
+ * | titleFontSize + unit       | --kb-toc-title-font-size  | Title size                    |
+ * | titleColor                 | --kb-toc-title-color      | Title colour                  |
+ * | —                          | --htoc-sticky-top         | Sticky offset                 |
+ * | —                          | --htoc-z-index            | Stacking                      |
+ *
+ * Figma uses a left border accent instead of a filled active pill. Theme
+ * defaults map the active vars to tokens; we only neutralise
+ * --kb-toc-primary as a fill and reuse it as li.active border-left. Editor
+ * colour picks still override via inline style.
+ */
+/* stylelint-enable @stylistic/max-line-length */
+.wp-block-ht-block-toc {
+	// Scrollspy layout
+	--htoc-sticky-top: #{$spacing-large};
+	--htoc-z-index: 10;
+
+	// Typography defaults (block inline style overrides when set in editor)
+	--kb-toc-font-size: #{$font-size-small};
+	--kb-toc-title-font-size: #{$widget-title-font-size};
+	--kb-toc-title-color: #{$color-heading};
+
+	// Active state — maps to block activeBackgroundColor / activeTextColor
+	--kb-toc-primary: #{$color-secondary};
+	--kb-toc-text: #{$widget-title-color};
+	--kb-toc-primary-hover: transparent;
+
+	// Hover state — maps to block hoverBackgroundColor / hoverTextColor
+	--kb-toc-background-hover: transparent;
+	--kb-toc-text-hover: #{$color-heading};
+
+	@include breakpoint(large) {
+		--htoc-sticky-top: #{$header-sticky-offset-desktop};
+	}
+
+	// Sidebar column is sticky — avoid nested sticky on the block itself.
+	.hw-sidebar-aside &[data-htoc-scrollspy="true"] {
+		margin-bottom: 0;
+		margin-top: 0;
+		max-height: none;
+		overflow-y: visible;
+		position: static;
+		top: auto;
+	}
+
+	&.is-style-outline,
+	&.is-style-outline[data-htoc-scrollspy="true"] {
+		background-color: #{$color-white};
+		border: 2px solid #{$color-outline};
+		border-radius: 0;
+		margin-block: 0;
+		padding: #{$widget-padding-v} #{$widget-padding-h};
+	}
+
+	.htoc__title {
+		align-items: center;
+		border-bottom: 4px solid var(--kb-toc-primary);
+		display: flex;
+		font-family: #{$widget-title-font-family};
+		font-weight: #{$widget-title-font-weight};
+		justify-content: space-between;
+		line-height: #{$widget-title-line-height};
+		margin-bottom: #{$spacing-medium};
+		padding-bottom: #{$spacing-small};
+	}
+
+	.htoc__toggle {
+		background: #{$color-white};
+		border: 1px solid #{$color-outline};
+		border-radius: #{$border-radius-sm};
+		cursor: pointer;
+		flex-shrink: 0;
+		line-height: 1;
+		margin-left: #{$spacing-small};
+		padding: #{$spacing-xx-small};
+
+		svg g {
+			fill: #{$color-neutral};
+		}
+	}
+
+	.ht_toc_list,
+	.htoc__itemswrap ul,
+	.htoc__itemswrap ol {
+
+		color: #{$color-neutral};
+		list-style: none !important;
+		margin: 0 !important;
+		//padding: 0 0 0 #{$spacing-x-small} !important;
+
+		li {
+			margin-bottom: 0 !important;
+			border-left: 3px solid #{$color-outline};
+			padding-left: $spacing-x-small !important;
+		}
+	}
+
+	.ht_toc_item {
+		border-left: 3px solid transparent;
+		margin-bottom: #{$spacing-small} !important;
+
+		&:last-child {
+			margin-bottom: 0 !important;
+		}
+
+		&.active {
+			border-left-color: var(--kb-toc-primary);
+		}
+	}
+
+	// Layout only — colour / size / hover / active come from plugin + vars above.
+	.ht_toc_link,
+	.htoc__itemswrap a {
+
+		border-radius: 0;
+		display: block;
+		font-family: #{$font-primary};
+		line-height: #{$line-height-medium};
+		padding: 0.15em 0;
+		text-decoration: none;
+		transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+
+		&:focus-visible {
+			outline: 2px solid #{$color-primary};
+			outline-offset: 2px;
+		}
+	}
+
+
+	// Plugin paints --kb-toc-primary on li.active > a as background; keep text
+	// vars on the link.
+	&[data-htoc-scrollspy="true"] {
+
+		.ht_toc_list li a,
+		.htoc__itemswrap a {
+			padding: 0.15em 0;
+		}
+
+		.ht_toc_list li.active > a,
+		.ht_toc_list li ol li.active > a,
+		.ht_toc_list li ul li.active > a,
+		.htoc__itemswrap li.active > a {
+			background: transparent;
+		}
+
+		.ht_toc_list li.active > a:hover,
+		.ht_toc_list li ol li.active > a:hover,
+		.ht_toc_list li ul li.active > a:hover,
+		.htoc__itemswrap li.active > a:hover {
+			background: var(--kb-toc-primary-hover);
+		}
+
+		.ht_toc_list {
+
+			li.active {
+
+				> ul.ht_toc_list_sub {
+					margin-left: 0 !important;
+				}
+			}
+		}
+
+	}
+}

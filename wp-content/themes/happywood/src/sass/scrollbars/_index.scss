@@ -1,0 +1,6 @@
+@use "../tools" as *;
+
+.hw-scrollbar {
+
+	@include hw-scrollbar();
+}

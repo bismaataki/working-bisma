@@ -21,7 +21,7 @@ fall back to assigned-term order. Support both readers, because a fork may run
 either plugin:
 
 ```php
-function skaflow_get_primary_term_id_for_post( string $taxonomy_slug, int $post_id ): int {
+function happywood_get_primary_term_id_for_post( string $taxonomy_slug, int $post_id ): int {
 	if ( function_exists( 'yoast_get_primary_term_id' ) ) {
 		$term_id = (int) yoast_get_primary_term_id( $taxonomy_slug, $post_id );
 
@@ -37,7 +37,7 @@ function skaflow_get_primary_term_id_for_post( string $taxonomy_slug, int $post_
 ```
 
 `includes/taxonomy-terms-functions.php` is the live implementation, consumed by
-`skaflow_get_taxonomy_terms_for_post_limited()` and through it by the
+`happywood_get_taxonomy_terms_for_post_limited()` and through it by the
 `taxonomy-terms` and `post-card` blocks.
 
 Two properties to preserve:
@@ -57,8 +57,8 @@ queue-and-print pairs, both on `wp_footer` at priority 20:
 
 | Source | Queue | Printer |
 |---|---|---|
-| Product FAQ blocks | `skaflow_queue_faqpage_schema()` | `skaflow_print_faqpage_schema_json_ld()` |
-| FAQ archive / list blocks | `skaflow_queue_faq_archive_schema()` | `skaflow_print_faq_archive_schema_json_ld()` |
+| Product FAQ blocks | `happywood_queue_faqpage_schema()` | `happywood_print_faqpage_schema_json_ld()` |
+| FAQ archive / list blocks | `happywood_queue_faq_archive_schema()` | `happywood_print_faq_archive_schema_json_ld()` |
 
 The queue exists so repeated blocks on one page collapse into a single script
 rather than one per block. Keep that: adding a third emitter, or printing directly
@@ -74,7 +74,7 @@ archive block prints two scripts — a known limitation, not a licence to add mo
 ## When swapping the SEO plugin
 
 1. Add the new plugin's primary-term reader to
-   `skaflow_get_primary_term_id_for_post()`, keeping the existing branches.
+   `happywood_get_primary_term_id_for_post()`, keeping the existing branches.
 2. Check whether it emits FAQ schema, and if so disable one side.
 3. Update `PROJECT.md` § Stack and § Plugins.
 4. Verify with a real post that has a primary term set, not a fresh one.
@@ -82,7 +82,7 @@ archive block prints two scripts — a known limitation, not a licence to add mo
 ```bash
 cd <repo root>
 ddev wp post meta list <id> --keys=rank_math_primary_product_cat --format=json
-ddev wp eval 'echo skaflow_get_primary_term_id_for_post( "product_cat", <id> );'
+ddev wp eval 'echo happywood_get_primary_term_id_for_post( "product_cat", <id> );'
 ```
 
 ## Anti-patterns

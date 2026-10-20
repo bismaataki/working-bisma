@@ -1,10 +1,10 @@
 ---
-description: Skaflow's Lucide icon configuration — curated slug list, file map, and the procedure for adding or removing an icon across all surfaces
-globs: ["**/src/js-admin/lucide-icon-options.js", "**/src/js-admin/skaflow-icon-block-icons.js", "**/src/js-admin/register-custom-icons.js", "**/src/blocks-extension/extend-core-button/**", "**/src/blocks-extension/extend-core-list/**", "**/assets/css/button-icon-font.css", "**/src/sass/icon-font/**", "**/lib/class-lucide-icons.php", "**/src/sass-admin/_button-icon-picker.scss", "**/includes/menu/skaflow-lucide-icon-choices.php", "**/tools/generate-icon-surfaces.mjs"]
+description: Happywood's Lucide icon configuration — curated slug list, file map, and the procedure for adding or removing an icon across all surfaces
+globs: ["**/src/js-admin/lucide-icon-options.js", "**/src/js-admin/happywood-icon-block-icons.js", "**/src/js-admin/register-custom-icons.js", "**/src/blocks-extension/extend-core-button/**", "**/src/blocks-extension/extend-core-list/**", "**/assets/css/button-icon-font.css", "**/src/sass/icon-font/**", "**/lib/class-lucide-icons.php", "**/src/sass-admin/_button-icon-picker.scss", "**/includes/menu/happywood-lucide-icon-choices.php", "**/tools/generate-icon-surfaces.mjs"]
 alwaysApply: false
 ---
 
-# Lucide Icons — Skaflow Configuration
+# Lucide Icons — Happywood Configuration
 
 This project's icon set is **Lucide**, a curated subset matching Figma. The
 curated list is the one in `src/js-admin/lucide-icon-options.js`; read the count
@@ -14,7 +14,7 @@ first. This file is the configuration and the change procedure.
 
 ## Source of truth
 
-`src/js-admin/lucide-icon-options.js` → `SKAFLOW_LUCIDE_ICON_OPTIONS` is the
+`src/js-admin/lucide-icon-options.js` → `HAPPYWOOD_LUCIDE_ICON_OPTIONS` is the
 canonical slug/label list. **Four surfaces are generated from it** by
 `tools/generate-icon-surfaces.mjs` (`npm run build:icons`) — edit the list, run
 the script, never hand-edit the generated regions.
@@ -30,21 +30,21 @@ same run. Upstream ships ~2,000 glyphs in a 274KB woff2; the subset is ~15KB.
 | Generator | `tools/generate-icon-surfaces.mjs` | |
 | Icon font CSS (`@font-face` + `content`) | `assets/css/button-icon-font.css` — **static, outside the build** | generated |
 | Sass codepoint map | `src/sass/icon-font/_variables.scss` | generated |
-| Icon Block plugin data | `src/js-admin/skaflow-icon-block-icons.js` | generated |
-| Menu ACF choices + slug sanitiser | `includes/menu/skaflow-lucide-icon-choices.php` | generated |
+| Icon Block plugin data | `src/js-admin/happywood-icon-block-icons.js` | generated |
+| Menu ACF choices + slug sanitiser | `includes/menu/happywood-lucide-icon-choices.php` | generated |
 | Subset webfonts | `assets/fonts/lucide/lucide.woff2`, `.woff` | generated |
 | Sass mixins | `src/sass/icon-font/_mixins.scss` | |
-| PHP enqueue | `lib/class-lucide-icons.php` (`Skaflow\Lucide_Icons`), via `enqueue_block_assets` | |
+| PHP enqueue | `lib/class-lucide-icons.php` (`Happywood\Lucide_Icons`), via `enqueue_block_assets` | |
 | Button block editor UI | `src/blocks-extension/extend-core-button/button-icons.js` | |
 | Picker styling | `src/sass-admin/_button-icon-picker.scss` | |
 | Icon Block filter registration | `src/js-admin/register-custom-icons.js`, wired from `src/js-admin/index.js` | |
 
-Generated regions are delimited by `sk-icons:start` / `sk-icons:end` markers.
+Generated regions are delimited by `hw-icons:start` / `hw-icons:end` markers.
 Everything outside them — headers, `@font-face`, base rules, the sanitiser
 function — is hand-written and preserved across runs.
 
 Note the PHP choices file is a real surface, not a convenience copy:
-`skaflow_sanitize_lucide_icon_slug()` validates against it, so a slug missing
+`happywood_sanitize_lucide_icon_slug()` validates against it, so a slug missing
 there is **silently discarded on save** rather than rendering as a blank box.
 
 ## The webfonts are generated, never copied
@@ -75,25 +75,25 @@ globally — editor iframe and frontend.
 
 ## Button block attributes
 
-`src/blocks-extension/extend-core-button/button-icons.js` registers `skaflowIcon` and
-`skaflowIconPosition` on `core/button`, adds a `ComboboxControl` plus preview
-swatch in `InspectorControls`, and emits the `sk-*` classes into saved markup.
+`src/blocks-extension/extend-core-button/button-icons.js` registers `happywoodIcon` and
+`happywoodIconPosition` on `core/button`, adds a `ComboboxControl` plus preview
+swatch in `InspectorControls`, and emits the `hw-*` classes into saved markup.
 
-Classes: `sk-has-icon`, `sk-icon-left` / `sk-icon-right`, `sk-icon-{slug}`. Picker
-UI classes: `sk-icon-picker`, `sk-icon-picker__combobox`,
-`sk-icon-picker__preview`, `sk-icon-picker__preview-empty`,
-`sk-icon-picker__option`, `sk-icon-preview`.
+Classes: `hw-has-icon`, `hw-icon-left` / `hw-icon-right`, `hw-icon-{slug}`. Picker
+UI classes: `hw-icon-picker`, `hw-icon-picker__combobox`,
+`hw-icon-picker__preview`, `hw-icon-picker__preview-empty`,
+`hw-icon-picker__option`, `hw-icon-preview`.
 
 No backward compatibility is required for these class names.
 
 ## Icon Block plugin entries
 
-`skaflow-icon-block-icons.js` reshapes the same slugs for the plugin's
-`iconBlock.icons` filter (namespace `skaflow/icon-block-custom-icons`), adding a
-`"Skaflow"` icon category:
+`happywood-icon-block-icons.js` reshapes the same slugs for the plugin's
+`iconBlock.icons` filter (namespace `happywood/icon-block-custom-icons`), adding a
+`"Happywood"` icon category:
 
 ```js
-{ name, title, icon: '<raw SVG>', categories: [ 'skaflow' ], hasNoIconFill: true }
+{ name, title, icon: '<raw SVG>', categories: [ 'happywood' ], hasNoIconFill: true }
 ```
 
 SVG bodies come from `node_modules/lucide-static/icons/{slug}.svg` with `width`,
@@ -110,7 +110,7 @@ mask instead. `paper-plane` is the only one.
 
 ## Adding or removing an icon
 
-1. Edit `SKAFLOW_LUCIDE_ICON_OPTIONS` in `lucide-icon-options.js`.
+1. Edit `HAPPYWOOD_LUCIDE_ICON_OPTIONS` in `lucide-icon-options.js`.
 2. `npm run build:icons` — regenerates all four dependent surfaces and
    re-subsets the webfonts. It fails loudly on a duplicate slug, a slug that
    isn't in the font, or a missing SVG.
@@ -122,13 +122,13 @@ rg -o 'content:"[^"]*"' build/public.css | head
 ```
 
 Removing an icon is the same two steps. Check for existing references first —
-Sass `sk-icon-*` mixin calls, and menu ACF values already saved in the database,
+Sass `hw-icon-*` mixin calls, and menu ACF values already saved in the database,
 which the sanitiser will start discarding once the slug leaves the list.
 
 ## Design-source caveat
 
 Lucide component names in Figma are not always trustworthy: at the last sync,
-six variants in `Skaflow [MAIN] → Winning Design directions` were drawn with
+six variants in `Happywood [MAIN] → Winning Design directions` were drawn with
 different artwork than their layer name (`copy` was a clipboard-list, `layout` a
 briefcase, `send` a layers icon, `flame` a leaf, `trending-down` a trending-up,
 and `tool` a duplicate wrench). Render the node and look at it before trusting a

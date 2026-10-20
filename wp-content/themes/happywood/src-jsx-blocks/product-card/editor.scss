@@ -1,0 +1,14 @@
+// SSR preview — disable interactive card UI (swatches, QV, wishlist, add to
+// cart).
+.wp-block-happywood-product-card,
+.wp-block-happywood-product-card * {
+	pointer-events: none;
+}
+
+.wp-block-happywood-product-card {
+
+	> div:has(.wp-block-happywood-product-card) {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+}

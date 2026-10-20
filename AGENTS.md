@@ -11,8 +11,8 @@ Anything true of only one build belongs in `PROJECT.md` or `context/kb/`.
 
 Names below are concrete rather than templated. On a fork, the `rename-theme`
 skill substitutes them from `PROJECT.md`'s identity table — this file is part of
-its substitution set, so treat `skaflow` / `Skaflow\` / `skaflow_` /
-`sk-` here as placeholders that happen to be spelled out.
+its substitution set, so treat `happywood` / `Happywood\` / `happywood_` /
+`hw-` here as placeholders that happen to be spelled out.
 
 ## Layout
 
@@ -24,10 +24,10 @@ plugins installed before it will boot. `context/kb/go-live.md` has that sequence
 ```
 /                                WordPress core + wp-config (untracked)
 .ddev/config.yaml                dev environment — the only tracked .ddev file
-wp-content/themes/skaflow/    the theme — all development happens here
+wp-content/themes/happywood/    the theme — all development happens here
   includes/                      procedural code: timeless at root, capabilities in subdirectories
-  lib/                           Skaflow\ classes, one per file
-  public/                        Skaflow\ REST endpoint classes — nothing else
+  lib/                           Happywood\ classes, one per file
+  public/                        Happywood\ REST endpoint classes — nothing else
 context/                         research, plans, decisions
 .cursor/rules/                   scoped conventions (sf-* starter, project-* this build)
 .cursor/skills/                  on-demand procedures
@@ -69,12 +69,12 @@ when you want the locked tree exactly.
 **npm runs in the theme directory:**
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 npm run dev            # browser-sync + both watchers in parallel
 npm run build          # build:assets + build:blocks
 npm run build:assets   # every webpack entry in package.json → build/
 npm run build:blocks   # src-jsx-blocks/ → build-jsx-blocks/
-npm run create-zip     # skaflow.zip — packlist, not a hand-rolled archive
+npm run create-zip     # happywood.zip — packlist, not a hand-rolled archive
 tools/verify.sh        # the whole gate, in one command
 ```
 
@@ -121,7 +121,7 @@ delivery routes:
   `composer install --no-dev`.
 
 Bundled plugin zips in `lib/plugins-zip/` are included — they are not named
-`skaflow*.zip`. Companion plugins, when a project has them, are separate
+`happywood*.zip`. Companion plugins, when a project has them, are separate
 repositories and are deployed separately.
 
 **Audit the zip by reading the zip.** `npm pack --dry-run` does not agree with
@@ -131,9 +131,9 @@ about a release that is fine.
 
 ```bash
 npm run build && npm run create-zip
-unzip -l skaflow.zip | tail -1                      # file count
-unzip -l skaflow.zip | grep -c squizlabs            # expect 0
-unzip -l skaflow.zip | grep -c tgmpa                # expect non-zero
+unzip -l happywood.zip | tail -1                      # file count
+unzip -l happywood.zip | grep -c squizlabs            # expect 0
+unzip -l happywood.zip | grep -c tgmpa                # expect non-zero
 ```
 
 **Always the full script. Never a single-entry `wp-scripts` shortcut.**
@@ -170,7 +170,7 @@ ddev ssh                           # interactive shell in the web container
 it runs on the host whenever Composer is installed:
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 composer phpcs    # WPCS; must pass
 composer phpcbf   # only on files you are already touching
 ```
@@ -179,8 +179,8 @@ If `php` or `composer` is not on your PATH, run the same scripts through DDEV
 from the repo root:
 
 ```bash
-ddev composer -d wp-content/themes/skaflow phpcs
-ddev composer -d wp-content/themes/skaflow phpcbf
+ddev composer -d wp-content/themes/happywood phpcs
+ddev composer -d wp-content/themes/happywood phpcbf
 ```
 
 PHPCS prints one progress dot per parallel worker, not per file. A run ending
@@ -254,7 +254,7 @@ When a commit *is* requested:
 
 ## PHP architecture
 
-Theme classes use the `Skaflow\` namespace and live in `lib/class-{name}.php`:
+Theme classes use the `Happywood\` namespace and live in `lib/class-{name}.php`:
 
 - The file name must match the class name exactly. `composer.json` uses a
   `classmap` autoloader over `lib` and `public` — no PSR-4.
@@ -267,7 +267,7 @@ Theme classes use the `Skaflow\` namespace and live in `lib/class-{name}.php`:
 
 The one exception to `lib/`. HTTP endpoints live in
 `public/class-api-{concern}.php` and extend the abstract `Api` base class, which
-owns the `skaflow/v1` namespace, the `rest_api_init` wiring, and response
+owns the `happywood/v1` namespace, the `rest_api_init` wiring, and response
 shaping. A subclass declares routes in `register_routes()` and nothing else.
 
 `public/` holds endpoint classes and nothing else — not front-end rendering, not
@@ -344,7 +344,7 @@ into the block folder just because the copy flag exists.
 
 ### Programmatic buttons
 
-Use `skaflow_get_buttons_markup()` — never hand-roll
+Use `happywood_get_buttons_markup()` — never hand-roll
 `<div class="wp-block-button">` in PHP. The helper emits real `core/buttons`
 block comments and renders them through `do_blocks()`, so output matches the
 Site Editor: block styles, layout classes, icon classes. Reference
@@ -387,7 +387,7 @@ Two related rules that keep the starter portable:
   Ship the empty array and give the block a sensible default instead;
   `src-jsx-blocks/product-cat-swiper/` is the reference, where no selection
   means top-level categories. Tooling resolves the same way: menus come from
-  `skaflow_menu_setup_locations()` plus a lookup by theme location, never a
+  `happywood_menu_setup_locations()` plus a lookup by theme location, never a
   baked-in term ID. A hardcoded menu ID reads as "this menu is empty" on every
   install but the one it came from, which is not a failure anyone chases.
 - **Gravity Forms `formId` in patterns is the one exception.** The embed block
@@ -406,8 +406,8 @@ and guard the consumer, rather than defaulting to a previous project's value.
 Use the theme helpers, not `error_log()` or `var_dump()`:
 
 ```php
-skaflow_write_log( $thing );   // → wp-content/themes/skaflow/debug.log
-skaflow_dump( $thing );        // → <pre> in the response
+happywood_write_log( $thing );   // → wp-content/themes/happywood/debug.log
+happywood_dump( $thing );        // → <pre> in the response
 ```
 
 ## Build entry points

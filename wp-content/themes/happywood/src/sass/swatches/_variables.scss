@@ -1,0 +1,59 @@
+@use "../tools" as *;
+
+// Hardcoded grid swatch tokens — style 3 / dis-style 3 / size M / shape round.
+
+.hw-swatches-grid {
+	--hw-swatch-size: 28px;
+	--hw-swatch-text-size: 14px;
+	--hw-swatch-w: 1em;
+	--hw-swatch-h: 1em;
+	--hw-swatch-h-sp: 10px;
+	--hw-swatch-v-sp: 8px;
+	--hw-swatch-inn-sp: 2px;
+	--hw-swatch-brd-color: #{$color-outline};
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: start;
+	gap: var(--hw-swatch-v-sp) var(--hw-swatch-h-sp);
+	margin-top: $spacing-x-small;
+}
+
+.hw-product-swatches {
+	width: 100%;
+}
+
+.hw-wrapp-swatches {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+// Single-product variation form — larger absolute scale than grid (file 05).
+.hw-swatches-single {
+	--hw-swatch-size: 34px;
+	--hw-swatch-text-size: 16px;
+	--hw-swatch-w: 1em;
+	--hw-swatch-h: 1em;
+	--hw-swatch-h-sp: 15px;
+	--hw-swatch-v-sp: 10px;
+	--hw-swatch-inn-sp: 2px;
+	--hw-swatch-brd-color: #{$color-outline};
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--hw-swatch-v-sp) var(--hw-swatch-h-sp);
+	//margin-bottom: $spacing-x-small;
+
+	+ select {
+		display: none !important;
+	}
+}
+
+.woocommerce table.variations tr td {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $block-gap;
+}

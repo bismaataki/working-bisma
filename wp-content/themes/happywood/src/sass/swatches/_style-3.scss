@@ -1,0 +1,53 @@
+@use "../tools" as *;
+
+// Active style 3 — plain 1px border, gray-500 on hover/active.
+.hw-swatches--style-3 {
+
+	.hw-swatch--bg,
+	.hw-swatch--text {
+		border: 1px solid var(--hw-swatch-brd-color);
+	}
+
+	.hw-swatch--bg {
+		padding: var(--hw-swatch-inn-sp);
+	}
+
+	.hw-swatch--text .hw-swatch__text {
+		font-size: calc(var(--hw-swatch-text-size) - 2px);
+	}
+
+	@media (hover: hover) {
+
+		.hw-swatch--bg:hover:not(.hw-swatch--out-of-stock),
+		.hw-swatch--text:hover:not(.hw-swatch--out-of-stock) {
+			--hw-swatch-brd-color: #{$color-neutral};
+		}
+	}
+
+	.hw-swatch--active.hw-swatch--bg,
+	.hw-swatch--active.hw-swatch--text {
+		--hw-swatch-brd-color: #{$color-neutral};
+	}
+}
+
+// Disabled style 3 — 40% opacity + single gray diagonal line.
+.hw-swatches--dis-style-3 {
+
+	.hw-swatch--out-of-stock {
+		opacity: 0.4;
+		cursor: default;
+		--hw-swatch-brd-color: #{$color-neutral};
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--hw-swatch-brd-color) 50%, transparent calc(50% + 1px));
+			opacity: 1;
+			transition: opacity 0.2s ease;
+			z-index: 2;
+			pointer-events: none;
+		}
+	}
+}

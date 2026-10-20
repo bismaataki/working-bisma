@@ -1,0 +1,20 @@
+@use "../../src/sass/tools" as *;
+
+.hw-delivery-estimate-editor {
+
+	.hw-delivery-estimate__fields {
+		padding: $spacing-medium;
+	}
+
+	.hw-delivery-estimate__input,
+	.hw-delivery-estimate__submit {
+		pointer-events: none;
+	}
+
+	&__note {
+		margin: $spacing-x-small 0 0;
+		color: $color-neutral;
+		font-size: $font-size-x-small;
+		font-style: italic;
+	}
+}

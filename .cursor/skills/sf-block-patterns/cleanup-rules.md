@@ -11,8 +11,8 @@ in a pattern file.
   `patternName` left over from inserting a sub-pattern.
 
 ```
-<!-- wp:group {"tagName":"section","metadata":{"name":"Split — Features","patternName":"skaflow/section-split-features"},...} -->   ← root, keep
-<!-- wp:group {"metadata":{"categories":["skaflow"],"patternName":"skaflow/info-box-bar-navy","name":"Info Box"},...} -->        ← inner, strip
+<!-- wp:group {"tagName":"section","metadata":{"name":"Split — Features","patternName":"happywood/section-split-features"},...} -->   ← root, keep
+<!-- wp:group {"metadata":{"categories":["happywood"],"patternName":"happywood/info-box-bar-navy","name":"Info Box"},...} -->        ← inner, strip
 ```
 
 ## 2. Root group uses `tagName:"section"`
@@ -45,7 +45,7 @@ When a section contains an already-named sub-pattern, reference it — never
 duplicate its markup:
 
 ```
-<!-- wp:pattern {"slug":"skaflow/info-box-bar-navy"} /-->
+<!-- wp:pattern {"slug":"happywood/info-box-bar-navy"} /-->
 ```
 
 Check `patterns/` for an existing slug before inlining block markup. Note this is

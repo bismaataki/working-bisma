@@ -1,0 +1,611 @@
+@use "../tools" as *;
+
+$hw-filters-panel-width: 32rem;
+$hw-filters-sidebar-width: 20rem; // ~400px desktop push sidebar
+$hw-filters-overlay-z: 99999;
+$hw-filters-panel-z: 100000;
+$hw-filters-transition: transform 0.4s ease, opacity 0.4s ease;
+$hw-filters-layout-transition: grid-template-columns 0.35s ease;
+
+// Mobile vertical drawer overlays only (desktop vertical uses in-flow push
+// sidebar).
+html.hw-filters-vertical-open::before,
+html.hw-filters-swapping::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: $hw-filters-overlay-z;
+	background: rgb(0 0 0 / 45%);
+	pointer-events: auto;
+}
+
+
+.hw-product-filters:not(.hw-shop-archive-layout) {
+	position: relative;
+	margin-block: $spacing-small $spacing-medium;
+
+	&.is-loading {
+
+		.hw-product-filters__bar,
+		.hw-active-filters {
+			opacity: 0.7;
+			pointer-events: none;
+		}
+	}
+}
+
+// Horizontal scroll row for filter bar buttons.
+// core/buttons layout attrs add WP-generated classes such as
+// `.wp-container-core-buttons-is-layout-{hash}` — a stable hash for the
+// block's flex layout preset, not theme-authored CSS.
+.hw-product-filters__bar-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding-bottom: $spacing-x-small;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-gutter: stable;
+
+	// Scope all bar button layout here so WP layout classes cannot shrink
+	// buttons to ~1 character width (vertical letter stacking).
+	.wp-block-buttons,
+	.hw-product-filters__bar-buttons {
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: stretch;
+		gap: $spacing-x-small;
+		width: max-content;
+		max-width: none;
+		margin: 0;
+
+		> .wp-block-button {
+			flex: 0 0 auto;
+			width: auto;
+			max-width: none;
+			margin: 0;
+			align-items: center;
+		}
+	}
+
+	.hw-product-filters__bar-button.wp-block-button__link {
+		white-space: nowrap;
+		gap: $spacing-x-small;
+		padding-block: $spacing-xx-small;
+		padding-inline: $spacing-x-small $spacing-x-small;
+		font-size: $font-size-small;
+
+		@include hw-icon-after("chevron-down");
+
+		&::after {
+			margin-inline-start: auto;
+			font-size: 0.875em;
+			opacity: 0.85;
+		}
+
+		// Selections active — same fill as is-style-light :hover (button-light
+		// mixin).
+		&.hw-product-filters__bar-button--applied {
+			background-color: $color-background;
+		}
+	}
+
+	.hw-product-filters__bar-button.wp-block-button__link.is-active {
+		background-color: $color-background;
+		border-color: $color-body;
+		color: $color-body;
+
+		&:hover,
+		&:focus {
+			border-color: $color-body;
+			color: $color-body;
+		}
+	}
+}
+
+.hw-product-filters__chrome {
+	display: flex;
+	flex-direction: column;
+}
+
+// Chrome active-filters slot — always in DOM; collapses when empty to reduce
+// layout jump.
+.hw-active-filters--chrome {
+	display: grid;
+	grid-template-rows: 0fr;
+	margin: 0;
+	transition: grid-template-rows 0.25s ease, margin-block 0.25s ease;
+	pointer-events: none;
+	visibility: hidden;
+
+	&:not(.is-empty) {
+		grid-template-rows: 1fr;
+		margin-block: $spacing-x-small $spacing-small;
+		pointer-events: auto;
+		visibility: visible;
+	}
+
+	.hw-active-filters__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: $spacing-x-small $spacing-small;
+		overflow: hidden;
+		min-height: 0;
+
+		.wp-block-button__link {
+			background-color: $color-background !important;
+		}
+
+	}
+}
+
+.hw-active-filters {
+
+	&--panel {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: $spacing-x-small $spacing-small;
+		flex: 0 0 auto;
+		margin: 0;
+		padding: $spacing-small $spacing-large;
+		border-bottom: 1px solid $color-outline;
+
+		@include breakpoint(medium) {
+			display: none;
+		}
+	}
+}
+
+// Legacy/shared rules for non-chrome, non-panel chip rows (if any).
+.hw-active-filters:not(.hw-active-filters--chrome):not(.hw-active-filters--panel) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: $spacing-x-small $spacing-small;
+	margin-block: $spacing-x-small $spacing-small;
+}
+
+.hw-active-filters__label {
+	flex: 0 0 auto;
+	margin: 0;
+	font-size: $font-size-small;
+	font-weight: 600;
+	line-height: 1.2;
+	color: $color-neutral;
+}
+
+.hw-active-filters__chips {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	gap: $spacing-x-small;
+	margin: 0;
+	width: auto;
+	max-width: none;
+
+	> .wp-block-button {
+		flex: 0 0 auto;
+		width: auto;
+		max-width: none;
+		margin: 0;
+	}
+
+	.hw-active-filters__chip.wp-block-button__link {
+		gap: $spacing-xxx-small;
+		padding-block: $spacing-xxx-small;
+		padding-inline: $spacing-x-small;
+		font-size: $font-size-x-small;
+		line-height: 1.2;
+		text-transform: unset;
+		background-color: $color-outline;
+
+		&::before,
+		&::after {
+			font-size: 0.875em;
+		}
+	}
+}
+
+.hw-active-filters__clear {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: $color-body;
+	//text-decoration: underline;
+	cursor: pointer;
+	font: inherit;
+	font-size: $font-size-small;
+	font-weight: 600;
+
+	&:hover {
+		color: $color-secondary;
+	}
+}
+
+// Drawer shell — mirrors Quick View drawer pattern (panel portaled to body in
+// JS).
+.hw-filters-panel {
+	position: fixed;
+	inset: 0;
+	z-index: $hw-filters-panel-z;
+	pointer-events: none;
+
+	&.is-open {
+		pointer-events: auto;
+	}
+
+	&--vertical.is-open .hw-filters-panel__backdrop {
+		background: transparent;
+	}
+
+	&__backdrop {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: rgb(0 0 0 / 45%);
+		opacity: 0;
+	}
+
+	&.is-open &__backdrop {
+		opacity: 1;
+	}
+
+	&__inner {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		width: min(100%, $hw-filters-panel-width);
+		height: 100%;
+		background: $color-white;
+		box-shadow: 0 12px 40px rgb(0 0 0 / 18%);
+		outline: none;
+		overflow: hidden;
+		transform: translateX(100%);
+		transition: $hw-filters-transition;
+	}
+
+	&.is-open &__inner {
+		transform: translateX(0);
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex: 0 0 auto;
+		gap: $spacing-small;
+		padding: $spacing-medium $spacing-large;
+		border-bottom: 1px solid $color-outline;
+	}
+
+	&__header-actions {
+		display: inline-flex;
+		align-items: center;
+		gap: $spacing-x-small;
+		flex-shrink: 0;
+	}
+
+	&__accordion-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		padding: 0;
+		border: 1px solid $color-outline;
+		border-radius: $radius-sm;
+		background: $color-white;
+		color: $color-body;
+		cursor: pointer;
+	}
+
+	&__accordion-toggle-icon {
+
+		@include hw-icon-before("chevron-down");
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.2s ease;
+	}
+
+	&__accordion-toggle.is-all-expanded &__accordion-toggle-icon::before {
+		transform: rotate(180deg);
+	}
+
+	&__title {
+		margin: 0;
+		font-weight: 600;
+	}
+
+	&__close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		padding: 0;
+		border: 0;
+		border-radius: $radius-sm;
+		background: rgb(255 255 255 / 92%);
+		color: $color-body;
+		font-size: 1.5rem;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	&__sections {
+		flex: 1 1 auto;
+		overflow: auto;
+		padding: 0 $spacing-large $spacing-large;
+	}
+}
+
+.hw-filters-panel--horizontal {
+
+	.hw-filters-panel__inner {
+		top: auto;
+		right: auto;
+		left: 0;
+		width: 100%;
+		height: auto;
+		max-height: min(70vh, 40rem);
+		transform: translateY(-0.5rem);
+		opacity: 0;
+	}
+
+	&.is-open .hw-filters-panel__inner {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.hw-filter-section {
+	padding-block: 0;
+	border-bottom: 1px solid $color-outline;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	&__heading {
+		margin: 0;
+		//font-weight: 600;
+
+	}
+
+	&__title {
+		margin: 0;
+		font-weight: 500;
+
+	}
+}
+
+.hw-filter-accordion {
+
+	&__trigger {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: $spacing-small;
+		width: 100%;
+		padding: $spacing-xx-small 0;
+		border: 0;
+		background: transparent;
+		color: $color-body;
+		cursor: pointer;
+		font: inherit;
+		text-align: left;
+	}
+
+	&__icon {
+
+		@include hw-icon-before("chevron-down");
+		display: inline-flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.2s ease;
+	}
+
+	&.is-accordion-open {
+
+		.hw-filter-section__title {
+			color: $color-primary;
+		}
+
+		.hw-filter-accordion__icon::before {
+			transform: rotate(180deg);
+		}
+	}
+
+	&__body {
+		padding-bottom: $spacing-medium;
+	}
+}
+
+.hw-filter-card__terms {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	max-height: 225px;
+	overflow: auto;
+
+	&--swatches {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		align-content: flex-start;
+		gap: var(--hw-swatch-v-sp, 8px) var(--hw-swatch-h-sp, 10px);
+		max-height: 225px;
+		overflow: auto;
+		padding-right: $spacing-xxx-small;
+	}
+}
+
+.hw-filter-card__term {
+	margin: 0;
+}
+
+.hw-filter-term {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: $spacing-small;
+	width: 100%;
+	padding: $spacing-xxx-small 0;
+	border: 0;
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+	font: inherit;
+	color: $color-neutral;
+	font-size: $font-size-small;
+
+
+	&.is-active {
+
+		.hw-filter-term__label {
+			font-weight: 500;
+		}
+
+		.hw-filter-term__count {
+			background-color: $color-outline;
+			//color: $color-surface;
+		}
+	}
+
+}
+
+.hw-filter-term__label {
+	flex: 1 1 auto;
+}
+
+.hw-filter-term__count {
+	flex: 0 0 auto;
+	min-width: 1.75rem;
+	padding: 0.125rem $spacing-xxx-small;
+	border-radius: 999px;
+	border: 1px solid $color-surface;
+	//background: $color-outline;
+	//color: inherit;
+	//font-size: 0.8125rem;
+	line-height: 1.2;
+	text-align: center;
+}
+
+.hw-filter-card__terms--swatches {
+
+	.hw-filter-term,
+	.hw-swatch {
+		flex: 0 0 auto;
+	}
+}
+
+.hw-filter-price {
+	display: grid;
+	gap: $spacing-small;
+
+	&__inputs {
+		display: flex;
+		align-items: center;
+		gap: $spacing-x-small;
+	}
+
+	&__field {
+		flex: 1 1 0;
+	}
+
+	&__input {
+		width: 100%;
+	}
+
+	&__apply {
+		justify-self: start;
+	}
+}
+
+html.hw-filters-open {
+	overflow: hidden;
+}
+
+@include breakpoint(medium) {
+	// Desktop vertical push — in-flow panel beside the grid (sidebar in grid
+	// band).
+	.hw-shop-archive-layout:has(.hw-filters-panel--vertical) {
+
+		.hw-filters-panel--vertical {
+			position: static;
+			inset: auto;
+			z-index: auto;
+			height: auto;
+			pointer-events: auto;
+
+			.hw-filters-panel__backdrop {
+				display: none;
+			}
+
+			.hw-filters-panel__inner {
+				position: relative;
+				top: auto;
+				right: auto;
+				left: auto;
+				width: 100%;
+				height: auto;
+				max-height: none;
+				min-height: 0;
+				transform: none;
+				box-shadow: none;
+				border: 1px solid $color-outline;
+				border-radius: $radius-sm;
+				transition: none;
+				overflow: visible;
+			}
+
+			.hw-filters-panel__sections {
+				flex: none;
+				overflow: visible;
+			}
+
+			&.is-open .hw-filters-panel__inner {
+				transform: none;
+			}
+		}
+
+		.hw-shop-archive-sidebar {
+			overflow: visible;
+		}
+	}
+
+	.hw-filters-panel--horizontal {
+		position: absolute;
+		inset: auto;
+		top: 100%;
+		left: 0;
+		right: 0;
+		z-index: 30;
+		height: auto;
+		pointer-events: none;
+
+		&.is-open {
+			pointer-events: auto;
+		}
+
+		.hw-filters-panel__backdrop {
+			display: none;
+		}
+
+		.hw-filters-panel__inner {
+			position: relative;
+			width: 100%;
+			height: auto;
+			max-height: min(70vh, 40rem);
+			box-shadow: 0 12px 32px rgb(0 0 0 / 12%);
+		}
+	}
+}

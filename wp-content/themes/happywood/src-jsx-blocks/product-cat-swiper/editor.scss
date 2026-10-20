@@ -1,0 +1,97 @@
+@use "../../src/sass/tools" as *;
+
+// Block-scoped editor preview — mirrors storefront card markup without Swiper
+// JS.
+.wp-block-happywood-product-cat-swiper,
+.hw-product-cat-swiper-editor {
+	--hw-category-swiper-slide-width: 6.25rem;
+	--hw-category-swiper-scrollbar-gap: #{$spacing-medium};
+
+	&__hint {
+		color: $color-neutral;
+		font-size: $font-size-small;
+		margin: 0;
+		text-align: center;
+	}
+
+	&__searching {
+		align-items: center;
+		color: $color-neutral;
+		display: flex;
+		font-size: $font-size-small;
+		gap: $spacing-x-small;
+		margin: $spacing-x-small 0 0;
+	}
+
+	.hw-category-swiper__flex-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: $spacing-small;
+	}
+
+	&.is-style-card {
+		--hw-category-swiper-slide-width: min(100%, 17.5rem);
+	}
+
+	.hw-category-swiper__slide {
+		flex: 0 0 auto;
+		width: var(--hw-category-swiper-slide-width);
+	}
+
+	.hw-category-swiper__card {
+		color: inherit;
+		display: flex;
+		flex-direction: column;
+		gap: $spacing-xx-small;
+		height: 100%;
+		pointer-events: none;
+		text-decoration: none;
+
+		&:not(.hw-category-swiper__card--no-label) {
+			padding-bottom: var(--hw-category-swiper-scrollbar-gap);
+		}
+	}
+
+	.hw-category-swiper__media {
+		align-items: center;
+		aspect-ratio: 1;
+		background-color: $color-white;
+		display: flex;
+		justify-content: center;
+		overflow: hidden;
+		padding: $spacing-xx-small;
+	}
+
+	.hw-category-swiper__image {
+		display: block;
+		height: auto;
+		max-height: 100%;
+		max-width: 100%;
+		object-fit: contain;
+		width: 100%;
+
+		&--placeholder {
+			height: 100%;
+			object-fit: contain;
+			opacity: 0.45;
+			width: 100%;
+		}
+	}
+
+	.hw-category-swiper__label {
+		display: block;
+		font-size: $font-size-small;
+		font-weight: $font-weight-semi-bold;
+		line-height: 1.3;
+		text-align: center;
+	}
+
+	.swiper-wrapper {
+		display: flex;
+		gap: 12px;
+	}
+
+	&:not(.is-style-card) .hw-category-swiper__nav {
+		display: none;
+	}
+}

@@ -18,7 +18,7 @@
 wp-content/*
 !wp-content/themes/
 wp-content/themes/*
-!wp-content/themes/skaflow/
+!wp-content/themes/happywood/
 wp-content/themes/*/node_modules
 
 #ignore Project Specific plugins

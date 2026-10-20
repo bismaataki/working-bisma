@@ -16,9 +16,9 @@ in this skill, not by a formatter.
 <?php
 /**
  * Title: Human-readable name
- * Slug: skaflow/slug-here
+ * Slug: happywood/slug-here
  * Description: One sentence describing the pattern and its style.
- * Categories: section, skaflow
+ * Categories: section, happywood
  * Keywords: keyword1, keyword2
  */
 ?>
@@ -141,10 +141,10 @@ Confirm it registered and that the PHP executed. **Take the slug from the file's
 derived slug reports `NOT REGISTERED` for a pattern that is registered fine:
 
 ```bash
-rg -n 'Slug:' wp-content/themes/skaflow/patterns/<file>.php
+rg -n 'Slug:' wp-content/themes/happywood/patterns/<file>.php
 
 cd <repo root>
-ddev wp eval '$p = WP_Block_Patterns_Registry::get_instance()->get_registered( "skaflow/{slug}" );
+ddev wp eval '$p = WP_Block_Patterns_Registry::get_instance()->get_registered( "happywood/{slug}" );
   echo $p ? "registered\n" : "NOT REGISTERED\n";
   echo $p["content"];' | rg '<\?php|"ref"|"id":[0-9]'
 ```

@@ -1,0 +1,107 @@
+@use "sass:map";
+@use "../tools" as *;
+
+$hw-columns-sidebar-aside-width: var(--hw-columns-sidebar-aside-width, 24.25rem);
+$hw-columns-sidebar-gap: var(--hw-columns-sidebar-gap, #{$block-gap});
+
+// core/columns — Reverse on mobile
+// Optional toggle (Happywood layout panel). Flips stacked column order below
+// the large breakpoint.
+
+.wp-block-columns.hw-columns-reverse-on-mobile {
+
+	@include breakpoint-max(large) {
+		flex-direction: column-reverse;
+	}
+}
+
+// core/columns — Stack on tablet
+// When the "Stack on tablet" toggle is on, columns stay vertically stacked
+// up to the large breakpoint (1024px), overriding WP's default 782px switch.
+
+.wp-block-columns.is-stacked-on-tablet {
+
+	@media (max-width: #{map.get($breakpoints, large) - 1px}) {
+		flex-wrap: wrap;
+
+		> .wp-block-column {
+			flex-basis: 100% !important;
+			max-width: 100% !important;
+			width: stretch;
+		}
+	}
+}
+
+// core/columns — Sidebar layouts
+// Block styles: Has Left Sidebar / Has Right Sidebar.
+// Uses CSS grid at large+; stacks on smaller viewports.
+// Track sizing: fixed sidebar width + fluid main column.
+// Do NOT wrap var() inside minmax() — browsers treat it as invalid and drop
+// the whole grid-template-columns declaration.
+
+.wp-block-columns.is-layout-flex {
+
+	&.is-style-has-sidebar-left,
+	&.is-style-has-sidebar-right {
+		min-width: 0;
+
+		@include breakpoint-max(large) {
+			display: flex;
+			flex-wrap: wrap !important;
+
+			> .wp-block-column {
+				flex-basis: 100% !important;
+				max-width: 100% !important;
+				width: 100% !important;
+			}
+		}
+
+		@include breakpoint(large) {
+			display: grid !important;
+			gap: $hw-columns-sidebar-gap;
+			flex-wrap: nowrap !important;
+
+			> .wp-block-column {
+				flex: none !important;
+				flex-basis: auto !important;
+				flex-grow: 0 !important;
+				width: auto !important;
+				max-width: none !important;
+				min-width: 0;
+			}
+
+			> .wp-block-column.hw-sidebar-aside {
+				align-self: start;
+				position: sticky;
+				top: $header-sticky-offset-desktop;
+				z-index: 1;
+
+				body.admin-bar & {
+					top: $header-sticky-offset-desktop-with-admin-bar;
+				}
+			}
+		}
+	}
+
+	&.is-style-has-sidebar-left {
+
+		@include breakpoint(large) {
+			grid-template-columns: $hw-columns-sidebar-aside-width minmax(0, 1fr);
+		}
+	}
+
+	&.is-style-has-sidebar-right {
+
+		@include breakpoint(large) {
+			grid-template-columns: minmax(0, 1fr) $hw-columns-sidebar-aside-width;
+		}
+	}
+}
+
+// core/column — Bordered
+// Low-specificity defaults so block spacing/border controls can override.
+
+:where(.wp-block-column.is-style-bordered) {
+	border: 2px solid $color-outline;
+	padding: $spacing-x-large;
+}

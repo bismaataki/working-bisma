@@ -1,0 +1,32 @@
+@use "../tools" as *;
+
+.wp-site-blocks {
+
+	> main {
+
+		> .wp-block-template-part:not(:has(.hw-shop-archive-shell)) {
+			max-width: $grid-container-wide;
+		}
+	}
+}
+
+
+body.blog {
+
+	.wp-block-post-template-is-layout-grid {
+
+		@include breakpoint-min-max(wp-small, large) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+}
+
+.is-style-bordered {
+
+	@include isStyleBordered;
+}
+
+.has-grid-padding {
+
+	@include hasLayoutPadding;
+}

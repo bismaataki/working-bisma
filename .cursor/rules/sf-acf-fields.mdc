@@ -6,7 +6,7 @@ alwaysApply: false
 
 # ACF Fields
 
-`Skaflow\Acf` (`lib/class-acf.php`) owns the integration. There is **no manual
+`Happywood\Acf` (`lib/class-acf.php`) owns the integration. There is **no manual
 PHP field registration** — every JSON file in `acf-json/` is loaded
 automatically, and field groups appear wherever their location rules say.
 
@@ -97,9 +97,9 @@ native WooCommerce hooks instead. See `.cursor/rules/sf-commerce.mdc`.
 ## Debugging
 
 ```php
-skaflow_write_log( get_fields() );
-skaflow_dump( get_field( 'field_name' ) );
-skaflow_write_log( acf_get_field_groups() );
+happywood_write_log( get_fields() );
+happywood_dump( get_field( 'field_name' ) );
+happywood_write_log( acf_get_field_groups() );
 ```
 
 When fields don't appear: check the location rules first, then that the group is

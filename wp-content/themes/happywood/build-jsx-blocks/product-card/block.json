@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "happywood/product-card",
+  "version": "1.0.0",
+  "title": "Happywood Product Card",
+  "category": "woocommerce",
+  "description": "Canonical Happywood product card, renders the shared product-card template part for each item in a Product Collection loop.",
+  "keywords": [
+    "woocommerce",
+    "product",
+    "card",
+    "grid",
+    "collection"
+  ],
+  "textdomain": "happywood",
+  "ancestor": [
+    "woocommerce/product-template"
+  ],
+  "usesContext": [
+    "postId",
+    "postType",
+    "query",
+    "queryId",
+    "displayLayout"
+  ],
+  "attributes": {
+    "titleTag": {
+      "type": "string",
+      "default": "h2",
+      "enum": [
+        "h2",
+        "h3"
+      ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "reusable": false,
+    "lock": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

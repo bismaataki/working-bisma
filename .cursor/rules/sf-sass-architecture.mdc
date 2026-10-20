@@ -145,7 +145,7 @@ the two values to diverge. Check `PROJECT.md` § Known debt.
 - BEM for class names, kebab-case for files and directories
 - Partials are `_name.scss`; directory entry points are `_index.scss`
 - Keep selectors flat; avoid deep nesting
-- Prefix custom classes with the project prefix (`sk-`) so third-party plugin CSS
+- Prefix custom classes with the project prefix (`hw-`) so third-party plugin CSS
   cannot collide. Generic names like `.has-icon` or `.mobile-menu` have collided
   with plugin and commercial-theme styles before.
 - Pair `:hover` with `:focus-visible` on anything interactive. Never remove an
@@ -159,7 +159,7 @@ asking for markup changes:
 
 ```scss
 .add_to_cart_button {
-	@include sk-icon-button( 'shopping-cart' );
+	@include hw-icon-button( 'shopping-cart' );
 }
 ```
 

@@ -1,0 +1,7 @@
+@use "../settings" as *;
+
+$hw-scrollbar-size: 6px;
+$hw-scrollbar-radius: $radius-sm;
+$hw-scrollbar-track: transparent;
+$hw-scrollbar-thumb: $color-outline;
+$hw-scrollbar-thumb-hover: $color-neutral;

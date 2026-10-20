@@ -1,0 +1,74 @@
+@use "../../tools" as *;
+
+// Matches `.is-style-text-price` (textStylePrice mixin).
+.wp-block-woocommerce-product-price,
+.wc-block-components-product-price {
+	text-align: left;
+}
+
+.wc-block-components-product-price {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: $spacing-xx-small $spacing-x-small;
+	font-size: 22px;
+	margin: 0;
+}
+
+.wc-block-components-product-price del,
+.woocommerce-variation-price del {
+	display: inline-flex !important;
+	order: 2;
+	color: $color-neutral;
+	font-family: $font-primary;
+	font-size: 0.75em;
+	font-weight: $font-weight-medium;
+	line-height: 1.4;
+	text-decoration: line-through;
+
+	.woocommerce-Price-amount {
+		color: inherit;
+		font: inherit;
+	}
+}
+
+.wc-block-components-product-price ins,
+.woocommerce-Price-amount {
+
+	@include textStylePrice;
+
+	.wp-block-happywood-product-card &,
+	.hw-quick-view__content &, {
+		font-size: clamp(20px, 1.356rem + ((1vw - 3.2px) * 0.357), 24px);
+	}
+
+	order: 0;
+	text-decoration: none;
+	color: $color-body;
+}
+
+.hw-product-card__save {
+	order: 3;
+	font-family: $font-primary;
+	font-size: $font-size-x-small;
+	font-weight: $font-weight-bold;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: $color-secondary;
+}
+
+.wp-block-woocommerce-product-price[data-is-descendent-of-single-product-template] {
+
+	.woocommerce-Price-amount {
+		font-size: $font-size-xxx-large;
+
+	}
+
+	del {
+
+		.woocommerce-Price-amount {
+			font-size: $font-size-x-large;
+		}
+	}
+}

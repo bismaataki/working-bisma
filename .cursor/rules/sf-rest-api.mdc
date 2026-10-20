@@ -9,7 +9,7 @@ alwaysApply: false
 Every HTTP endpoint the theme exposes is a class in `public/class-api-{concern}.php`
 extending the abstract `Api` base. There is no second way to do this: no
 `register_rest_route()` at file scope in an `includes/` function file, no
-`admin-ajax.php` handler, no route namespace other than `skaflow/v1`.
+`admin-ajax.php` handler, no route namespace other than `happywood/v1`.
 
 The procedural pattern — routes as `includes/**/rest-api/*.php` files pulled in by
 `require_once` — **was removed on 2026-08-17.** If you find a plan or comment
@@ -21,13 +21,13 @@ capability that owned those files.
 ```php
 <?php
 
-namespace Skaflow;
+namespace Happywood;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( class_exists( 'Skaflow\Api_Thing' ) ) {
+if ( class_exists( 'Happywood\Api_Thing' ) ) {
 	return;
 }
 
@@ -66,10 +66,10 @@ class Api_Thing extends Api {
 
 | Member | Does |
 |---|---|
-| `Api::REST_NAMESPACE` | `skaflow/v1`, defined once |
+| `Api::REST_NAMESPACE` | `happywood/v1`, defined once |
 | `route( $route, $args )` | `register_rest_route()` inside that namespace |
 | `respond( $data, $status = 200 )` | `WP_REST_Response` |
-| `error( $code, $message, $status = 400 )` | `WP_Error` with a `skaflow_`-prefixed code |
+| `error( $code, $message, $status = 400 )` | `WP_Error` with a `happywood_`-prefixed code |
 | `is_available()` | Availability gate, returns `true` unless overridden |
 
 Add to the base only what more than one endpoint needs. One endpoint's helper is a
@@ -135,7 +135,7 @@ owns the route, the swap, and the output buffer; the functions are what
 Take the URL from the localized config — never rebuild it from
 `window.location.origin`, which breaks on subdirectory installs and non-pretty
 permalinks. `Front::get_localize_script_data()` publishes both the URLs and a
-`wp_rest` nonce on `window.Skaflow_Public`.
+`wp_rest` nonce on `window.Happywood_Public`.
 
 ```js
 const response = await fetch( config.wishlistToggleUrl, {
@@ -160,7 +160,7 @@ request as anonymous and `is_user_logged_in()` returns false. Handle `401` as
 cd <repo root>
 ddev wp eval 'do_action( "rest_api_init" );
   foreach ( array_keys( rest_get_server()->get_routes() ) as $r ) {
-    if ( false !== strpos( $r, "skaflow" ) ) { echo $r . "\n"; }
+    if ( false !== strpos( $r, "happywood" ) ) { echo $r . "\n"; }
   }'
 ```
 

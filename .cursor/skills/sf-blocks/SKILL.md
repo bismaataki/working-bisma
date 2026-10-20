@@ -33,7 +33,7 @@ A static block's `save.js` returns markup. A dynamic block's `save.js` returns
 ## Step 2 — scaffold
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 mkdir src-jsx-blocks/my-block
 ```
 
@@ -49,7 +49,7 @@ mkdir src-jsx-blocks/my-block
 
 ACF blocks need `block.json`, `render.php`, and `index.php`.
 
-Name the block `skaflow/{name}` in `block.json`, matching the directory.
+Name the block `happywood/{name}` in `block.json`, matching the directory.
 
 ## Step 3 — where block PHP goes
 
@@ -93,7 +93,7 @@ npm run build:blocks     # or npm run build
 Then confirm registration:
 
 ```bash
-ddev wp eval 'foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $n => $b ) { if ( str_starts_with( $n, "skaflow/" ) ) echo "$n\n"; }'
+ddev wp eval 'foreach ( WP_Block_Type_Registry::get_instance()->get_all_registered() as $n => $b ) { if ( str_starts_with( $n, "happywood/" ) ) echo "$n\n"; }'
 ```
 
 ## Plugin-dependent blocks
@@ -116,7 +116,7 @@ requiring WooCommerce still registers on a site without it. Guard inside
 
 - Functional components with hooks; no class components
 - `@wordpress/components` and `@wordpress/block-editor` over hand-rolled UI
-- Wrap user-facing strings in `@wordpress/i18n` with the `skaflow` text domain
+- Wrap user-facing strings in `@wordpress/i18n` with the `happywood` text domain
 - Escape all output in `render.php`
 
 ## Related

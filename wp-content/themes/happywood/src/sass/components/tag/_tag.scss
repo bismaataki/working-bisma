@@ -1,0 +1,27 @@
+@use "../../tools" as *;
+
+:where(.hw-tag) {
+
+	@include hw-tag-base;
+	@include hw-tag-variant-colors("sale");
+}
+
+:where(.hw-tag--best) {
+
+	@include hw-tag-variant-colors("best");
+}
+
+:where(.hw-tag--stock) {
+
+	@include hw-tag-variant-colors("stock");
+}
+
+:where(.hw-tag--sale) {
+
+	@include hw-tag-variant-colors("sale");
+}
+
+:where(.hw-tag--new) {
+
+	@include hw-tag-variant-colors("new");
+}

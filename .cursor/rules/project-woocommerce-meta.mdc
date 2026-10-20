@@ -1,10 +1,10 @@
 ---
-description: Skaflow legacy WooCommerce meta keys and storage formats inherited from Woodmart/JetEngine — read-compatible contracts, never renamed
+description: Happywood legacy WooCommerce meta keys and storage formats inherited from Woodmart/JetEngine — read-compatible contracts, never renamed
 globs: ["**/lib/class-woocommerce*.php", "**/lib/class-product-swatches.php", "**/lib/class-attribute-swatch-preview-column.php", "**/includes/woocommerce/**", "**/acf-json/group_product_*.json", "**/acf-json/group_pa_*.json"]
 alwaysApply: false
 ---
 
-# WooCommerce Meta — Skaflow Contracts
+# WooCommerce Meta — Happywood Contracts
 
 Conventions are in `.cursor/rules/sf-commerce.mdc`. This file is the data
 contract for this specific store.

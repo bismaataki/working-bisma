@@ -19,12 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_filter( 'plugin_hook_name', 'skaflow_plugin_integration' );
+add_filter( 'plugin_hook_name', 'happywood_plugin_integration' );
 
 /**
  * Describe what this changes and why.
  */
-function skaflow_plugin_integration( $value ) {
+function happywood_plugin_integration( $value ) {
 	// ...
 	return $value;
 }
@@ -41,7 +41,7 @@ if ( ! function_exists( 'plugin_function' ) ) {
 }
 ```
 
-For anything stateful, use a `Skaflow\` class in `lib/` instead, guarded in the
+For anything stateful, use a `Happywood\` class in `lib/` instead, guarded in the
 constructor. See `.cursor/skills/sf-php-class/`.
 
 **Never** put plugin-specific code in `includes/helper-functions.php`. That file
@@ -67,9 +67,9 @@ plugin is active on the current project.
 ### Yoast SEO — suppress breadcrumbs on the home page
 
 ```php
-add_filter( 'wpseo_breadcrumb_output', 'skaflow_no_breadcrumbs_for_home_page' );
+add_filter( 'wpseo_breadcrumb_output', 'happywood_no_breadcrumbs_for_home_page' );
 
-function skaflow_no_breadcrumbs_for_home_page( $output ) {
+function happywood_no_breadcrumbs_for_home_page( $output ) {
 	return is_front_page() ? '' : $output;
 }
 ```
@@ -95,8 +95,8 @@ directories rather than a single filter:
 ## Plugin requirements
 
 Required and recommended plugins are declared through TGMPA in
-`lib/class-plugins-manager.php`, filterable via `skaflow_tgmpa_plugins` and
-`skaflow_tgmpa_config`. Add a plugin there if the theme genuinely depends on
+`lib/class-plugins-manager.php`, filterable via `happywood_tgmpa_plugins` and
+`happywood_tgmpa_config`. Add a plugin there if the theme genuinely depends on
 it — not for an optional enhancement.
 
 ## Related

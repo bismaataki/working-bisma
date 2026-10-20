@@ -13,7 +13,7 @@ build:
 ```bash
 cd <repo root>
 HOST=$( ddev wp eval 'echo wp_parse_url( home_url(), PHP_URL_HOST );' )
-cd wp-content/themes/skaflow/patterns
+cd wp-content/themes/happywood/patterns
 
 rg -n "$HOST|localhost|/wp-content/uploads/" *.php   # local URLs
 rg -n '"ref"|wp:block |wp:navigation' *.php          # database entity references
@@ -83,8 +83,8 @@ identical in the markup. IDs hide **nested inside attribute objects**, which is 
 the grep looks for `"id":` generally rather than for a guessed attribute name:
 
 ```
-<!-- wp:skaflow/example-swiper {"terms":[{"id":12,"name":"Some Category"},{"id":34,"name":"Another"}]} /-->
-<!-- wp:skaflow/example-widget {"fallbackItems":[{"id":56,"title":"Some Post"}]} /-->
+<!-- wp:happywood/example-swiper {"terms":[{"id":12,"name":"Some Category"},{"id":34,"name":"Another"}]} /-->
+<!-- wp:happywood/example-widget {"fallbackItems":[{"id":56,"title":"Some Post"}]} /-->
 ```
 
 Some theme blocks are *designed* around a curated selection: the ID is the content,
@@ -157,7 +157,7 @@ Fine, because they don't depend on request context:
 
 ```php
 <?php echo esc_url( get_theme_file_uri( 'assets/images/chair.jpg' ) ); ?>
-<?php esc_html_e( 'Read More', 'skaflow' ); ?>
+<?php esc_html_e( 'Read More', 'happywood' ); ?>
 <?php echo esc_url( home_url( '/contact/' ) ); ?>
 ```
 
@@ -184,13 +184,13 @@ which break *silently* for screen-reader users when the ID they point at is
 duplicated.
 
 ```html
-<div id="sk-feature-list">   ← ambiguous the moment the pattern appears twice
+<div id="hw-feature-list">   ← ambiguous the moment the pattern appears twice
 ```
 
 Blocks that need an instance ID generate it at render time, in `render.php`:
 
 ```php
-'instance_id' => 'sk-<block-name>-' . wp_unique_id(),
+'instance_id' => 'hw-<block-name>-' . wp_unique_id(),
 ```
 
 Find the current examples to copy from:

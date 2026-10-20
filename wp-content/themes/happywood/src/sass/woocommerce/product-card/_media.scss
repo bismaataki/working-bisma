@@ -1,0 +1,47 @@
+@use "../../tools" as *;
+
+.wc-block-product {
+
+	.hw-card-media,
+	.wc-block-components-product-image,
+	.wp-block-woocommerce-product-image {
+		position: relative;
+	}
+
+	.hw-card-media .wp-block-woocommerce-product-image,
+	.hw-card-media .wc-block-components-product-image {
+		margin: 0;
+	}
+
+	.wc-block-components-product-image img {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	// Figma — SALE flush top-left on the image (Products Cards with Badges).
+	.wp-block-woocommerce-product-sale-badge {
+		position: absolute;
+		top: $spacing-x-small;
+		left: $spacing-x-small;
+		right: auto;
+		z-index: 2;
+		display: block;
+		width: auto;
+		margin: 0;
+	}
+
+	.wc-block-components-product-sale-badge,
+	.wc-block-components-product-image .wc-block-components-product-sale-badge {
+		position: static;
+		margin: 0;
+	}
+
+	// Classic loop flash has no block wrapper.
+	.hw-card-media > .wc-block-components-product-image > .wc-block-components-product-sale-badge:first-child {
+		position: absolute;
+		top: $spacing-x-small;
+		left: $spacing-x-small;
+	}
+}

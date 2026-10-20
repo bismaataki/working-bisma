@@ -1,0 +1,437 @@
+@use "../tools" as *;
+
+// Cart tiles and the two popups they open.
+// Markup: src/cart.js
+// Field chrome comes from WooCommerce's block components, same as
+// `_checkout-questions.scss`. This file is layout and the theme chrome
+// around those fields: tiles, dialog, address card, rate / quote boxes.
+// Do not restyle WooCommerce inputs, radios, or the confirm button.
+
+.hw-cart-chooser {
+	background: $color-white;
+	border: 1px solid $color-outline;
+	margin-block-end: var(--wp--preset--spacing--small);
+
+	&__header {
+		border-bottom: 1px solid $color-outline;
+		padding: var(--wp--preset--spacing--x-small) var(--wp--preset--spacing--small);
+	}
+
+	&__title {
+		color: $color-heading;
+		font-family: $font-secondary;
+		font-size: $font-size-medium;
+		font-weight: $font-weight-bold;
+		margin: 0;
+	}
+
+	&__tiles {
+		display: grid;
+		gap: var(--wp--preset--spacing--x-small);
+		grid-template-columns: 1fr;
+		padding: var(--wp--preset--spacing--small);
+
+		@include breakpoint(medium) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+}
+
+.hw-cart-tile {
+	align-items: center;
+	background: $color-white;
+	border: 1px solid $color-outline;
+	color: $color-body;
+	cursor: pointer;
+	display: flex;
+	gap: $spacing-x-small;
+	padding: var(--wp--preset--spacing--x-small);
+	text-align: left;
+	transition: border-color $transition;
+
+	&--active {
+		border-color: $color-primary;
+		box-shadow: inset 0 0 0 1px $color-primary;
+	}
+
+	&__icon {
+		color: $color-primary;
+		flex: 0 0 auto;
+		font-size: 1.5rem;
+		line-height: 1;
+	}
+
+	&__body {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		gap: 0.125rem;
+		min-width: 0;
+	}
+
+	&__title {
+		color: $color-heading;
+		font-weight: $font-weight-bold;
+	}
+
+	&__meta {
+		font-size: $font-size-x-small;
+	}
+
+	&__meta-label {
+		color: $color-heading;
+		font-weight: $font-weight-semi-bold;
+	}
+
+	&__meta-value {
+		color: $color-neutral;
+	}
+}
+
+.hw-cart-popup {
+	background: $color-white;
+	border: 1px solid $color-outline;
+	border-radius: 0;
+	box-shadow: $shadow-md;
+	max-width: 36rem;
+	padding: $grid-container-padding-left;
+	width: calc(100vw - 2rem);
+
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.4);
+	}
+
+	&__inner {
+
+		> div:not(.hw-cart-popup__header),
+		> fieldset {
+			margin-block-start: $spacing-medium;
+		}
+	}
+
+	&__header {
+		align-items: flex-start;
+		display: flex;
+		gap: $spacing-x-small;
+		justify-content: space-between;
+		margin-block-end: $spacing-x-small;
+		padding-bottom: $spacing-x-small;
+		border-bottom: 1px solid $color-outline;
+
+		.wc-block-components-title {
+			border-bottom: 0;
+			color: $color-heading;
+			font-family: $font-secondary;
+			font-size: $font-size-large;
+			font-weight: $font-weight-bold;
+			margin: 0;
+		}
+	}
+
+	&__fields {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin-block-end: var(--wp--preset--spacing--x-small);
+	}
+
+	&__select {
+		display: block;
+		width: 100%;
+	}
+
+	&__location,
+	&__error {
+		font-size: $font-size-x-small;
+		margin-block: $spacing-xxx-small;
+	}
+
+	.hw-checkout-question {
+		margin-bottom: 0;
+	}
+
+	.wc-block-components-button:not(.is-link) {
+		padding-top: $spacing-xx-small;
+		padding-bottom: $spacing-xx-small;
+	}
+
+	.wc-block-components-radio-control-accordion-content {
+		padding: 0 $spacing-medium $spacing-medium;
+
+		.hw-checkout-question {
+			margin-block-start: $spacing-small;
+		}
+	}
+
+	.hw-checkout-questions__row {
+		margin-block-end: $spacing-medium;
+		display: grid;
+		gap: $spacing-medium;
+		grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	}
+
+	.wc-block-components-radio-control__input {
+		left: $spacing-x-small;
+	}
+
+	.hw-cart-location {
+		align-items: flex-start;
+		color: $color-body;
+		display: flex;
+		font-size: $font-size-x-small;
+		font-weight: $font-weight-regular;
+		gap: $spacing-xxx-small;
+		margin-block: $spacing-x-small;
+	}
+
+	.hw-cart-location__icon {
+		color: $color-primary;
+		flex: 0 0 auto;
+		font-size: 1rem;
+		line-height: 1.4;
+	}
+
+	.hw-cart-location__body {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		gap: 0.125rem;
+		min-width: 0;
+	}
+
+	.hw-cart-location__address,
+	.hw-cart-location__details {
+		margin: 0;
+		overflow-wrap: anywhere;
+	}
+
+	&__error {
+		color: var(--wc-red, #cc1818);
+	}
+
+	&__actions {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--wp--preset--spacing--x-small);
+		justify-content: flex-end;
+		margin-block-start: var(--wp--preset--spacing--small);
+
+		.hw-cart-popup__back {
+			margin-inline-end: auto;
+		}
+
+		@include breakpoint-max(medium) {
+
+			.wc-block-components-button {
+				flex: 1 1 100%;
+			}
+		}
+	}
+
+	&__back,
+	&__close {
+		align-items: center;
+		background: transparent;
+		border: 0;
+		color: $color-body;
+		cursor: pointer;
+		display: inline-flex;
+		flex: 0 0 auto;
+		gap: 0.25rem;
+		line-height: 1;
+		padding: 0;
+	}
+
+	&__close {
+		color: $color-heading;
+
+		.hw-icon-preview {
+			font-size: 1.25rem;
+		}
+	}
+
+	&__back .hw-icon-preview {
+		font-size: 1rem;
+	}
+}
+
+.hw-cart-address-card {
+	align-items: flex-start;
+	border: 1px solid $color-outline;
+	border-radius: $radius-sm;
+	display: flex;
+	gap: $spacing-x-small;
+	margin-block-end: $spacing-x-small;
+	padding: 1rem;
+
+	&--editing {
+		display: block;
+	}
+
+	&__toolbar {
+		align-items: flex-start;
+		display: flex;
+		gap: $spacing-x-small;
+		justify-content: space-between;
+		margin-block-end: $spacing-small;
+
+		.wc-block-components-title {
+			border: 0;
+			margin: 0;
+			padding: 0;
+		}
+
+		.hw-cart-address-card__edit {
+			margin-block-end: 0;
+			margin-inline-start: auto;
+		}
+	}
+
+	&__icon {
+		color: $color-primary;
+		flex: 0 0 auto;
+		font-size: 1rem;
+		line-height: 1.4;
+	}
+
+	&__line {
+		flex: 1 1 auto;
+		font-size: $font-size-x-small;
+		margin: 0;
+		min-width: 0;
+		overflow-wrap: anywhere;
+	}
+
+	&--editing &__edit {
+		display: block;
+		margin-block-end: $spacing-xxx-small;
+		margin-inline-start: auto;
+	}
+
+	&__edit,
+	&__add {
+		background: transparent;
+		border: 0;
+		color: inherit;
+		cursor: pointer;
+		flex: 0 0 auto;
+		font-family: $font-primary;
+		padding: 0;
+		text-decoration: none;
+		line-height: 1.4;
+
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+
+	&__add {
+		display: block;
+		margin-block: $spacing-xxx-small;
+		text-align: left;
+	}
+}
+
+.hw-cart-estimate {
+	align-items: flex-start;
+	border: 1px solid $color-outline;
+	//border-radius: $radius-sm;
+	display: flex;
+	font-size: $font-size-x-small;
+	gap: $spacing-x-small;
+	margin-block: $spacing-x-small;
+	padding: $spacing-x-small;
+	background-color: $color-background;
+
+	&--priced {
+		border-color: $color-primary;
+	}
+
+	&__price {
+		font-size: $font-size-large;
+		grid-column-start: 2;
+	}
+
+	&--unpriced,
+	&--notice {
+		background: $color-background;
+	}
+
+	&--notice {
+		background: $color-white;
+	}
+
+	&__mark {
+		background: $color-primary;
+		border: 2px solid $color-primary;
+		border-radius: $border-radius-full;
+		box-shadow: inset 0 0 0 3px $color-white;
+		flex: 0 0 auto;
+		height: 1.125rem;
+		margin-block-start: 0.125rem;
+		width: 1.125rem;
+	}
+
+	&__icon {
+
+		@include hw-icon-before("package");
+
+		color: $color-primary;
+		display: inline-flex;
+		flex: 0 0 auto;
+		font-size: $font-size-medium;
+		line-height: 1;
+	}
+
+	&--location-unknown &__icon {
+
+		@include hw-icon-before("map-pin");
+	}
+
+	&--notice &__icon {
+
+		@include hw-icon-before("x");
+
+		color: $color-secondary;
+	}
+
+	&__body {
+		flex: 1 1 auto;
+		min-width: 0;
+		display: grid;
+		grid-template-columns: 1fr auto;
+
+	}
+
+	&__rate-head {
+		display: flex;
+		//gap: var(--wp--preset--spacing--x-small);
+		justify-content: space-between;
+		flex-direction: column;
+		grid-row: 1;
+
+	}
+
+	&__title,
+	&__price {
+		color: $color-heading;
+		font-weight: $font-weight-semi-bold;
+	}
+
+	&__meta,
+	&__message,
+	&__loading {
+		margin: $spacing-xxx-small 0 0;
+	}
+
+	&__message,
+	&__loading {
+		margin-block-start: 0;
+	}
+
+	&--notice &__message {
+		color: $color-secondary;
+	}
+}

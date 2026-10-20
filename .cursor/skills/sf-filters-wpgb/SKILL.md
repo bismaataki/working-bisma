@@ -61,9 +61,9 @@ Always scope by grid ID or context. An unscoped filter applies to every grid on
 the site, including ones added later:
 
 ```php
-add_filter( 'wp_grid_builder/grid/query_args', 'skaflow_wpgb_query_args', 10, 2 );
+add_filter( 'wp_grid_builder/grid/query_args', 'happywood_wpgb_query_args', 10, 2 );
 
-function skaflow_wpgb_query_args( $query_args, $grid_id ) {
+function happywood_wpgb_query_args( $query_args, $grid_id ) {
 
 	if ( 'your-grid-slug' !== $grid_id ) {
 		return $query_args;

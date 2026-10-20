@@ -1,0 +1,16 @@
+// Single-product WooCommerce tabs (Product Details block + classic templates).
+
+.hw-product-tab {
+
+	> :first-child {
+		margin-top: 0;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
+}
+
+.hw-product-tab--parts .hw-product-parts {
+	margin-bottom: 0;
+}

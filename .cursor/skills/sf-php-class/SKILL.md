@@ -32,13 +32,13 @@ this skill covers ordinary feature classes.
 ```php
 <?php
 
-namespace Skaflow;
+namespace Happywood;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( class_exists( 'Skaflow\Custom_Feature' ) ) {
+if ( class_exists( 'Happywood\Custom_Feature' ) ) {
 	return;
 }
 
@@ -119,7 +119,7 @@ $this->blocks = new Blocks_Jsx();
 ## Step 4 — regenerate the autoloader
 
 ```bash
-cd wp-content/themes/skaflow
+cd wp-content/themes/happywood
 composer dump-autoload
 ```
 
@@ -129,24 +129,24 @@ Skipping this is the most common reason a new class "doesn't exist".
 
 ```bash
 cd <repo root>
-ddev wp eval 'var_dump( class_exists( "Skaflow\\Custom_Feature" ) );'
-ddev exec tail -20 wp-content/themes/skaflow/debug.log
+ddev wp eval 'var_dump( class_exists( "Happywood\\Custom_Feature" ) );'
+ddev exec tail -20 wp-content/themes/happywood/debug.log
 ```
 
-Add a temporary `skaflow_write_log( __METHOD__ );` inside a hook callback if
+Add a temporary `happywood_write_log( __METHOD__ );` inside a hook callback if
 you need to confirm the hook actually fires.
 
 ## Naming and constants
 
 - Class names: `Title_Case_With_Underscores`, matching the file
-- Functions and hooks: `skaflow_` prefix
-- Constants: `SKAFLOW_` prefix, declared in `includes/constants.php`
-- Build custom hook and nonce names from `SKAFLOW_PREFIX` rather than
+- Functions and hooks: `happywood_` prefix
+- Constants: `HAPPYWOOD_` prefix, declared in `includes/constants.php`
+- Build custom hook and nonce names from `HAPPYWOOD_PREFIX` rather than
   hardcoding the string, so a theme rename stays mechanical
 
 ```php
-wp_create_nonce( SKAFLOW_PREFIX . 'custom_action' );
-do_action( SKAFLOW_PREFIX . 'thing_happened' );
+wp_create_nonce( HAPPYWOOD_PREFIX . 'custom_action' );
+do_action( HAPPYWOOD_PREFIX . 'thing_happened' );
 ```
 
 ## Keeping the class removable

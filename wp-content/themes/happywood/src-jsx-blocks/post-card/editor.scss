@@ -1,0 +1,5 @@
+// SSR preview — disable interactive card links in the editor canvas.
+.wp-block-happywood-post-card,
+.wp-block-happywood-post-card * {
+	pointer-events: none;
+}

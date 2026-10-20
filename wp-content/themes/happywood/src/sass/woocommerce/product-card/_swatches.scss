@@ -1,0 +1,15 @@
+@use "../../tools" as *;
+
+.wc-block-product .hw-product-swatches {
+	width: 100%;
+}
+
+.wc-block-product .hw-swatches-grid {
+	margin-top: 0;
+}
+
+// Legacy wrapper in customized template parts — hide when the block rendered
+// empty.
+.wc-block-product .hw-wrapp-swatches:not(:has(.hw-product-swatches, .hw-swatches-grid)) {
+	display: none;
+}

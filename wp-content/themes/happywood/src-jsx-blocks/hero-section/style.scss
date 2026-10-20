@@ -1,0 +1,24 @@
+@use "../../src/sass/tools" as *;
+
+.wp-block-happywood-hero-section {
+	background-size: cover;
+	background-repeat: no-repeat;
+
+	.hw-hero-section__inner {
+		width: 100%;
+		max-width: $grid-container-wide;
+		margin-inline: auto;
+	}
+
+	.hw-hero-section__content {
+		width: 100%;
+		margin-inline-end: auto;
+	}
+
+	@include breakpoint(large) {
+
+		.hw-hero-section__content {
+			width: calc(100% / 3);
+		}
+	}
+}

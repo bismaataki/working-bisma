@@ -26,7 +26,7 @@ Commerce code must be deletable as a group. That means:
   welds commerce into the starter. This happened once already: 12 commerce
   functions sat in `includes/helper-functions.php` until 2026-08-17.
 
-`Skaflow\WooCommerce` in `lib/class-woocommerce.php` is that single entry point.
+`Happywood\WooCommerce` in `lib/class-woocommerce.php` is that single entry point.
 It guards on the plugin, then constructs every commerce class:
 
 ```php
@@ -118,7 +118,7 @@ ddev wp post meta get <id> <key> --format=json
 - ACF on `product_variation` expecting wp-admin visibility
 - Renaming legacy meta keys without a migration
 - Hooks or classes inside `woocommerce/`
-- Standalone functions outside the `Skaflow\` namespace for stateful features
+- Standalone functions outside the `Happywood\` namespace for stateful features
 - Commerce helpers in `includes/helper-functions.php`
 - Deleting variation meta when the POST key is entirely absent
 - Bulk data migration for schema-only work

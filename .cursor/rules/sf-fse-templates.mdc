@@ -28,15 +28,15 @@ Templates stay thin — a header part, a `main` group, a footer part — and com
 their content from patterns rather than inlining markup:
 
 ```html
-<!-- wp:template-part {"slug":"header","theme":"skaflow","tagName":"header"} /-->
+<!-- wp:template-part {"slug":"header","theme":"happywood","tagName":"header"} /-->
 
 <!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
 <main class="wp-block-group">
-	<!-- wp:pattern {"slug":"skaflow/page-title"} /-->
+	<!-- wp:pattern {"slug":"happywood/page-title"} /-->
 </main>
 <!-- /wp:group -->
 
-<!-- wp:template-part {"slug":"footer","theme":"skaflow","tagName":"footer"} /-->
+<!-- wp:template-part {"slug":"footer","theme":"happywood","tagName":"footer"} /-->
 ```
 
 The `theme` attribute in `wp:template-part` carries the theme slug and is part of
@@ -51,9 +51,9 @@ header comment:
 <?php
 /**
  * Title: Human-readable name
- * Slug: skaflow/slug-here
+ * Slug: happywood/slug-here
  * Description: One sentence describing the pattern and its style.
- * Categories: section, skaflow
+ * Categories: section, happywood
  * Keywords: keyword1, keyword2
  */
 ?>
@@ -91,7 +91,7 @@ block markup, useful in patterns bound to a configured field:
 
 ```html
 <!-- wp:heading -->
-<h2 class="wp-block-heading">[skaflow field="hero_title"]</h2>
+<h2 class="wp-block-heading">[happywood field="hero_title"]</h2>
 <!-- /wp:heading -->
 ```
 
