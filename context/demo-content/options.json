@@ -1,0 +1,2527 @@
+{
+  "source": "data-ow-config on each openwood.pk product page",
+  "fetched": "2026-10-21",
+  "products": {
+    "19835": {
+      "permalink": "https://openwood.pk/product/metal-shelf-supports-7-tier/",
+      "slug": "metal-shelf-supports-7-tier",
+      "name": "Metal Shelf Supports 7 Tier",
+      "groups": []
+    },
+    "19535": {
+      "permalink": "https://openwood.pk/product/oragnizer-tray-xl/",
+      "slug": "oragnizer-tray-xl",
+      "name": "Organizer Tray XL",
+      "basePrice": 3480,
+      "regularPrice": 4480,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "19631": {
+      "permalink": "https://openwood.pk/product/modular-2-tier-book-shelf-storage-rack/",
+      "slug": "modular-2-tier-book-shelf-storage-rack",
+      "name": "Modular 2 Tier Book Shelf Storage Rack",
+      "basePrice": 6480,
+      "regularPrice": 8480,
+      "groups": [
+        {
+          "id": "select_your_color",
+          "label": "Select Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "wooden_texture",
+              "label": "Wooden Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "19758": {
+      "permalink": "https://openwood.pk/product/modular-metal-shelf-7-tier/",
+      "slug": "modular-metal-shelf-7-tier",
+      "name": "Modular Metal Shelf 7 Tier",
+      "basePrice": 5880,
+      "regularPrice": 7560,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "shalves_base",
+          "label": "Shalves Base",
+          "type": "select",
+          "required": true,
+          "values": [
+            {
+              "id": "7_tier_wall_mount_base",
+              "label": "7 Tier Wall Mount Base",
+              "price": 3480,
+              "sale_price": 2480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        },
+        {
+          "id": "pick_your_shalves",
+          "label": "Pick Your Shalves (Size & Qty)",
+          "type": "checkbox_qty",
+          "required": true,
+          "values": [
+            {
+              "id": "6_x_24",
+              "label": "6\" x 24\"",
+              "price": 1880,
+              "sale_price": 1480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "6_x_32",
+              "label": "6\" x 32\"",
+              "price": 2180,
+              "sale_price": 1880,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "19133": {
+      "permalink": "https://openwood.pk/product/under-desk-cable-management-tray/",
+      "slug": "under-desk-cable-management-tray",
+      "name": "Under Desk Cable Management Tray",
+      "basePrice": 2480,
+      "regularPrice": 4480,
+      "groups": [
+        {
+          "id": "select_your_color",
+          "label": "Select Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "16",
+              "label": "16\"",
+              "price": 4480,
+              "sale_price": 2480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24",
+              "label": "24\"",
+              "price": 5480,
+              "sale_price": 3480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "19268": {
+      "permalink": "https://openwood.pk/product/minimal-wall-mounted-shelf/",
+      "slug": "minimal-wall-mounted-shelf",
+      "name": "Minimal Wall-Mounted Shelf",
+      "basePrice": 1880,
+      "regularPrice": 2880,
+      "groups": [
+        {
+          "id": "select_your_shelf_color",
+          "label": "Select Your Shelf Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "wooden_texture",
+              "label": "Wooden Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "select_your_shelf_edges_finishing",
+          "label": "Select Your Shelf Edges Finishing",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "pvc_tape",
+              "label": "PVC Tape",
+              "price": 250,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "natural_brown_edges",
+              "label": "Natural Brown Edges",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            }
+          ]
+        },
+        {
+          "id": "select_your_metal_base_color",
+          "label": "Select Your Metal Base Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "select_your_shelf_size",
+          "label": "Select Your Shelf Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "8_x_24",
+              "label": "8\" x 24\"",
+              "price": 2880,
+              "sale_price": 1880,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "8_x_36",
+              "label": "8\" x 36\"",
+              "price": 3880,
+              "sale_price": 2480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "19764": {
+      "permalink": "https://openwood.pk/product/large-shelve-6x32/",
+      "slug": "large-shelve-6x32",
+      "name": "Large Shelve 6&#8243;x32&#8243;",
+      "groups": []
+    },
+    "19765": {
+      "permalink": "https://openwood.pk/product/standard-shelve-6x24/",
+      "slug": "standard-shelve-6x24",
+      "name": "Medium Shelve 6&#8243;x24&#8243;",
+      "groups": []
+    },
+    "19131": {
+      "permalink": "https://openwood.pk/product/metal-shelf-tray/",
+      "slug": "metal-shelf-tray",
+      "name": "Organizer Tray",
+      "basePrice": 2480,
+      "regularPrice": 3480,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "19129": {
+      "permalink": "https://openwood.pk/product/metal-phone-holder/",
+      "slug": "metal-phone-holder",
+      "name": "Phone Holder",
+      "basePrice": 880,
+      "regularPrice": 1280,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "19127": {
+      "permalink": "https://openwood.pk/product/metal-headphone-holder/",
+      "slug": "metal-headphone-holder",
+      "name": "Headphone Holder",
+      "basePrice": 880,
+      "regularPrice": 1280,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "18909": {
+      "permalink": "https://openwood.pk/product/wall-mounted-shelf-with-keys-hanger/",
+      "slug": "wall-mounted-shelf-with-keys-hanger",
+      "name": "Wall-Mounted Shelf with Keys Hanger",
+      "basePrice": 1480,
+      "regularPrice": 2480,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "18892": {
+      "permalink": "https://openwood.pk/product/wall-mounted-clothes-hanger/",
+      "slug": "wall-mounted-clothes-hanger",
+      "name": "Wall-Mounted Clothes Hanger",
+      "basePrice": 1480,
+      "regularPrice": 1980,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "18921": {
+      "permalink": "https://openwood.pk/product/wall-mounted-shelf-with-keys-hanger-xl/",
+      "slug": "wall-mounted-shelf-with-keys-hanger-xl",
+      "name": "Wall-Mounted Shelf with Keys Hanger XL",
+      "basePrice": 2280,
+      "regularPrice": 3480,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "18165": {
+      "permalink": "https://openwood.pk/product/wooden-stand-plant-lamp-and-vase-holder/",
+      "slug": "wooden-stand-plant-lamp-and-vase-holder",
+      "name": "Wooden Stand &#8211; Plant, Lamp, and Vase Holder",
+      "basePrice": 880,
+      "regularPrice": 1080,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "18062": {
+      "permalink": "https://openwood.pk/product/phone-stand-2-0/",
+      "slug": "phone-stand-2-0",
+      "name": "Phone Stand 2.0",
+      "basePrice": 580,
+      "regularPrice": 780,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "17733": {
+      "permalink": "https://openwood.pk/product/modular-office-table/",
+      "slug": "modular-office-table",
+      "name": "Modular Office Table",
+      "basePrice": 16800,
+      "regularPrice": 18800,
+      "groups": [
+        {
+          "id": "pick_your_top_color",
+          "label": "Pick Your Top Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "wooden_texture",
+              "label": "Wooden Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_base_color",
+          "label": "Pick Your Base Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "22_x_36",
+              "label": "22\" x 36\"",
+              "price": 18800,
+              "sale_price": 16800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "22_x_48",
+              "label": "22\" x 48\"",
+              "price": 21800,
+              "sale_price": 18800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_36",
+              "label": "24' x 36\"",
+              "price": 20800,
+              "sale_price": 17800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 23800,
+              "sale_price": 19800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_60",
+              "label": "24\" x 60\"",
+              "price": 31800,
+              "sale_price": 26800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_48",
+              "label": "30\" x 48\"",
+              "price": 28800,
+              "sale_price": 22800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_60",
+              "label": "30\" x 60\"",
+              "price": 35800,
+              "sale_price": 29800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_72",
+              "label": "30\" x 72\"",
+              "price": 42800,
+              "sale_price": 36800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "36_x_60",
+              "label": "36\" x 60\"",
+              "price": 42800,
+              "sale_price": 36800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "36_x_72",
+              "label": "36\" x 72\"",
+              "price": 48800,
+              "sale_price": 43800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "17743": {
+      "permalink": "https://openwood.pk/product/modular-desk-shelf/",
+      "slug": "modular-desk-shelf",
+      "name": "Modular Desk Shelf",
+      "basePrice": 3480,
+      "regularPrice": 5880,
+      "groups": [
+        {
+          "id": "pick_your_shelf_color",
+          "label": "Pick Your Shelf Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "wooden_texture",
+              "label": "Wooden Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_base_color",
+          "label": "Pick Your Base Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_9",
+              "label": "24\" x 9\"",
+              "price": 5880,
+              "sale_price": 3480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "36_x_9",
+              "label": "36\" x 9\"",
+              "price": 6880,
+              "sale_price": 4480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "46_x_9",
+              "label": "46\" x 9\"",
+              "price": 7880,
+              "sale_price": 5480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        },
+        {
+          "id": "pick_your_add_ons",
+          "label": "Pick Your Add-ons",
+          "type": "checkbox_qty",
+          "required": false,
+          "values": [
+            {
+              "id": "phone_holder",
+              "label": "Phone Holder",
+              "price": 1280,
+              "sale_price": 880,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "headphone_holder",
+              "label": "Headphone Holder",
+              "price": 1280,
+              "sale_price": 880,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "organizer_tray",
+              "label": "Organizer Tray",
+              "price": 3480,
+              "sale_price": 2480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "organizer_tray_xl",
+              "label": "Organizer Tray XL",
+              "price": 4480,
+              "sale_price": 3480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "15229": {
+      "permalink": "https://openwood.pk/product/built-in-desk-lite/",
+      "slug": "built-in-desk-lite",
+      "name": "Built-in Desk Lite",
+      "basePrice": 13800,
+      "regularPrice": 16800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "22_x_42",
+              "label": "22\" x 42\"",
+              "price": 16800,
+              "sale_price": 13800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 17800,
+              "sale_price": 14800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "28_x_55",
+              "label": "28\" x 55\"",
+              "price": 22800,
+              "sale_price": 17800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "11217": {
+      "permalink": "https://openwood.pk/product/wavy-coffee-ergonomic-floor-study-table/",
+      "slug": "wavy-coffee-ergonomic-floor-study-table",
+      "name": "Wavy Coffee &#038; Ergonomic Floor Study Table",
+      "basePrice": 9800,
+      "regularPrice": 12800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "size",
+          "label": "Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "22_x_47",
+              "label": "22\" x 47\"",
+              "price": 12800,
+              "sale_price": 9800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "16780": {
+      "permalink": "https://openwood.pk/product/harmony-desk/",
+      "slug": "harmony-desk",
+      "name": "Harmony Desk",
+      "basePrice": 8800,
+      "regularPrice": 10800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "21_x_26",
+              "label": "21\" x 26\"",
+              "price": 10800,
+              "sale_price": 8800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "22_x_36",
+              "label": "22\" x 36\"",
+              "price": 14800,
+              "sale_price": 12800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 17800,
+              "sale_price": 15800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "17681": {
+      "permalink": "https://openwood.pk/product/kids-modular-bed/",
+      "slug": "kids-modular-bed",
+      "name": "Kids Modular Bed",
+      "basePrice": 17800,
+      "regularPrice": 21800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_youir_mattress_size",
+          "label": "Pick Youir Mattress Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_40",
+              "label": "24\" x 40\"",
+              "price": 21800,
+              "sale_price": 17800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_48",
+              "label": "30\" x 48\"",
+              "price": 23800,
+              "sale_price": 19800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "4353": {
+      "permalink": "https://openwood.pk/product/dex-study-computer-table/",
+      "slug": "dex-study-computer-table",
+      "name": "Dex Study &#038; Computer Table",
+      "basePrice": 12800,
+      "regularPrice": 15800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_36",
+              "label": "24' x 36\"",
+              "price": 15800,
+              "sale_price": 12800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 17800,
+              "sale_price": 14800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "7828": {
+      "permalink": "https://openwood.pk/product/flat-pack-interlinked-coffee-table/",
+      "slug": "flat-pack-interlinked-coffee-table",
+      "name": "Flat Pack Interlinked Coffee Table",
+      "basePrice": 9800,
+      "regularPrice": 11800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "size",
+          "label": "Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "33_x_33",
+              "label": "33\" x 33\"",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "7818": {
+      "permalink": "https://openwood.pk/product/flat-pack-coffee-table/",
+      "slug": "flat-pack-coffee-table",
+      "name": "Flat Pack Coffee Table",
+      "basePrice": 6480,
+      "regularPrice": 8800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_24",
+              "label": "24\" x 24\"",
+              "price": 8800,
+              "sale_price": 6480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "33_x_33",
+              "label": "33\" x 33\"",
+              "price": 11800,
+              "sale_price": 10800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "7813": {
+      "permalink": "https://openwood.pk/product/built-in-pillar-desk/",
+      "slug": "built-in-pillar-desk",
+      "name": "Built-In Pillar Desk",
+      "basePrice": 16800,
+      "regularPrice": 18800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 18800,
+              "sale_price": 16800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "7238": {
+      "permalink": "https://openwood.pk/product/kids-study-desk/",
+      "slug": "kids-study-desk",
+      "name": "Kids Study Desk",
+      "basePrice": 10800,
+      "regularPrice": 11800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "20_x_30",
+              "label": "20\" x 30\"",
+              "price": 11800,
+              "sale_price": 10800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "22_x_36",
+              "label": "22\" x 36\"",
+              "price": 13800,
+              "sale_price": 11800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        },
+        {
+          "id": "pick_your_height",
+          "label": "Pick Your Height",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "27",
+              "label": "27\"",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "29",
+              "label": "29\"",
+              "price": 1000,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "7824": {
+      "permalink": "https://openwood.pk/product/built-in-coffee-table/",
+      "slug": "built-in-coffee-table",
+      "name": "Built-in Coffee Table",
+      "basePrice": 9800,
+      "regularPrice": 13800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "20_x_40",
+              "label": "20\" x 40\"",
+              "price": 13800,
+              "sale_price": 10800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "25_x_48",
+              "label": "25\" x 48\"",
+              "price": 15800,
+              "sale_price": 12800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "6852": {
+      "permalink": "https://openwood.pk/product/monitor-stand-desk-shelf/",
+      "slug": "monitor-stand-desk-shelf",
+      "name": "Monitor Stand 2.0 Desk Shelf",
+      "basePrice": 2480,
+      "regularPrice": 3480,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_9",
+              "label": "24\" x 9\" Single Shelf",
+              "price": 3480,
+              "sale_price": 2480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "36_x_9",
+              "label": "36\" x 9\" Single Shelf",
+              "price": 4480,
+              "sale_price": 3480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "42_x_9",
+              "label": "42\" x 9\" Single Shelf",
+              "price": 5480,
+              "sale_price": 4480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_9_dual_shelf",
+              "label": "24\" x 9\" Dual Shelf",
+              "price": 3980,
+              "sale_price": 2980,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "36_x_9_dual_shelf",
+              "label": "36\" x 9\" Dual Shelf",
+              "price": 5480,
+              "sale_price": 4480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "42_x_9_dual_shelf",
+              "label": "42\" x 9\" Dual Shelf",
+              "price": 6480,
+              "sale_price": 5480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "6715": {
+      "permalink": "https://openwood.pk/product/tablet-holder/",
+      "slug": "tablet-holder",
+      "name": "Tablet Holder",
+      "basePrice": 780,
+      "regularPrice": 980,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "7076": {
+      "permalink": "https://openwood.pk/product/kids-learning-tower/",
+      "slug": "kids-learning-tower",
+      "name": "Kids Learning Tower",
+      "basePrice": 10800,
+      "regularPrice": 15800,
+      "groups": [
+        {
+          "id": "select_your_color",
+          "label": "Select Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "6267": {
+      "permalink": "https://openwood.pk/product/flat-pack-desk-with-storage-cable-management/",
+      "slug": "flat-pack-desk-with-storage-cable-management",
+      "name": "Flat Pack Desk With Storage &#038; Cable Management",
+      "basePrice": 15800,
+      "regularPrice": 17800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "21_x_40",
+              "label": "21\" x 40\"",
+              "price": 17800,
+              "sale_price": 15800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "25_x_48",
+              "label": "25\" x 48\"",
+              "price": 19800,
+              "sale_price": 16800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "6209": {
+      "permalink": "https://openwood.pk/product/built-in-desk-mini/",
+      "slug": "built-in-desk-mini",
+      "name": "Built-In Desk Mini",
+      "basePrice": 9800,
+      "regularPrice": 12800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "18_x_34",
+              "label": "18\" x 34\"",
+              "price": 11800,
+              "sale_price": 9800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "21_x_36",
+              "label": "21\" x 36\"",
+              "price": 14800,
+              "sale_price": 12800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "5060": {
+      "permalink": "https://openwood.pk/product/built-in-laptop-table-xl/",
+      "slug": "built-in-laptop-table-xl",
+      "name": "Built-in Laptop Table XL",
+      "basePrice": 4480,
+      "regularPrice": 5880,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "5052": {
+      "permalink": "https://openwood.pk/product/multipurpose-round-table/",
+      "slug": "multipurpose-round-table",
+      "name": "Round Coffee Table",
+      "basePrice": 6480,
+      "regularPrice": 7880,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_24",
+              "label": "24\" x 24\"",
+              "price": 7880,
+              "sale_price": 6480,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "33_x_33",
+              "label": "33\" x 33\"",
+              "price": 11280,
+              "sale_price": 10480,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "5046": {
+      "permalink": "https://openwood.pk/product/dual-side-built-in-desk/",
+      "slug": "dual-side-built-in-desk",
+      "name": "Dual Side Built-in Desk",
+      "basePrice": 13800,
+      "regularPrice": 15800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 17800,
+              "sale_price": 15800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_48",
+              "label": "30\" x 48\"",
+              "price": 18800,
+              "sale_price": 16800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_60",
+              "label": "30\" x 60\"",
+              "price": 31800,
+              "sale_price": 25800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "5040": {
+      "permalink": "https://openwood.pk/product/built-in-reception-desk/",
+      "slug": "built-in-reception-desk",
+      "name": "Built-in Reception Desk",
+      "basePrice": 12800,
+      "regularPrice": 14800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "21_x_36",
+              "label": "21\" x 36\"",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            }
+          ]
+        },
+        {
+          "id": "pick_your_height",
+          "label": "Pick Your Height",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "29",
+              "label": "29\"",
+              "price": 14800,
+              "sale_price": 12800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "36",
+              "label": "36\"",
+              "price": 15800,
+              "sale_price": 13800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "5076": {
+      "permalink": "https://openwood.pk/product/built-in-laptop-table-mini/",
+      "slug": "built-in-laptop-table-mini",
+      "name": "Built-in Laptop Table Mini",
+      "basePrice": 3480,
+      "regularPrice": 4880,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "5031": {
+      "permalink": "https://openwood.pk/product/large-monitor-stand/",
+      "slug": "large-monitor-stand",
+      "name": "Large Monitor Stand",
+      "basePrice": 3480,
+      "regularPrice": 4980,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "5079": {
+      "permalink": "https://openwood.pk/product/baby-crib-built-in-bed/",
+      "slug": "baby-crib-built-in-bed",
+      "name": "Baby Crib Built-in Bed",
+      "basePrice": 17800,
+      "regularPrice": 20800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_mattress_size",
+          "label": "Pick Your Mattress Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "40_x_24",
+              "label": "40\" x 24\"",
+              "price": 21800,
+              "sale_price": 17800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "50_x_26",
+              "label": "50\" x 26\"",
+              "price": 24800,
+              "sale_price": 19800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "4886": {
+      "permalink": "https://openwood.pk/product/xl-monitor-stand/",
+      "slug": "xl-monitor-stand",
+      "name": "XL Monitor Stand",
+      "basePrice": 4480,
+      "regularPrice": 5580,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "4487": {
+      "permalink": "https://openwood.pk/product/workstation-built-in-desk/",
+      "slug": "workstation-built-in-desk",
+      "name": "Workstation Built-in Desk",
+      "basePrice": 34800,
+      "regularPrice": 39800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "4473": {
+      "permalink": "https://openwood.pk/product/openwood-x-laptop-stand/",
+      "slug": "openwood-x-laptop-stand",
+      "name": "X Laptop Stand",
+      "basePrice": 1280,
+      "regularPrice": 2480,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "4455": {
+      "permalink": "https://openwood.pk/product/openwood-plant-stand/",
+      "slug": "openwood-plant-stand",
+      "name": "Plant Stand",
+      "basePrice": 580,
+      "regularPrice": 980,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": false,
+          "values": [
+            {
+              "id": "small_4",
+              "label": "Small 4\"",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "large_6",
+              "label": "Large 6\"",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "4357": {
+      "permalink": "https://openwood.pk/product/openwood-mobile-phone-stand/",
+      "slug": "openwood-mobile-phone-stand",
+      "name": "Mobile Phone Stand",
+      "basePrice": 380,
+      "regularPrice": 580,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "3978": {
+      "permalink": "https://openwood.pk/product/openwood-xl-built-in-desk/",
+      "slug": "openwood-xl-built-in-desk",
+      "name": "XL Built-In Desk",
+      "basePrice": 20800,
+      "regularPrice": 23800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": true,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": true,
+          "values": [
+            {
+              "id": "28_x_55",
+              "label": "28\" x 55\"",
+              "price": 23800,
+              "sale_price": 20800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "30_x_60",
+              "label": "30\" x 60\"",
+              "price": 27800,
+              "sale_price": 24800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "3988": {
+      "permalink": "https://openwood.pk/product/openwood-built-in-desk/",
+      "slug": "openwood-built-in-desk",
+      "name": "Built-In Desk",
+      "basePrice": 9800,
+      "regularPrice": 11800,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": true,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        },
+        {
+          "id": "pick_your_size",
+          "label": "Pick Your Size",
+          "type": "select",
+          "required": true,
+          "values": [
+            {
+              "id": "18_x_34",
+              "label": "18\" x 34\"",
+              "price": 11800,
+              "sale_price": 9800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "21_x_36",
+              "label": "21\" x 36\"",
+              "price": 13800,
+              "sale_price": 12800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "22_x_42",
+              "label": "22\" x 42\"",
+              "price": 16800,
+              "sale_price": 14800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "24_x_48",
+              "label": "24\" x 48\"",
+              "price": 17800,
+              "sale_price": 15800,
+              "oos": false,
+              "color": ""
+            },
+            {
+              "id": "26_x_52",
+              "label": "26\" x 52\"",
+              "price": 20800,
+              "sale_price": 18800,
+              "oos": false,
+              "color": ""
+            }
+          ]
+        }
+      ]
+    },
+    "3968": {
+      "permalink": "https://openwood.pk/product/openwood-monitor-stand/",
+      "slug": "openwood-monitor-stand",
+      "name": "Monitor Stand",
+      "basePrice": 2180,
+      "regularPrice": 2999,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "3958": {
+      "permalink": "https://openwood.pk/product/openwood-laptop-stand/",
+      "slug": "openwood-laptop-stand",
+      "name": "Laptop Stand",
+      "basePrice": 1480,
+      "regularPrice": 2880,
+      "groups": [
+        {
+          "id": "pick_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": false,
+          "values": [
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            },
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    "3919": {
+      "permalink": "https://openwood.pk/product/openwood-notebook-stand/",
+      "slug": "openwood-notebook-stand",
+      "name": "Notebook Stand",
+      "basePrice": 1280,
+      "regularPrice": 2480,
+      "groups": [
+        {
+          "id": "select_your_color",
+          "label": "Pick Your Color",
+          "type": "swatch",
+          "required": true,
+          "values": [
+            {
+              "id": "white_texture",
+              "label": "White Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#ffffff"
+            },
+            {
+              "id": "black_texture",
+              "label": "Black Texture",
+              "price": 0,
+              "sale_price": "",
+              "oos": false,
+              "color": "#000000"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
