@@ -74,7 +74,7 @@ needs steps 1 and 2 before anything will boot.
 5. Assign Primary and Utility menus (`skaflow-primary-nav`,
    `skaflow-utility-nav`).
 6. Fill Theme Options (header, FAQ Configurations, Banner Configurations).
-7. Spot-check header, shop (if Woo is on), FAQ archive, showrooms, account,
+7. Spot-check header, shop (if Woo is on), FAQ archive, account,
    cart.
 
 ## Required plugins (TGMPA)

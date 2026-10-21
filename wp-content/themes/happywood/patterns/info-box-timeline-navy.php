@@ -46,7 +46,7 @@
                 <!-- /wp:heading -->
 
                 <!-- wp:paragraph {"className":"is-style-text-lead","fontSize":"medium"} -->
-                <p class="is-style-text-lead has-medium-font-size">Expanded into three new cities, establishing physical showrooms where customers could experience the range firsthand.</p>
+                <p class="is-style-text-lead has-medium-font-size">Expanded into three new cities so customers could see the range before they bought.</p>
                 <!-- /wp:paragraph --></div>
             <!-- /wp:group --></div>
         <!-- /wp:happywood/info-box --></div>
@@ -68,7 +68,7 @@
                 <!-- /wp:heading -->
 
                 <!-- wp:paragraph {"className":"is-style-text-lead","fontSize":"medium"} -->
-                <p class="is-style-text-lead has-medium-font-size">Opened two further showrooms and became a go-to destination for quality goods.</p>
+                <p class="is-style-text-lead has-medium-font-size">Grew the range and became a go-to destination for quality goods.</p>
                 <!-- /wp:paragraph --></div>
             <!-- /wp:group --></div>
         <!-- /wp:happywood/info-box --></div>

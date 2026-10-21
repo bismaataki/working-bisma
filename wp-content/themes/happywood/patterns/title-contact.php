@@ -26,7 +26,7 @@
                     <!-- /wp:heading -->
 
                     <!-- wp:paragraph {"className":"is-style-default","style":{"typography":{"textAlign":"center"}}} -->
-                    <p class="has-text-align-center is-style-default">Whether you have a question about products, pricing, showrooms, or need assistance with an order, our team is ready to assist you.</p>
+                    <p class="has-text-align-center is-style-default">Whether you have a question about products, pricing, or an order, our team is ready to assist you.</p>
                     <!-- /wp:paragraph --></div>
                 <!-- /wp:group -->
 

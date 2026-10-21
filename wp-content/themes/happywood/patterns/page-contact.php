@@ -2,9 +2,9 @@
 /**
  * Title: Page - Contact Us
  * Slug: happywood/page-contact
- * Description: Full Contact Us page with hero, showroom sidebar, Gravity Form, and trust info boxes.
+ * Description: Full Contact Us page with hero, Gravity Form, and trust info boxes.
  * Categories: page, happywood
- * Keywords: contact, page, form, showroom, support
+ * Keywords: contact, page, form, support
  * Template Types: page
  */
 ?>
@@ -19,14 +19,13 @@
 					<!-- /wp:heading -->
 
 					<!-- wp:heading -->
-					<h2 class="wp-block-heading">Contact Your Nearest<br>Showroom</h2>
+					<h2 class="wp-block-heading">Send Us a Message</h2>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"className":"is-style-text-lead","fontSize":"small"} -->
-					<p class="is-style-text-lead has-small-font-size">Select your location to find your closest Happy Wood showroom / warehouse.</p>
+					<p class="is-style-text-lead has-small-font-size">Questions about products, pricing, or an order. The form is the fastest way to reach the team.</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:happywood/showroom-contact-details /-->
 					<!-- wp:pattern {"slug":"happywood/component-notice-dark"} /-->
 					</aside>
 				<!-- /wp:group --></div>

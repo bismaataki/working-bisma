@@ -58,7 +58,7 @@ Regenerate rather than copy-edit after a rename or a large move:
 
 - `kb/map-edit.md`, `map-load.md`, `map-helpers.md`
 - `kb/grid-product.md`, `query.md`
-- `kb/cpt-showroom.md`, `cpt-faq.md`
+- `kb/cpt-showroom-surface.md`, `cpt-faq.md`
 - `kb/plugin-woocommerce-surface.md`, `plugin-wc-shop-archive.md`,
   `plugin-wc-checkout-questions.md`, `plugin-wc-my-account.md`
 - `kb/design-token-color.md`, `design-token-typography.md`

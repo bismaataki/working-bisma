@@ -67,8 +67,6 @@
                 <!-- wp:navigation {"overlayMenu":"never","className":"site-footer__nav","layout":{"type":"flex","orientation":"vertical","justifyContent":"left"}} -->
                 <!-- wp:navigation-link {"label":"FAQs","url":"/faq/","kind":"custom","isTopLevelLink":true} /-->
 
-                <!-- wp:navigation-link {"label":"Showrooms","url":"/showrooms/","kind":"custom","isTopLevelLink":true} /-->
-
                 <!-- wp:navigation-link {"label":"Track Order","url":"/my-account/orders/","kind":"custom","isTopLevelLink":true} /-->
                 <!-- /wp:navigation --></div>
             <!-- /wp:column -->
@@ -92,7 +90,7 @@
                     <!-- /wp:paragraph -->
 
                     <!-- wp:image {"width":"300px","sizeSlug":"full","linkDestination":"none","className":"site-footer__map","style":{"spacing":{"margin":{"top":"var:preset|spacing|small","bottom":"var:preset|spacing|small"}}}} -->
-                    <figure class="wp-block-image size-full is-resized site-footer__map" style="margin-top:var(--wp--preset--spacing--small);margin-bottom:var(--wp--preset--spacing--small)"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/footer/footer-map.svg' ) ); ?>" alt="<?php esc_attr_e( 'Map of our showroom locations', 'happywood' ); ?>" style="width:300px"/></figure>
+                    <figure class="wp-block-image size-full is-resized site-footer__map" style="margin-top:var(--wp--preset--spacing--small);margin-bottom:var(--wp--preset--spacing--small)"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/footer/footer-map.svg' ) ); ?>" alt="<?php esc_attr_e( 'Map of locations we ship to', 'happywood' ); ?>" style="width:300px"/></figure>
                     <!-- /wp:image --></div>
                 <!-- /wp:group --></div>
             <!-- /wp:column --></div>

@@ -18,5 +18,4 @@
 <!-- wp:pattern {"slug":"happywood/section-wc-shop-by-category"} /-->
 <!-- wp:pattern {"slug":"happywood/section-commercial-solutions"} /-->
 <!-- wp:pattern {"slug":"happywood/section-wc-reviews-swiper"} /-->
-<!-- wp:pattern {"slug":"happywood/section-visit-showrooms"} /-->
 <!-- wp:pattern {"slug":"happywood/section-offers-subscribe"} /-->

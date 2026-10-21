@@ -50,7 +50,6 @@ class Content_Types {
 	public function register_post_types(): void {
 		$this->register_faq_post_type();
 		$this->register_banner_post_type();
-		$this->register_showrooms_post_type();
 	}
 
 	/**
@@ -60,7 +59,6 @@ class Content_Types {
 	 */
 	public function register_taxonomies(): void {
 		$this->register_faq_category_taxonomy();
-		$this->register_showroom_locations_taxonomy();
 	}
 
 	/**
@@ -188,50 +186,6 @@ class Content_Types {
 	}
 
 	/**
-	 * Register the showrooms post type.
-	 */
-	private function register_showrooms_post_type(): void {
-		$labels = array(
-			'name'          => __( 'Showrooms', 'happywood' ),
-			'singular_name' => __( 'Showroom', 'happywood' ),
-			'menu_name'     => __( 'Showrooms', 'happywood' ),
-			'all_items'     => __( 'All Showrooms', 'happywood' ),
-			'add_new_item'  => __( 'Add New Showroom', 'happywood' ),
-			'edit_item'     => __( 'Edit Showroom', 'happywood' ),
-			'view_item'     => __( 'View Showroom', 'happywood' ),
-			'search_items'  => __( 'Search Showrooms', 'happywood' ),
-			'not_found'     => __( 'No showrooms found', 'happywood' ),
-			'archives'      => __( 'Showrooms', 'happywood' ),
-		);
-
-		register_post_type(
-			'showrooms',
-			array(
-				'labels'              => $labels,
-				'public'              => true,
-				'publicly_queryable'  => true,
-				'show_ui'             => true,
-				'show_in_menu'        => true,
-				'show_in_nav_menus'   => true,
-				'show_in_rest'        => true,
-				'query_var'           => true,
-				'rewrite'             => array(
-					'slug'       => 'showrooms',
-					'with_front' => false,
-				),
-				'has_archive'         => true,
-				'hierarchical'        => false,
-				'exclude_from_search' => false,
-				'capability_type'     => 'post',
-				'map_meta_cap'        => true,
-				'menu_icon'           => 'dashicons-admin-site',
-				'menu_position'       => 25,
-				'supports'            => array( 'title', 'thumbnail', 'revisions', 'editor', 'page-attributes' ),
-			)
-		);
-	}
-
-	/**
 	 * Register the FAQ category taxonomy. Admin + REST only; no public archives.
 	 */
 	private function register_faq_category_taxonomy(): void {
@@ -279,43 +233,6 @@ class Content_Types {
 				'rest_controller_class' => 'WP_REST_Terms_Controller',
 				'query_var'             => false,
 				'show_in_graphql'       => false,
-			)
-		);
-	}
-
-	/**
-	 * Register the showroom-locations taxonomy.
-	 */
-	private function register_showroom_locations_taxonomy(): void {
-		$labels = array(
-			'name'          => __( 'Showroom Locations', 'happywood' ),
-			'singular_name' => __( 'Showroom Location', 'happywood' ),
-			'menu_name'     => __( 'Showroom Locations', 'happywood' ),
-			'all_items'     => __( 'All Showroom Locations', 'happywood' ),
-			'edit_item'     => __( 'Edit Showroom Location', 'happywood' ),
-			'view_item'     => __( 'View Showroom Location', 'happywood' ),
-			'update_item'   => __( 'Update Showroom Location', 'happywood' ),
-			'add_new_item'  => __( 'Add New Showroom Location', 'happywood' ),
-			'new_item_name' => __( 'New Showroom Location Name', 'happywood' ),
-			'search_items'  => __( 'Search Showroom Locations', 'happywood' ),
-			'not_found'     => __( 'No showroom locations found', 'happywood' ),
-		);
-
-		register_taxonomy(
-			'showroom-locations',
-			array( 'showrooms' ),
-			array(
-				'labels'             => $labels,
-				'public'             => false,
-				'publicly_queryable' => false,
-				'hierarchical'       => true,
-				'show_ui'            => true,
-				'show_in_menu'       => true,
-				'show_in_nav_menus'  => false,
-				'show_in_rest'       => true,
-				'show_admin_column'  => true,
-				'rewrite'            => false,
-				'query_var'          => false,
 			)
 		);
 	}

@@ -224,9 +224,5 @@ function happywood_menu_get_utility_icon_slug( $item ): string {
 		return 'file-text';
 	}
 
-	if ( str_contains( $title_slug, 'showroom' ) ) {
-		return 'map-pin';
-	}
-
 	return 'user';
 }

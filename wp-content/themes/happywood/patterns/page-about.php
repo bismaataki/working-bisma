@@ -11,5 +11,4 @@
 <!-- wp:pattern {"slug":"happywood/section-split-hero-stats"} /-->
 <!-- wp:pattern {"slug":"happywood/section-our-story"} /-->
 <!-- wp:pattern {"slug":"happywood/section-split-quote"} /-->
-<!-- wp:pattern {"slug":"happywood/section-visit-showrooms"} /-->
 <!-- wp:pattern {"slug":"happywood/section-split-features-trust"} /-->

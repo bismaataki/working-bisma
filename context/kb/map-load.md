@@ -18,7 +18,7 @@ Composer `wp_die` + `vendor/autoload.php`, then:
 |---|---|
 | Core | `constants.php`, `helper-functions.php` |
 | Timeless machinery | `accordion-functions.php`, `taxonomy-terms-functions.php`, `category-swiper-functions.php`, `load-more-functions.php` (generic), `archive-shell-functions.php` |
-| Capabilities (one require each) | `woocommerce/bootstrap.php`, `post/bootstrap.php`, `faq/bootstrap.php`, `showroom/bootstrap.php`, `integrations/bootstrap.php` |
+| Capabilities (one require each) | `woocommerce/bootstrap.php`, `post/bootstrap.php`, `faq/bootstrap.php`, `integrations/bootstrap.php` |
 
 Commented `disable-comments.php` stays in `init.php` (root-tier). Do not add
 capability files here.
@@ -35,7 +35,6 @@ Loaded from `init.php`:
 | `woocommerce/bootstrap.php` | Commerce function files (see `context/kb/plugin-woocommerce-surface.md`) |
 | `post/bootstrap.php` | `post-card-functions.php`, `post-filters-functions.php`, `post-archive-hooks.php` |
 | `faq/bootstrap.php` | `faq-archive-functions.php` |
-| `showroom/bootstrap.php` | `showroom-card-functions.php`, `showroom-contact-details-functions.php`, `showroom-hours-functions.php`, `showroom-single-functions.php`, `showroom-content-functions.php` |
 | `integrations/bootstrap.php` | `query-monitor.php` |
 
 Loaded from `lib/` classes, not from `init.php`:

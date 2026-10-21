@@ -38,7 +38,6 @@ require_once get_stylesheet_directory() . '/includes/archive-shell-functions.php
 require_once get_stylesheet_directory() . '/includes/woocommerce/bootstrap.php';
 require_once get_stylesheet_directory() . '/includes/post/bootstrap.php';
 require_once get_stylesheet_directory() . '/includes/faq/bootstrap.php';
-require_once get_stylesheet_directory() . '/includes/showroom/bootstrap.php';
 require_once get_stylesheet_directory() . '/includes/integrations/bootstrap.php';
 
 /**

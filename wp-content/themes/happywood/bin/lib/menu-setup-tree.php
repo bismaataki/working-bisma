@@ -264,7 +264,6 @@ function happywood_menu_setup_build_menus( int $primary_menu_id, int $utility_me
 	}
 
 	$utility_links = array(
-		array( 'Showrooms', home_url( '/showrooms/' ), 'map-pin' ),
 		array( 'Account', home_url( '/my-account/' ), 'user' ),
 	);
 

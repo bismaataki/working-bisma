@@ -52,7 +52,7 @@ files for anything marked absent.
 | SEO | **Rank Math** |
 | Grid builder | **none** |
 | FAQ | **kept** (`happywood_faq` + `happywood_faq_category`) |
-| Showroom | **kept for now** (`showrooms` + `showroom-locations`). Remove later if Happy Wood does not need it |
+| Showroom | **removed** (`showrooms` + `showroom-locations`). Inventory: `context/kb/cpt-showroom-surface.md` |
 
 Explicitly absent: no Blokki, no WP Grid Builder, no Yoast, no JetEngine,
 no Jet Smart Filters, no Elementor, no Woodmart. Do not create `blokki/`,
@@ -67,7 +67,7 @@ See `ADR-0001` and `ADR-0002`.
 **Swiper is `14.2.0`** (runtime, bundled into `build/`). CSS imports, not
 SCSS. Theme nav buttons are empty and draw CSS chevrons, so every
 `navigation` config sets `addIcons: false`. Surfaces: category swiper,
-product-reviews slider, both showroom locators, quick-view gallery.
+product-reviews slider, quick-view gallery.
 Shop the Look does not use Swiper.
 
 ## Plugins
@@ -93,7 +93,8 @@ Gravity Forms embeds in patterns use `formId` `1` (contact) and `2`
 Custom post types and taxonomies all register from
 `lib/class-content-types.php` (`Happywood\Content_Types`):
 `happywood_faq` + `happywood_faq_category` (admin + REST only, not publicly
-queryable), `happywood_banner`, and `showrooms` + `showroom-locations`.
+queryable), and `happywood_banner`. Showroom was removed; see
+`context/kb/cpt-showroom-surface.md`.
 Product catalog facets are WooCommerce categories, tags, and attributes.
 There is no Review CPT (WooCommerce product reviews stay).
 

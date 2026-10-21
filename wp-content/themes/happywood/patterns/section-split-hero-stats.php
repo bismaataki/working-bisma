@@ -20,19 +20,13 @@
 				<!-- /wp:heading -->
 
 				<!-- wp:paragraph {"className":"is-style-text-lead","fontSize":"large"} -->
-				<p class="is-style-text-lead has-large-font-size">We believe quality shouldn't mean compromise.<br>From a single showroom to locations nationwide, we've been committed to delivering exceptional commercial and residential products that stand the test of time.</p>
+				<p class="is-style-text-lead has-large-font-size">We believe quality shouldn't mean compromise.<br>Commercial and residential products, built to last and ready to ship.</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:columns {"isStackedOnMobile":false} -->
 				<div class="wp-block-columns is-not-stacked-on-mobile"><!-- wp:column {"width":"35%"} -->
 					<div class="wp-block-column" style="flex-basis:35%"><!-- wp:happywood/stat-counter {"number":50000,"label":"Happy Customers"} -->
 						<div class="wp-block-happywood-stat-counter"><div class="wp-block-happywood-stat-counter__number-row"><span class="wp-block-happywood-stat-counter__number" data-counter-target="50000" data-counter-separator="," data-counter-duration="2000">50,000</span><span class="wp-block-happywood-stat-counter__suffix">+</span></div><p class="wp-block-happywood-stat-counter__label">Happy Customers</p></div>
-						<!-- /wp:happywood/stat-counter --></div>
-					<!-- /wp:column -->
-
-					<!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:happywood/stat-counter {"number":7,"suffix":"","label":"Showrooms"} -->
-						<div class="wp-block-happywood-stat-counter"><div class="wp-block-happywood-stat-counter__number-row"><span class="wp-block-happywood-stat-counter__number" data-counter-target="7" data-counter-separator="," data-counter-duration="2000">7</span></div><p class="wp-block-happywood-stat-counter__label">Showrooms</p></div>
 						<!-- /wp:happywood/stat-counter --></div>
 					<!-- /wp:column -->
 
@@ -45,11 +39,7 @@
 
 				<!-- wp:buttons -->
 				<div class="wp-block-buttons"><!-- wp:button {"happywoodIcon":"arrow-right","happywoodIconPosition":"right"} -->
-					<div class="wp-block-button hw-has-icon hw-icon-right hw-icon-arrow-right"><a class="wp-block-button__link wp-element-button" href="/showrooms/">Visit Our Showrooms</a></div>
-					<!-- /wp:button -->
-
-					<!-- wp:button {"className":"is-style-light"} -->
-					<div class="wp-block-button is-style-light"><a class="wp-block-button__link wp-element-button" href="/shop/">Browse Collection</a></div>
+					<div class="wp-block-button hw-has-icon hw-icon-right hw-icon-arrow-right"><a class="wp-block-button__link wp-element-button" href="/shop/">Browse Collection</a></div>
 					<!-- /wp:button --></div>
 				<!-- /wp:buttons --></div>
 			<!-- /wp:group --></div><figure class="wp-block-media-text__media"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/placeholder.png' ) ); ?>" alt=""/></figure></div>

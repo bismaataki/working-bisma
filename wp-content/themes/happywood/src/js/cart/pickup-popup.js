@@ -147,7 +147,7 @@ export const PickupPopup = ( { open, onClose, selectedRateId } ) => {
 						'Enter the carrier name before continuing.',
 						'happywood',
 					)
-					: __( 'Select a showroom or warehouse first.', 'happywood' ),
+					: __( 'Select a pickup location first.', 'happywood' ),
 			);
 			return;
 		}

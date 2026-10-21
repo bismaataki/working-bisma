@@ -237,7 +237,6 @@ class Init {
 	private function define_content_types_hooks() {
 
 		new Content_Types();
-		new Showrooms_Admin();
 	}
 
 	/**

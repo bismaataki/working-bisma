@@ -32,7 +32,8 @@ copy. Dates belong on `plans/`, `implementation/` and `notes/` files.
 
 ## CPTs
 
-- `cpt-showroom.md` — locator tabs/markers + single blocks
+- `cpt-showroom-surface.md` — Showroom strip inventory (removed)
+- `cpt-showroom.md` — points at the strip inventory
 - `cpt-faq.md` — archive + product merge
 
 ## Plugins

@@ -71,7 +71,7 @@ loops — `do_blocks()` has a per-call cost.
 ## Capability helpers live elsewhere
 
 This file is generic utilities only. Capability functions are in
-`includes/{capability}/` — `woocommerce/`, `post/`, `faq/`, `showroom/`. Search
+`includes/{capability}/` — `woocommerce/`, `post/`, `faq/`. Search
 there before adding anything product-, review-, or commerce-related.
 
 Feature → file start points: `context/kb/map-edit.md`.

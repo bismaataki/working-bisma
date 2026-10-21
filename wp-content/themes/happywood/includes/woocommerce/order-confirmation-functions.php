@@ -200,7 +200,6 @@ function happywood_get_confirmation_icon_html( $slug ) {
  * WooCommerce pickup warehouse snapshot from the shipping line.
  *
  * Location name, address, and details are what WC stored at checkout.
- * Do not rebuild this from the showroom CPT.
  *
  * @param \WC_Order $order Order being confirmed.
  *

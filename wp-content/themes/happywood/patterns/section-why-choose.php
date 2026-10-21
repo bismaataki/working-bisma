@@ -58,11 +58,11 @@
 
             <!-- wp:group {"lock":{"remove":true},"style":{"spacing":{"blockGap":"var:preset|spacing|xx-small"}}} -->
             <div class="wp-block-group"><!-- wp:heading {"level":3,"style":{"typography":{"textAlign":"center"}}} -->
-                <h3 class="wp-block-heading has-text-align-center">7 Showrooms</h3>
+                <h3 class="wp-block-heading has-text-align-center">Ready to Ship</h3>
                 <!-- /wp:heading -->
 
                 <!-- wp:paragraph {"className":"is-style-text-lead","style":{"typography":{"textAlign":"center"}}} -->
-                <p class="has-text-align-center is-style-text-lead">Visit any of our showrooms to see the range in person before you buy.</p>
+                <p class="has-text-align-center is-style-text-lead">Commercial-grade products, packed and ready to leave the warehouse.</p>
                 <!-- /wp:paragraph --></div>
             <!-- /wp:group --></div>
         <!-- /wp:happywood/info-box -->
