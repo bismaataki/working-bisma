@@ -35,7 +35,7 @@
 		"appearanceTools": true,
 		"color": {
 			"custom": false,
-			"customDuotone": false,
+			"customDuotone": true,
 			"customGradient": false,
 			"defaultDuotone": false,
 			"defaultGradients": false,
@@ -43,24 +43,24 @@
 			"duotone": [
 				{
 					"colors": [
-						"#6431F6",
-						"#6431F6"
+						"#242923",
+						"#64745C"
 					],
 					"name": "Primary",
 					"slug": "primary"
 				},
 				{
 					"colors": [
-						"#1F2937",
-						"#1F2937"
+						"#242923",
+						"#C28A55"
 					],
 					"name": "Secondary",
-					"slug": "primary"
+					"slug": "secondary"
 				},
 				{
 					"colors": [
-						"#FFFFFF",
-						"#FFFFFF"
+						"#363B35",
+						"#F7F5EF"
 					],
 					"name": "Tertiary",
 					"slug": "tertiary"
@@ -68,94 +68,94 @@
 			],
 			"gradients": [
 				{
-					"gradient": "linear-gradient(286.83deg, #931CF0 -1.55%, #4F2CDD 100%);",
+					"gradient": "linear-gradient(286.83deg, #64745C -1.55%, #242923 100%)",
 					"name": "Primary",
 					"slug": "primary"
 				},
 				{
-					"gradient": "radial-gradient(ellipse at 82% 5%, rgb(3 18 39 / 39%) 0%, rgb(3 18 39 / 69%) 25%, rgb(3 18 39 / 86%) 52%, rgb(3 18 39) 100%)",
-					"name": "Azure Fade",
+					"gradient": "radial-gradient(ellipse at 82% 5%, rgb(36 41 35 / 39%) 0%, rgb(36 41 35 / 69%) 25%, rgb(36 41 35 / 86%) 52%, rgb(36 41 35) 100%)",
+					"name": "Dark Fade",
 					"slug": "azure-fade"
 				},
 				{
-					"gradient": "linear-gradient(180deg, rgb(22 24 27 / 0%) 0%, rgb(22 24 27 / 55%) 52%, rgb(22 24 27 / 95%) 100%)",
+					"gradient": "linear-gradient(180deg, rgb(54 59 53 / 0%) 0%, rgb(54 59 53 / 55%) 52%, rgb(54 59 53 / 95%) 100%)",
 					"name": "Category Card Fade",
 					"slug": "category-card-fade"
 				},
 				{
-					"gradient": "linear-gradient(180deg, rgb(6 22 44 / 84%) 0%, rgb(6 22 44 / 76%) 100%)",
-					"name": "Midnight Navy Fade",
+					"gradient": "linear-gradient(180deg, rgb(36 41 35 / 84%) 0%, rgb(36 41 35 / 76%) 100%)",
+					"name": "Contrast Fade",
 					"slug": "midnight-navy-fade"
 				},
 				{
-					"gradient": "radial-gradient(circle at center, rgb(6 22 44 / 30%) 0%, rgb(6 22 44 / 88%) 100%)",
-					"name": "Midnight Navy Radial",
+					"gradient": "radial-gradient(circle at center, rgb(36 41 35 / 30%) 0%, rgb(36 41 35 / 88%) 100%)",
+					"name": "Contrast Radial",
 					"slug": "midnight-navy-radial"
 				},
 				{
-					"gradient": "radial-gradient(ellipse at 50% 60%, rgb(6 22 44 / 84%) 0%, rgb(6 22 44 / 90%) 50%, rgb(6 22 44 / 98%) 100%)",
-					"name": "Midnight Navy Hero",
+					"gradient": "radial-gradient(ellipse at 50% 60%, rgb(36 41 35 / 84%) 0%, rgb(36 41 35 / 90%) 50%, rgb(36 41 35 / 98%) 100%)",
+					"name": "Contrast Hero",
 					"slug": "midnight-navy-hero"
 				}
 			],
 			"palette": [
 				{
-					"color": "#053B7A",
+					"color": "#64745C",
 					"name": "Primary",
 					"slug": "primary"
 				},
 				{
-					"color": "#B3001B",
+					"color": "#C28A55",
 					"name": "Secondary",
 					"slug": "secondary"
 				},
 				{
-					"color": "#242424",
+					"color": "#242923",
 					"name": "Heading",
 					"slug": "heading"
 				},
 				{
-					"color": "#16181B",
+					"color": "#363B35",
 					"name": "Body",
 					"slug": "body"
 				},
 				{
-					"color": "#F5F6F7",
+					"color": "#F7F5EF",
 					"name": "Background",
 					"slug": "background"
 				},
 				{
-					"color": "#2E7D52",
+					"color": "#242923",
 					"name": "Tertiary",
 					"slug": "tertiary"
 				},
 				{
-					"color": "#E5E2D9",
+					"color": "#E8E3D8",
 					"name": "Quaternary",
 					"slug": "quaternary"
 				},
 				{
-					"color": "#F7F7F7",
+					"color": "#FFFFFF",
 					"name": "Surface",
 					"slug": "surface"
 				},
 				{
-					"color": "#E8A400",
+					"color": "#363B35",
 					"name": "Foreground",
 					"slug": "foreground"
 				},
 				{
-					"color": "#D6D9DD",
+					"color": "#D9D7CE",
 					"name": "Outline",
 					"slug": "outline"
 				},
 				{
-					"color": "#5E6166",
+					"color": "#656B62",
 					"name": "Neutral",
 					"slug": "neutral"
 				},
 				{
-					"color": "#9AA0A8",
+					"color": "#8B9087",
 					"name": "Muted",
 					"slug": "muted"
 				},
@@ -784,7 +784,7 @@
 			}
 		},
 		"color": {
-			"background": "var(--wp--preset--color--white)",
+			"background": "var(--wp--preset--color--background)",
 			"text": "var(--wp--preset--color--body)"
 		},
 		"elements": {
