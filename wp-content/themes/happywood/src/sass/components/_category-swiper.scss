@@ -226,7 +226,7 @@
 	}
 
 	.hw-category-swiper__media {
-		aspect-ratio: 3 / 4;
+		aspect-ratio: 5 / 4;
 		background-color: $color-surface;
 		display: block;
 		padding: 0;
@@ -252,20 +252,18 @@
 			width: 100%;
 		}
 	}
-
-	.hw-category-swiper__overlay {
-		background: $gradient-category-card-fade;
-		bottom: 0;
-		display: flex;
-		flex-direction: column;
-		gap: $spacing-x-small;
-		justify-content: flex-end;
-		left: 0;
-		padding: $spacing-medium;
-		position: absolute;
-		right: 0;
-		top: 0;
-	}
+.hw-category-swiper__overlay {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-x-small;
+    justify-content: flex-start;
+    padding: $spacing-medium 0 0;
+    position: static;
+    color: $color-black;
+    text-align: left;
+    width: 100%;
+}
 
 	.hw-category-swiper__title {
 		display: block;
@@ -299,7 +297,7 @@
 	.wp-block-happywood-product-cat-child-swiper.is-style-card,
 	.hw-product-cat-swiper-editor.is-style-card,
 	.hw-product-cat-child-swiper-editor.is-style-card {
-		--hw-category-swiper-slide-width: 20rem;
+		--hw-category-swiper-slide-width: calc((100% - 24px) / 3);
 	}
 }
 

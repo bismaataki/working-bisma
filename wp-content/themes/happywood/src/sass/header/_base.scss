@@ -13,7 +13,7 @@
 	z-index: $header-z-index;
 	width: 100%;
 	background-color: $header-background-color;
-	border-bottom: 1px solid $header-border-color;
+	
 
 	@include menu-mobile-only {
 		position: relative;
@@ -31,7 +31,7 @@
 
 		&.site-header__primary--is-stuck {
 			position: fixed;
-			top: 0;
+			top: var(--site-header-primary-top, 0px);
 			right: 0;
 			left: 0;
 			border-bottom: 1px solid $header-border-color;
@@ -43,14 +43,26 @@
 	}
 }
 
+
 .site-header__primary-spacer {
 	display: none;
+	height: 0;
+}
 
-	@include menu-mobile-only {
+@include menu-desktop-only {
+	body.site-header--is-scrolled .site-header__primary-spacer {
+		display: block;
+		height: 20px;
+	}
+}
+
+@include menu-mobile-only {
+	.site-header__primary-spacer {
 		display: block;
 		height: var(--site-header-primary-spacer-height, 0);
 	}
 }
+
 
 .wp-site-blocks {
 
@@ -114,3 +126,16 @@
 	width: 1px;
 	overflow-wrap: normal !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

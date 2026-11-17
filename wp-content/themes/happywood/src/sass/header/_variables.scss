@@ -8,9 +8,9 @@
  */
 
 $header-announcement-height: 64px;
-$header-height-desktop: 7.5rem; // 120px — primary row
+$header-height-desktop: 5rem; // 85px — primary row
 $header-height-mobile: 4rem;
-$header-nav-row-height: 3.125rem; // 50px
+$header-nav-row-height: 3.4rem; // 36px
 $header-announcement-bg: settings.$color-black;
 $header-announcement-color: settings.$color-white;
 $header-border-color: settings.$color-outline;
@@ -19,4 +19,4 @@ $header-link-hover-color: settings.$color-primary;
 
 $header-z-index: 100;
 
-$search-form-width: var(--happywood-header-search-form-width, 32rem);
+$search-form-width: var(--happywood-header-search-form-width, 26rem);

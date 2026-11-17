@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "happywood/category-showcase",
+  "version": "1.0.0",
+  "title": "Category Showcase",
+  "category": "woocommerce",
+  "description": "Showcase a product category with a featured image and product cards.",
+  "keywords": [
+    "woocommerce",
+    "category",
+    "showcase",
+    "products"
+  ],
+  "textdomain": "happywood",
+  "attributes": {
+    "categoryId": {
+      "type": "number",
+      "default": 0
+    },
+    "productsPerPage": {
+      "type": "number",
+      "default": 4
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "reusable": true,
+    "lock": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

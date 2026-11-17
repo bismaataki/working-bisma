@@ -191,7 +191,7 @@ export function initProductGridSwatches() {
 		event.preventDefault();
 		handleSwatchActivate( swatch );
 	} );
-
+/*
 	if ( ! isTouchDevice() ) {
 		delegateDocument( 'mouseover', SWATCH_SELECTOR, ( event, swatch ) => {
 			if ( swatch.contains( event.relatedTarget ) ) {
@@ -205,4 +205,5 @@ export function initProductGridSwatches() {
 			handleSwatchActivate( swatch );
 		} );
 	}
+		*/
 }

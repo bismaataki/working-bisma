@@ -1,0 +1,1 @@
+document.addEventListener("click",async t=>{const e=t.target.closest(".hw-share-copy");if(!e)return;const o=e.closest(".hw-share-this-look"),n=o?.querySelector(".hw-share-copy-status"),c=e.dataset.copyUrl;if(c&&n)try{await navigator.clipboard.writeText(c),n.textContent="Link copied",window.setTimeout(()=>{n.textContent=""},2e3)}catch(t){n.textContent="Unable to copy link"}});

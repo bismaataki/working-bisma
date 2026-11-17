@@ -27,6 +27,7 @@
 	.hw-swatch--active.hw-swatch--bg,
 	.hw-swatch--active.hw-swatch--text {
 		--hw-swatch-brd-color: #{$color-neutral};
+		 border-width: 2px;
 	}
 }
 
@@ -51,3 +52,9 @@
 		}
 	}
 }
+
+
+
+
+
+

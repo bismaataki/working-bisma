@@ -296,6 +296,36 @@ class Site_Header {
 				</a>
 			<?php endif; ?>
 
+			<?php
+			$account_url = function_exists( 'wc_get_page_permalink' )
+				? wc_get_page_permalink( 'myaccount' )
+				: '';
+			?>
+
+			<?php if ( $account_url ) : ?>
+				<div class="site-header__utility-widget site-header__utility-widget--mobile site-header__utility-widget--account">
+					<a
+						class="site-header__utility-widget-control"
+						href="<?php echo esc_url( $account_url ); ?>"
+						aria-label="<?php esc_attr_e( 'Account', 'happywood' ); ?>"
+					>
+						<span class="hw-icon-preview hw-icon-user" aria-hidden="true"></span>
+					</a>
+				</div>
+			<?php endif; ?>
+
+			<?php if ( function_exists( 'happywood_is_wishlist_enabled' ) && happywood_is_wishlist_enabled() && function_exists( 'wc_get_account_endpoint_url' ) ) : ?>
+				<div class="site-header__utility-widget site-header__utility-widget--mobile site-header__utility-widget--wishlist">
+					<a
+						class="site-header__utility-widget-control"
+						href="<?php echo esc_url( wc_get_account_endpoint_url( 'wishlist' ) ); ?>"
+						aria-label="<?php esc_attr_e( 'Wishlist', 'happywood' ); ?>"
+					>
+						<span class="hw-icon-preview hw-icon-heart" aria-hidden="true"></span>
+					</a>
+				</div>
+			<?php endif; ?>
+
 			<?php $this->render_mini_cart( 'mobile' ); ?>
 
 			<button
@@ -390,14 +420,19 @@ BLOCK;
 				echo do_blocks( '<!-- wp:woocommerce/mini-cart {"productCountVisibility":"always"} /-->' );
 				?>
 			</div>
-			<?php if ( $is_desktop ) : ?>
-				<?php
-				$this->render_utility_label_link(
-					function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '',
-					__( 'Cart', 'happywood' )
-				);
-				?>
-			<?php endif; ?>
+
+
+			
+<?php
+/*
+if ( $is_desktop ) :
+    $this->render_utility_label_link(
+        function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '',
+        __( 'Cart', 'happywood' )
+    );
+endif;
+*/
+?>			
 		</div>
 		<?php
 	}

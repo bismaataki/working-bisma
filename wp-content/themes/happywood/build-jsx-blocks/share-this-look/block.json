@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "happywood/share-this-look",
+  "version": "1.0.0",
+  "title": "Share This Look",
+  "category": "widgets",
+  "description": "Share the current product on social media or copy its link.",
+  "keywords": [
+    "share",
+    "product",
+    "whatsapp",
+    "facebook"
+  ],
+  "textdomain": "happywood",
+  "icon": "share",
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "reusable": false,
+    "align": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}

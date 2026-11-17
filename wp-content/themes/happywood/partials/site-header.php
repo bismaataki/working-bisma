@@ -40,6 +40,7 @@ $phone_href         = $header->get_phone_href( $phone_number );
 		</div>
 	<?php endif; ?>
 
+	<div class="site-header__primary-spacer" aria-hidden="true"></div>
 	<div class="site-header__primary">
 		<div class="site-header__primary-inner site-header__primary-inner--desktop alignwide">
 			<?php $header->render_logo_link( $logo_id, 'desktop' ); ?>
@@ -81,19 +82,44 @@ $phone_href         = $header->get_phone_href( $phone_number );
 				</div>
 			<?php endif; ?>
 
-			<nav class="site-header__utilities" aria-label="<?php esc_attr_e( 'Utility navigation', 'happywood' ); ?>">
-				<?php $header->render_utility_nav(); ?>
-				<?php $header->render_request_quote_widget(); ?>
-				<?php $header->render_mini_cart( 'desktop' ); ?>
-			</nav>
+			
+<nav class="site-header__utilities" aria-label="<?php esc_attr_e( 'Utility navigation', 'happywood' ); ?>">
+	<?php $header->render_utility_nav(); ?>
+	<?php $header->render_request_quote_widget(); ?>
+
+	<?php $header_account_url = wc_get_page_permalink( 'myaccount' ); ?>
+
+	<div class="site-header__utility-widget site-header__utility-widget--account">
+		<a
+			class="site-header__utility-widget-control"
+			href="<?php echo esc_url( $header_account_url ); ?>"
+			aria-label="<?php esc_attr_e( 'Account', 'happywood' ); ?>"
+		>
+			<span class="hw-icon-preview hw-icon-user" aria-hidden="true"></span>
+		</a>
+	</div>
+
+	<?php if ( happywood_is_wishlist_enabled() ) : ?>
+		<div class="site-header__utility-widget site-header__utility-widget--wishlist">
+			<a
+				class="site-header__utility-widget-control"
+				href="<?php echo esc_url( wc_get_account_endpoint_url( 'wishlist' ) ); ?>"
+				aria-label="<?php esc_attr_e( 'Wishlist', 'happywood' ); ?>"
+			>
+				<span class="hw-icon-preview hw-icon-heart" aria-hidden="true"></span>
+			</a>
+		</div>
+	<?php endif; ?>
+
+	<?php $header->render_mini_cart( 'desktop' ); ?>
+</nav>
 		</div>
 
 		<div class="site-header__primary-inner site-header__primary-inner--mobile alignwide">
 			<?php $header->render_mobile_primary_row(); ?>
 		</div>
-		</div>
+	</div>
 
-		<div class="site-header__primary-spacer" aria-hidden="true"></div>
 
 		<div class="site-header__search-row">
 		<div class="site-header__search-row-inner alignwide">

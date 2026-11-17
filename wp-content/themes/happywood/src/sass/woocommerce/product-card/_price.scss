@@ -11,7 +11,7 @@
 	flex-wrap: wrap;
 	align-items: baseline;
 	gap: $spacing-xx-small $spacing-x-small;
-	font-size: 22px;
+	font-size: 14px;
 	margin: 0;
 }
 
@@ -39,7 +39,7 @@
 
 	.wp-block-happywood-product-card &,
 	.hw-quick-view__content &, {
-		font-size: clamp(20px, 1.356rem + ((1vw - 3.2px) * 0.357), 24px);
+		font-size: 14px;
 	}
 
 	order: 0;

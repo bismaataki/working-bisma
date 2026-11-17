@@ -6,15 +6,80 @@ $primary-row-top-items-gap: $spacing-small;
 	align-items: center;
 	min-height: $header-height-desktop;
 
-	&--desktop {
-		display: flex;
-		//grid-template-columns: auto auto 1fr auto auto;
-		gap: $spacing-medium;
+&--desktop {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: $spacing-medium;
 
-		@include menu-mobile-only {
-			display: none;
-		}
-	}
+    @include menu-mobile-only {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.site-header__logo {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+}
+
+.site-header__search {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    width: 100%;
+}
+
+.site-header__contact {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.site-header__utilities {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	&--mobile {
 		display: none;
@@ -82,7 +147,7 @@ $primary-row-top-items-gap: $spacing-small;
 }
 
 .site-header__site-title {
-	font-size: $font-size-large;
+	font-size: $font-size-xx-large;
 	font-weight: 700;
 }
 
@@ -447,7 +512,7 @@ a.site-header__utility-label {
 }
 
 .site-header__nav {
-	border-top: 1px solid $header-border-color;
+	border-top: 0;
 
 	@include menu-mobile-only {
 		display: none;
@@ -464,8 +529,65 @@ a.site-header__utility-label {
 	column-gap: $block-gap;
 	row-gap: $spacing-x-small;
 	min-height: $header-nav-row-height;
+	justify-content: center;
 
 	@include breakpoint-large-down {
 		flex-wrap: wrap;
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.site-header__utility-widget--account,
+.site-header__utility-widget--wishlist,
+.site-header__utility-widget--cart {
+
+	.site-header__utility-widget-control {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.hw-icon-preview {
+		font-size: 1.2rem;
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.site-header__mobile-logo {
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.site-header__mobile-actions {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: $spacing-x-small;
 }

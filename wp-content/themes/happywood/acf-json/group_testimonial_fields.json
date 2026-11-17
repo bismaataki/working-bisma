@@ -1,0 +1,70 @@
+{
+    "key": "group_testimonial_fields",
+    "title": "Testimonial Details",
+    "fields": [
+        {
+            "key": "field_testimonial_customer_name",
+            "label": "Customer Name",
+            "name": "customer_name",
+            "type": "text",
+            "required": 1,
+            "placeholder": "Enter customer name"
+        },
+        {
+            "key": "field_testimonial_designation",
+            "label": "Designation",
+            "name": "designation",
+            "type": "text",
+            "required": 0,
+            "placeholder": "e.g. Interior Designer"
+        },
+        {
+            "key": "field_testimonial_review",
+            "label": "Review",
+            "name": "review",
+            "type": "wysiwyg",
+            "required": 1,
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_testimonial_customer_avatar",
+            "label": "Customer Avatar",
+            "name": "customer_avatar",
+            "type": "image",
+            "required": 0,
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all"
+        },
+        {
+            "key": "field_testimonial_rating",
+            "label": "Rating",
+            "name": "rating",
+            "type": "number",
+            "required": 0,
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "default_value": 5
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "happywood_review"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "description": "Customer testimonial content and display settings."
+}

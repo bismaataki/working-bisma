@@ -101,7 +101,7 @@ function initCategorySwiper( root ) {
 	const options = {
 		modules: [ Navigation, Scrollbar ],
 		slidesPerView: 'auto',
-		spaceBetween: 12,
+		spaceBetween: 20,
 		watchOverflow: true,
 	};
 

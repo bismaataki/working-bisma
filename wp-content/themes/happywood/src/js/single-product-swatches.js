@@ -252,13 +252,31 @@ function handleSwatchClick( event, swatch ) {
  * @param {Event}                   event
  * @param {Record<string, unknown>} variation
  */
+
 function handleFoundVariation( event, variation ) {
 	const form = event.currentTarget;
+
+	if ( ! form ) {
+		return;
+	}
+
+form.querySelectorAll( '.hw-swatch__price' ).forEach( ( price ) => {
+    const priceHtml = variation?.price_html || '';
+    const temp = document.createElement( 'div' );
+    temp.innerHTML = priceHtml;
+
+    const currentPrice = temp.querySelector( 'ins .woocommerce-Price-amount' )
+        || temp.querySelector( '.woocommerce-Price-amount' );
+
+    price.innerHTML = currentPrice ? currentPrice.outerHTML : '';
+} );
 
 	const galleryHtml =
 		variation?.gallery_images_html || variation?.hw_variation_gallery_html;
 
-	if ( ! form || ! galleryHtml ) {
+	if ( ! galleryHtml ) {
+		syncActiveSwatches( form );
+		syncSwatchDisabledState( form );
 		return;
 	}
 
@@ -274,11 +292,20 @@ function handleFoundVariation( event, variation ) {
 	syncSwatchDisabledState( form );
 }
 
+
 /**
  * @param {Event} event
  */
 function handleResetData( event ) {
 	const form = event.currentTarget;
+
+	if ( ! form ) {
+	return;
+}
+
+form.querySelectorAll( '.hw-swatch__price' ).forEach( ( price ) => {
+	price.innerHTML = '';
+} );
 
 	if ( ! form ) {
 		return;

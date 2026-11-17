@@ -344,7 +344,17 @@ function initMobileStickyPrimary() {
 	};
 
 	const syncFromAnnouncement = ( isAnnouncementVisible ) => {
-		setStuckState( ! isAnnouncementVisible );
+		setStuckState( true );
+
+		const announcementHeight =
+			isAnnouncementVisible && announcement
+				? announcement.offsetHeight
+				: 0;
+
+		primary.style.setProperty(
+			'--site-header-primary-top',
+			`${ announcementHeight }px`,
+		);
 	};
 
 	if ( ! announcement ) {
@@ -375,7 +385,10 @@ function initMobileStickyPrimary() {
 }
 
 function initHideOnScroll() {
-	if ( ! document.body.classList.contains( HIDE_ON_SCROLL_CLASS ) ) {
+	if (
+		! document.body.classList.contains( HIDE_ON_SCROLL_CLASS ) ||
+		window.matchMedia( '(max-width: 780px)' ).matches
+	) {
 		return;
 	}
 
@@ -399,10 +412,20 @@ function initHideOnScroll() {
 		header.classList.toggle( HEADER_HIDDEN_CLASS, isHidden );
 	};
 
+	const setScrolled = ( isScrolled ) => {
+		document.body.classList.toggle(
+			'site-header--is-scrolled',
+			isScrolled
+		);
+	};
+
+	setScrolled( lastY > 0 );
+
 	const update = () => {
 		ticking = false;
 
 		const currentY = Math.max( window.scrollY, 0 );
+		setScrolled( currentY > 0 );
 		const delta = currentY - lastY;
 
 		// Ignore rubber-band overscroll and sub-pixel jitter.
@@ -444,6 +467,6 @@ function initHideOnScroll() {
 export function initSiteHeader() {
 	initDesktopMegaMenus();
 	initMobileDrawer();
-	initMobileStickyPrimary();
+	// Mobile sticky header disabled; use normal document flow.
 	initHideOnScroll();
 }

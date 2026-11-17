@@ -1,0 +1,34 @@
+
+.hw-share-this-look-editor {
+	padding: 16px;
+	border: 1px dashed #999;
+
+	.hw-share-this-look-heading {
+		margin-top: 0;
+		font-weight: 600;
+	}
+
+	.hw-share-this-look-buttons {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.hw-share-this-look-buttons button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		border: none;
+		border-radius: 0;
+		background: transparent;
+		color: #000;
+		box-shadow: none;
+	}
+
+	.hw-share-this-look-note {
+		margin-bottom: 0;
+		font-size: 12px;
+		color: #666;
+	}
+}

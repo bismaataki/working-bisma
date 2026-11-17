@@ -12,3 +12,7 @@ import './js-admin';
  * Block extensions
  */
 import './blocks-extension';
+
+
+
+import './sass-admin/_single-product-gallery.scss';

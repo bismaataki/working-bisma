@@ -28,7 +28,7 @@ class Product_Swatches {
 	public const META_SWATCHES_ATTRIBUTE = '_woodmart_swatches_attribute';
 
 	/** @var string Hardcoded grid attribute (live Theme Setting value). */
-	public const DEFAULT_GRID_ATTRIBUTE = 'pa_colour';
+	public const DEFAULT_GRID_ATTRIBUTE = 'pa_material';
 
 	/** @var string Woodmart variation gallery meta (CSV attachment IDs). */
 	public const VARIATION_GALLERY_META_KEY = 'wd_additional_variation_images_data';
@@ -180,9 +180,9 @@ class Product_Swatches {
 		$attr_key         = 'attribute_' . $attribute_name;
 
 		foreach ( $available_variations as $variation ) {
-			if ( ! isset( $variation['attributes'][ $attr_key ] ) ) {
-				return null;
-			}
+			if ( ! isset( $variation['attributes'][ $attr_key ] ) || '' === $variation['attributes'][ $attr_key ] ) {
+    continue;
+}
 
 			$val               = $variation['attributes'][ $attr_key ];
 			$variation_product = wc_get_product( $variation['variation_id'] );
@@ -337,6 +337,7 @@ class Product_Swatches {
 				}
 			}
 
+			/*
 			if ( ! empty( $swatch['color'] ) ) {
 				$style     = 'background-color:' . $swatch['color'];
 				$classes[] = 'hw-swatch--bg';
@@ -346,6 +347,37 @@ class Product_Swatches {
 			} else {
 				$classes[] = 'hw-swatch--text';
 			}
+*/
+if ( 'pa_material' === $attribute_name ) {
+    $variation_image_id = self::get_material_variation_image_id(
+        $product->get_id(),
+        (string) $slug
+    );
+
+    if ( $variation_image_id ) {
+        $image     = wp_get_attachment_image( $variation_image_id, 'woocommerce_thumbnail' );
+        $classes[] = 'hw-swatch--bg';
+    } else {
+        $classes[] = 'hw-swatch--text';
+    }
+} elseif ( ! empty( $swatch['color'] ) ) {
+    $style     = 'background-color:' . $swatch['color'];
+    $classes[] = 'hw-swatch--bg';
+} elseif ( ! empty( $swatch['image'] ) ) {
+    $image     = self::get_term_swatch_image_html( $swatch['image'] );
+    $classes[] = 'hw-swatch--bg';
+} else {
+    $classes[] = 'hw-swatch--text';
+}
+
+
+
+
+
+/* */
+
+
+
 
 			if ( isset( $swatch['image_src'] ) ) {
 				$data_attrs .= ' data-image-src="' . esc_url( $swatch['image_src'] ) . '"';
@@ -442,9 +474,21 @@ class Product_Swatches {
 			$options    = $attributes[ $attribute_name ] ?? array();
 		}
 
-		if ( empty( $options ) || ! self::attribute_has_swatches( $product->get_id(), $attribute_name, $options ) ) {
-			return '';
-		}
+		$is_target_attribute = in_array(
+	$attribute_name,
+	array( 'pa_size', 'pa_color', 'pa_material' ),
+	true
+);
+
+if (
+	empty( $options ) ||
+	(
+		! $is_target_attribute &&
+		! self::attribute_has_swatches( $product->get_id(), $attribute_name, $options )
+	)
+) {
+	return '';
+}
 
 		$select_id = ! empty( $args['id'] ) ? (string) $args['id'] : sanitize_title( $attribute_name );
 		$selected  = $args['selected'] ?? '';
@@ -511,7 +555,7 @@ class Product_Swatches {
 	 *
 	 * Disabled/enabled state is synced client-side after attribute changes.
 	 */
-	private static function render_single_product_swatch_button(
+	/*private static function render_single_product_swatch_button(
 		int $product_id,
 		string $attribute_name,
 		string $slug,
@@ -552,14 +596,113 @@ class Product_Swatches {
 			);
 		}
 
-		$button .= sprintf(
-			'<span class="hw-swatch__text">%s</span>',
-			esc_html( $label )
-		);
+	if ( 'pa_color' === $attribute_name ) {
+    $button .= sprintf(
+        '<span class="hw-swatch__content">
+            <span class="hw-swatch__text">%1$s</span>
+            <span class="hw-swatch__material-price">
+                <span class="hw-swatch__material">Laminated MDF -</span>
+                <span class="hw-swatch__price"></span>
+            </span>
+        </span>',
+        esc_html( $label )
+    );
+} else {
+    $button .= sprintf(
+        '<span class="hw-swatch__text">%s</span>',
+        esc_html( $label )
+    );
+}
 		$button .= '</button>';
 
 		return $button;
 	}
+		*/
+
+
+/**
+ * Build one single-product swatch button.
+ *
+ * Disabled/enabled state is synced client-side after attribute changes.
+ */
+private static function render_single_product_swatch_button(
+	int $product_id,
+	string $attribute_name,
+	string $slug,
+	string $label,
+	$selected
+): string {
+	$classes = array( 'hw-swatch' );
+	$style   = '';
+	$image   = '';
+
+	if ( 'pa_material' === $attribute_name ) {
+		$variation_image_id = self::get_material_variation_image_id( $product_id, $slug );
+
+		if ( $variation_image_id ) {
+			$image     = wp_get_attachment_image( $variation_image_id, 'woocommerce_thumbnail' );
+			$classes[] = 'hw-swatch--bg';
+		} else {
+			$classes[] = 'hw-swatch--text';
+		}
+	} else {
+		$swatch = self::has_swatch( $product_id, $attribute_name, $slug );
+
+		if ( ! empty( $swatch['color'] ) ) {
+			$style     = 'background-color:' . $swatch['color'];
+			$classes[] = 'hw-swatch--bg';
+		} elseif ( ! empty( $swatch['image'] ) ) {
+			$image     = self::get_term_swatch_image_html( $swatch['image'] );
+			$classes[] = 'hw-swatch--bg';
+		} else {
+			$classes[] = 'hw-swatch--text';
+		}
+	}
+
+	if ( $selected && sanitize_title( (string) $selected ) === $slug ) {
+		$classes[] = 'hw-swatch--active';
+	}
+
+	$button = sprintf(
+		'<button type="button" class="%1$s" data-value="%2$s" title="%3$s">',
+		esc_attr( implode( ' ', $classes ) ),
+		esc_attr( $slug ),
+		esc_attr( $label )
+	);
+
+	if ( $style || $image ) {
+		$button .= sprintf(
+			'<span class="hw-swatch__bg" style="%s">%s</span>',
+			esc_attr( $style ),
+			$image // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
+	}
+
+	if ( 'pa_color' === $attribute_name ) {
+		$button .= sprintf(
+			'<span class="hw-swatch__content">
+				<span class="hw-swatch__text">%1$s</span>
+				<span class="hw-swatch__material-price">
+					<span class="hw-swatch__material">Laminated MDF -</span>
+					<span class="hw-swatch__price"></span>
+				</span>
+			</span>',
+			esc_html( $label )
+		);
+	} else {
+		$button .= sprintf(
+			'<span class="hw-swatch__text">%s</span>',
+			esc_html( $label )
+		);
+	}
+
+	$button .= '</button>';
+
+	return $button;
+}
+
+
+
 
 	/**
 	 * Read-only inline swatch for quote/cart summaries (circle + colour name).
@@ -626,6 +769,119 @@ class Product_Swatches {
 
 		return $html;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Get the featured image for a product's material variation.
+	 *
+	 * @param int    $product_id Product ID.
+	 * @param string $material   Material term slug.
+	 * @return int Variation image attachment ID.
+	 */
+	public static function get_material_variation_image_id( int $product_id, string $material ): int {
+		$product = wc_get_product( $product_id );
+
+		if ( ! $product || ! $product->is_type( 'variable' ) ) {
+			return 0;
+		}
+
+		foreach ( $product->get_children() as $variation_id ) {
+			$variation = wc_get_product( $variation_id );
+
+			if ( ! $variation instanceof \WC_Product_Variation ) {
+				continue;
+			}
+
+			$attributes = $variation->get_attributes();
+
+			if ( ( $attributes['pa_material'] ?? '' ) !== $material ) {
+				continue;
+			}
+
+			$image_id = (int) $variation->get_image_id( 'edit' );
+
+			if ( $image_id ) {
+				return $image_id;
+			}
+		}
+
+		return 0;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Build deduped image IDs for a variation gallery swap (featured + CSV meta).

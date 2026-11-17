@@ -50,6 +50,7 @@ class Content_Types {
 	public function register_post_types(): void {
 		$this->register_faq_post_type();
 		$this->register_banner_post_type();
+		$this->register_testimonial_post_type();
 	}
 
 	/**
@@ -128,6 +129,53 @@ class Content_Types {
 				'menu_icon'             => 'dashicons-info-outline',
 				'menu_position'         => 21,
 				'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'author', 'revisions' ),
+			)
+		);
+	}
+
+
+	/**
+	 * Register the Testimonials post type.
+	 */
+	private function register_testimonial_post_type(): void {
+		$labels = array(
+			'name'               => __( 'Testimonials', 'happywood' ),
+			'singular_name'      => __( 'Testimonial', 'happywood' ),
+			'menu_name'          => __( 'Testimonials', 'happywood' ),
+			'all_items'          => __( 'All Testimonials', 'happywood' ),
+			'add_new'            => __( 'Add New', 'happywood' ),
+			'add_new_item'       => __( 'Add New Testimonial', 'happywood' ),
+			'edit_item'          => __( 'Edit Testimonial', 'happywood' ),
+			'new_item'           => __( 'New Testimonial', 'happywood' ),
+			'view_item'          => __( 'View Testimonial', 'happywood' ),
+			'search_items'       => __( 'Search Testimonials', 'happywood' ),
+			'not_found'          => __( 'No testimonials found', 'happywood' ),
+			'not_found_in_trash' => __( 'No testimonials found in Trash', 'happywood' ),
+			'item_published'     => __( 'Testimonial published.', 'happywood' ),
+			'item_updated'       => __( 'Testimonial updated.', 'happywood' ),
+		);
+
+		register_post_type(
+			'happywood_review',
+			array(
+				'label'               => __( 'Testimonials', 'happywood' ),
+				'labels'              => $labels,
+				'public'              => true,
+				'publicly_queryable'  => false,
+				'show_ui'             => true,
+				'show_in_rest'        => true,
+				'has_archive'         => false,
+				'show_in_nav_menus'   => false,
+				'delete_with_user'    => false,
+				'exclude_from_search' => true,
+				'capability_type'     => 'post',
+				'map_meta_cap'        => true,
+				'hierarchical'        => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'menu_icon'           => 'dashicons-format-quote',
+				'menu_position'       => 23,
+				'supports'            => array( 'title', 'revisions' ),
 			)
 		);
 	}

@@ -1,6 +1,46 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
+	'category-showcase' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'happywood/category-showcase',
+		'version' => '1.0.0',
+		'title' => 'Category Showcase',
+		'category' => 'woocommerce',
+		'description' => 'Showcase a product category with a featured image and product cards.',
+		'keywords' => array(
+			'woocommerce',
+			'category',
+			'showcase',
+			'products'
+		),
+		'textdomain' => 'happywood',
+		'attributes' => array(
+			'categoryId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'productsPerPage' => array(
+				'type' => 'number',
+				'default' => 4
+			)
+		),
+		'supports' => array(
+			'html' => false,
+			'inserter' => true,
+			'reusable' => true,
+			'lock' => false,
+			'align' => array(
+				'wide',
+				'full'
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
 	'copyright-date-block' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1219,6 +1259,34 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php'
 	),
+	'share-this-look' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'happywood/share-this-look',
+		'version' => '1.0.0',
+		'title' => 'Share This Look',
+		'category' => 'widgets',
+		'description' => 'Share the current product on social media or copy its link.',
+		'keywords' => array(
+			'share',
+			'product',
+			'whatsapp',
+			'facebook'
+		),
+		'textdomain' => 'happywood',
+		'icon' => 'share',
+		'supports' => array(
+			'html' => false,
+			'inserter' => true,
+			'reusable' => false,
+			'align' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js',
+		'render' => 'file:./render.php'
+	),
 	'shop-the-look' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1610,6 +1678,37 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
+		'render' => 'file:./render.php'
+	),
+	'testimonials' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'happywood/testimonials',
+		'version' => '1.0.0',
+		'title' => 'Testimonials',
+		'category' => 'design',
+		'description' => 'A dynamic customer testimonial slider.',
+		'keywords' => array(
+			'testimonials',
+			'customer',
+			'reviews',
+			'slider'
+		),
+		'textdomain' => 'happywood',
+		'icon' => 'format-quote',
+		'supports' => array(
+			'html' => false,
+			'inserter' => true,
+			'reusable' => true,
+			'align' => array(
+				'wide',
+				'full'
+			)
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js',
 		'render' => 'file:./render.php'
 	),
 	'verified-reviews-summary' => array(

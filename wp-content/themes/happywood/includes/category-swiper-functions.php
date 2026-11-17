@@ -144,11 +144,17 @@ function happywood_get_category_swiper_html( array $items, array $args = array()
 					foreach ( $items as $item ) {
 						echo happywood_get_category_swiper_slide_html( $item, $options ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper.
 					}
-					?>
+				
+				?>
 				</div>
-				<?php if ( $options['show_progress_bar'] ) : ?>
-					<div class="swiper-scrollbar hw-category-swiper__scrollbar" aria-hidden="true"></div>
-				<?php endif; ?>
+				
+				<?php /*
+if ( $options['show_progress_bar'] ) :
+?>
+    <div class="swiper-scrollbar hw-category-swiper__scrollbar" aria-hidden="true"></div>
+<?php
+endif;
+*/ ?>
 			</div>
 			<?php if ( ! $options['card_style'] && $show_nav ) : ?>
 				<?php echo $nav_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?>
@@ -273,24 +279,26 @@ function happywood_get_category_swiper_slide_html( array $item, array $options )
 
 	ob_start();
 	?>
-	<div class="<?php echo esc_attr( $slide_classes ); ?>"<?php echo $item_id > 0 ? ' data-term-id="' . esc_attr( (string) $item_id ) . '"' : ''; ?>>
-		<a class="<?php echo esc_attr( $card_classes ); ?>" href="<?php echo esc_url( $url ); ?>">
-			<span class="hw-category-swiper__media">
-				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?>
-				<?php if ( $card_style ) : ?>
-					<span class="hw-category-swiper__overlay">
-						<?php if ( ! empty( $options['show_labels'] ) && '' !== trim( $label ) ) : ?>
-							<span class="hw-category-swiper__title"><?php echo esc_html( $label ); ?></span>
-						<?php endif; ?>
-						<span class="hw-category-swiper__cta"><?php esc_html_e( 'Shop now', 'happywood' ); ?></span>
-					</span>
+	
+<div class="<?php echo esc_attr( $slide_classes ); ?>"<?php echo $item_id > 0 ? ' data-term-id="' . esc_attr( (string) $item_id ) . '"' : ''; ?>>
+	<a class="<?php echo esc_attr( $card_classes ); ?>" href="<?php echo esc_url( $url ); ?>">
+		<span class="hw-category-swiper__media">
+			<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?>
+		</span>
+
+		<?php if ( $card_style ) : ?>
+			<span class="hw-category-swiper__overlay">
+				<?php if ( ! empty( $options['show_labels'] ) && '' !== trim( $label ) ) : ?>
+					<span class="hw-category-swiper__title"><?php echo esc_html( $label ); ?></span>
 				<?php endif; ?>
+				<span class="hw-category-swiper__cta"><?php esc_html_e( 'Shop now', 'happywood' ); ?></span>
 			</span>
-			<?php if ( ! $card_style && ! empty( $options['show_labels'] ) ) : ?>
-				<span class="hw-category-swiper__label"><?php echo esc_html( $label ); ?></span>
-			<?php endif; ?>
-		</a>
-	</div>
+		<?php elseif ( ! empty( $options['show_labels'] ) ) : ?>
+			<span class="hw-category-swiper__label"><?php echo esc_html( $label ); ?></span>
+		<?php endif; ?>
+	</a>
+</div>
+
 	<?php
 
 	return (string) ob_get_clean();

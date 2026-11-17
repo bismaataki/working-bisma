@@ -324,6 +324,6 @@ class WooCommerce_Single_Product {
 			return $html;
 		}
 
-		return $swatches . $html;
+		return $swatches . '<span class="hw-variation-select-hidden">' . $html . '</span>';
 	}
 }

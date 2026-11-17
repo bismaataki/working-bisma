@@ -1,0 +1,48 @@
+.hw-share-this-look {
+	margin-block: 16px;
+
+	.hw-share-this-look-heading {
+		margin: 0 0 10px;
+		font-size: 12px;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	.hw-share-this-look-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.hw-share-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 7px;
+		padding: 8px 12px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background: #fff;
+		color: #222;
+		font-size: 13px;
+		line-height: 1.4;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	.hw-share-button:hover,
+	.hw-share-button:focus-visible {
+		background: #f5f5f5;
+		color: #222;
+	}
+
+	.hw-share-button svg {
+		display: block;
+		flex: 0 0 auto;
+	}
+
+	.hw-share-copy-status {
+		font-size: 12px;
+	}
+}
