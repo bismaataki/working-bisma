@@ -24,6 +24,10 @@ return array(
 			'productsPerPage' => array(
 				'type' => 'number',
 				'default' => 4
+			),
+			'categorySlug' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'supports' => array(

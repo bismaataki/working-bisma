@@ -7,9 +7,34 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$category_id = isset( $attributes['categoryId'] )
+$category_slug = isset( $attributes['categorySlug'] )
+    ? sanitize_title( $attributes['categorySlug'] )
+    : '';
+
+$legacy_category_id = isset( $attributes['categoryId'] )
     ? absint( $attributes['categoryId'] )
     : 0;
+
+// Resolve the selected category using its slug.
+$category = $category_slug
+    ? get_term_by( 'slug', $category_slug, 'product_cat' )
+    : false;
+
+// Support previously saved ID-based blocks during migration.
+if ( ! $category && $legacy_category_id ) {
+    $category = get_term( $legacy_category_id, 'product_cat' );
+}
+
+// Default to Computer Table when no valid category is selected.
+if ( ! $category || is_wp_error( $category ) ) {
+    $category = get_term_by( 'slug', 'computer-table', 'product_cat' );
+}
+
+if ( ! $category || is_wp_error( $category ) ) {
+    return;
+}
+
+$category_id = (int) $category->term_id;
 
 $products_per_page = isset( $attributes['productsPerPage'] )
     ? absint( $attributes['productsPerPage'] )
@@ -18,12 +43,6 @@ $products_per_page = isset( $attributes['productsPerPage'] )
 $products_per_page = max( 1, min( 6, $products_per_page ) );
 
 if ( ! $category_id ) {
-    return;
-}
-
-$category = get_term( $category_id, 'product_cat' );
-
-if ( ! $category || is_wp_error( $category ) ) {
     return;
 }
 

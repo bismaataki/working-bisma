@@ -16,14 +16,14 @@
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"is-style-ghost","style":{"spacing":{"padding":{"top":"var:preset|spacing|xxx-small","bottom":"var:preset|spacing|xxx-small"}}}} -->
-<div class="wp-block-button is-style-ghost"><a class="wp-block-button__link wp-element-button" href="https://working-bisma.ddev.site/shop/" style="padding-top:var(--wp--preset--spacing--xxx-small);padding-bottom:var(--wp--preset--spacing--xxx-small)"><?php esc_html_e('Shop Now', 'happywood');?></a></div>
+<div class="wp-block-button is-style-ghost"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" style="padding-top:var(--wp--preset--spacing--xxx-small);padding-bottom:var(--wp--preset--spacing--xxx-small)"><?php esc_html_e('Shop Now', 'happywood');?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group --></div></div>
 <!-- /wp:cover -->
 
 <!-- wp:group {"metadata":{"name":"category showcase"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|large","bottom":"var:preset|spacing|large"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--large);padding-bottom:var(--wp--preset--spacing--large)"><!-- wp:happywood/category-showcase {"categoryId":27,"align":"wide"} /--></div>
+<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--large);padding-bottom:var(--wp--preset--spacing--large)"><!-- wp:happywood/category-showcase {"categorySlug":"computer-table","align":"wide"} /--></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|medium","bottom":"var:preset|spacing|medium"}}},"layout":{"type":"constrained"}} -->
@@ -51,7 +51,7 @@
 
 <!-- wp:buttons {"className":"is-style-full-on-small","style":{"spacing":{"padding":{"top":"var:preset|spacing|0","bottom":"var:preset|spacing|0"}}},"layout":{"type":"flex","verticalAlignment":"top","justifyContent":"center"}} -->
 <div class="wp-block-buttons is-style-full-on-small" style="padding-top:var(--wp--preset--spacing--0);padding-bottom:var(--wp--preset--spacing--0)"><!-- wp:button {"className":"is-style-ghost","style":{"typography":{"textAlign":"center"},"spacing":{"padding":{"top":"var:preset|spacing|xxx-small","bottom":"var:preset|spacing|xxx-small"}}}} -->
-<div class="wp-block-button is-style-ghost"><a class="wp-block-button__link has-text-align-center wp-element-button" style="padding-top:var(--wp--preset--spacing--xxx-small);padding-bottom:var(--wp--preset--spacing--xxx-small)"><?php esc_html_e('View All', 'happywood');?></a></div>
+<div class="wp-block-button is-style-ghost"><a href="/shop/" class="wp-block-button__link has-text-align-center wp-element-button" style="padding-top:var(--wp--preset--spacing--xxx-small);padding-bottom:var(--wp--preset--spacing--xxx-small)"><?php esc_html_e('View All', 'happywood');?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></section>
 <!-- /wp:group -->
@@ -77,7 +77,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:group {"className":"hw-form-subscribe","layout":{"type":"default"}} -->
-<div class="wp-block-group hw-form-subscribe"><!-- wp:gravityforms/form {"formId":"","title":false,"description":false,"inputPrimaryColor":"#204ce5"} /--></div>
+<div class="wp-block-group hw-form-subscribe"><!-- wp:gravityforms/form {"formId":"2","title":false,"description":false,"inputPrimaryColor":"#204ce5"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></main>

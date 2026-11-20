@@ -5,7 +5,11 @@ import { useEntityRecords } from '@wordpress/core-data';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-    const { categoryId = 0, productsPerPage = 4 } = attributes;
+    const {
+        categorySlug = '',
+        categoryId = 0,
+        productsPerPage = 4,
+    } = attributes;
 
     const { records: categories, isResolving } = useEntityRecords(
         'taxonomy',
@@ -18,12 +22,19 @@ export default function Edit({ attributes, setAttributes }) {
         }
     );
 
+    // Preserve old ID-based selections while migrating to slugs.
+    const legacyCategory = (categories || []).find(
+        (category) => category.id === Number(categoryId)
+    );
+
+    const selectedCategorySlug =
+        categorySlug || legacyCategory?.slug || 'computer-table';
+
     const options = [
-        { label: __('Select a category', 'happywood'), value: 0 },
-        ...(categories || []).map((category) => ({
+        ...((categories || []).map((category) => ({
             label: category.name,
-            value: category.id,
-        })),
+            value: category.slug,
+        }))),
     ];
 
     const blockProps = useBlockProps({
@@ -36,10 +47,13 @@ export default function Edit({ attributes, setAttributes }) {
                 <PanelBody title={__('Category Settings', 'happywood')}>
                     <SelectControl
                         label={__('Product Category', 'happywood')}
-                        value={categoryId}
+                        value={selectedCategorySlug}
                         options={options}
                         onChange={(value) =>
-                            setAttributes({ categoryId: Number(value) })
+                            setAttributes({
+                                categorySlug: value,
+                                categoryId: 0,
+                            })
                         }
                         disabled={isResolving}
                     />
@@ -61,26 +75,21 @@ export default function Edit({ attributes, setAttributes }) {
             </InspectorControls>
 
             <div {...blockProps}>
-                {categoryId > 0 ? (
-                    <ServerSideRender
-                        block="happywood/category-showcase"
-                        attributes={{
-                            categoryId,
-                            productsPerPage,
-                            previewMode: true,
-                        }}
-                    />
-                ) : (
+                {isResolving ? (
                     <Placeholder
                         icon="grid-view"
                         label={__('Category Showcase', 'happywood')}
-                        instructions={__(
-                            'Select a product category from the block settings.',
-                            'happywood'
-                        )}
                     >
-                        {isResolving && <Spinner />}
+                        <Spinner />
                     </Placeholder>
+                ) : (
+                    <ServerSideRender
+                        block="happywood/category-showcase"
+                        attributes={{
+                            categorySlug: selectedCategorySlug,
+                            productsPerPage,
+                        }}
+                    />
                 )}
             </div>
         </>

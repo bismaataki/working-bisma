@@ -253,12 +253,37 @@ function handleSwatchClick( event, swatch ) {
  * @param {Record<string, unknown>} variation
  */
 
+/**
+ * Update material labels inside all color swatches from the selected material.
+ *
+ * @param {Element} form
+ */
+function syncMaterialLabels( form ) {
+	const materialSelect = form.querySelector(
+		'select[name="attribute_pa_material"], select#pa_material'
+	);
+
+	const selectedMaterial = materialSelect?.selectedOptions?.[0];
+	const materialLabel = materialSelect?.value
+		? selectedMaterial?.textContent.trim() || ''
+		: '';
+
+	form.querySelectorAll(
+		'.hw-swatches-single[data-id="pa_color"] .hw-swatch__material'
+	).forEach( ( label ) => {
+		label.textContent = materialLabel ? `${ materialLabel } -` : '';
+	} );
+}
+
+
 function handleFoundVariation( event, variation ) {
 	const form = event.currentTarget;
 
 	if ( ! form ) {
 		return;
 	}
+
+	syncMaterialLabels( form );
 
 form.querySelectorAll( '.hw-swatch__price' ).forEach( ( price ) => {
     const priceHtml = variation?.price_html || '';
@@ -300,8 +325,10 @@ function handleResetData( event ) {
 	const form = event.currentTarget;
 
 	if ( ! form ) {
-	return;
-}
+		return;
+	}
+
+	syncMaterialLabels( form );
 
 form.querySelectorAll( '.hw-swatch__price' ).forEach( ( price ) => {
 	price.innerHTML = '';
@@ -340,6 +367,7 @@ function handleVariationValuesUpdated( event ) {
 		return;
 	}
 
+	syncMaterialLabels( form );
 	syncActiveSwatches( form );
 	syncSwatchDisabledState( form );
 }
@@ -383,6 +411,13 @@ export function bindSingleProductSwatchListeners() {
 	);
 	jQuery( document ).on( 'reset_data', '.variations_form', handleResetData );
 	jQuery( document ).on(
+		'change',
+		'.variations_form select[name="attribute_pa_material"], .variations_form select#pa_material',
+		function() {
+			syncMaterialLabels( this.closest( '.variations_form' ) );
+		}
+	);
+	jQuery( document ).on(
 		'woocommerce_update_variation_values',
 		'.variations_form',
 		handleVariationValuesUpdated,
@@ -409,6 +444,7 @@ export function primeVariationForms( root = document ) {
 
 	forms.forEach( ( form ) => {
 		getFormState( form );
+		syncMaterialLabels( form );
 	} );
 
 	// WC fires the first availability pass during its own init — defer so we

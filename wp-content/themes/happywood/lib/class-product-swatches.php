@@ -181,8 +181,8 @@ class Product_Swatches {
 
 		foreach ( $available_variations as $variation ) {
 			if ( ! isset( $variation['attributes'][ $attr_key ] ) || '' === $variation['attributes'][ $attr_key ] ) {
-    continue;
-}
+				continue;
+			}
 
 			$val               = $variation['attributes'][ $attr_key ];
 			$variation_product = wc_get_product( $variation['variation_id'] );
@@ -475,20 +475,20 @@ if ( 'pa_material' === $attribute_name ) {
 		}
 
 		$is_target_attribute = in_array(
-	$attribute_name,
-	array( 'pa_size', 'pa_color', 'pa_material' ),
-	true
-);
+			$attribute_name,
+			array( 'pa_size', 'pa_color', 'pa_material' ),
+			true
+		);
 
-if (
-	empty( $options ) ||
-	(
-		! $is_target_attribute &&
-		! self::attribute_has_swatches( $product->get_id(), $attribute_name, $options )
-	)
-) {
-	return '';
-}
+		if (
+			empty( $options ) ||
+			(
+				! $is_target_attribute &&
+				! self::attribute_has_swatches( $product->get_id(), $attribute_name, $options )
+			)
+		) {
+			return '';
+		}
 
 		$select_id = ! empty( $args['id'] ) ? (string) $args['id'] : sanitize_title( $attribute_name );
 		$selected  = $args['selected'] ?? '';
@@ -555,26 +555,38 @@ if (
 	 *
 	 * Disabled/enabled state is synced client-side after attribute changes.
 	 */
-	/*private static function render_single_product_swatch_button(
+	private static function render_single_product_swatch_button(
 		int $product_id,
 		string $attribute_name,
 		string $slug,
 		string $label,
 		$selected
 	): string {
-		$swatch  = self::has_swatch( $product_id, $attribute_name, $slug );
 		$classes = array( 'hw-swatch' );
 		$style   = '';
 		$image   = '';
 
-		if ( ! empty( $swatch['color'] ) ) {
-			$style     = 'background-color:' . $swatch['color'];
-			$classes[] = 'hw-swatch--bg';
-		} elseif ( ! empty( $swatch['image'] ) ) {
-			$image     = self::get_term_swatch_image_html( $swatch['image'] );
-			$classes[] = 'hw-swatch--bg';
+		if ( 'pa_material' === $attribute_name ) {
+			$variation_image_id = self::get_material_variation_image_id( $product_id, $slug );
+
+			if ( $variation_image_id ) {
+				$image     = wp_get_attachment_image( $variation_image_id, 'woocommerce_thumbnail' );
+				$classes[] = 'hw-swatch--bg';
+			} else {
+				$classes[] = 'hw-swatch--text';
+			}
 		} else {
-			$classes[] = 'hw-swatch--text';
+			$swatch = self::has_swatch( $product_id, $attribute_name, $slug );
+
+			if ( ! empty( $swatch['color'] ) ) {
+				$style     = 'background-color:' . $swatch['color'];
+				$classes[] = 'hw-swatch--bg';
+			} elseif ( ! empty( $swatch['image'] ) ) {
+				$image     = self::get_term_swatch_image_html( $swatch['image'] );
+				$classes[] = 'hw-swatch--bg';
+			} else {
+				$classes[] = 'hw-swatch--text';
+			}
 		}
 
 		if ( $selected && sanitize_title( (string) $selected ) === $slug ) {
@@ -596,111 +608,27 @@ if (
 			);
 		}
 
-	if ( 'pa_color' === $attribute_name ) {
-    $button .= sprintf(
-        '<span class="hw-swatch__content">
-            <span class="hw-swatch__text">%1$s</span>
-            <span class="hw-swatch__material-price">
-                <span class="hw-swatch__material">Laminated MDF -</span>
-                <span class="hw-swatch__price"></span>
-            </span>
-        </span>',
-        esc_html( $label )
-    );
-} else {
-    $button .= sprintf(
-        '<span class="hw-swatch__text">%s</span>',
-        esc_html( $label )
-    );
-}
+		if ( 'pa_color' === $attribute_name ) {
+			$button .= '<span class="hw-swatch__content">';
+			$button .= sprintf(
+				'<span class="hw-swatch__text">%s</span>',
+				esc_html( $label )
+			);
+			$button .= '<span class="hw-swatch__material-price">';
+			$button .= '<span class="hw-swatch__material"></span>';
+			$button .= '<span class="hw-swatch__price"></span>';
+			$button .= '</span></span>';
+		} else {
+			$button .= sprintf(
+				'<span class="hw-swatch__text">%s</span>',
+				esc_html( $label )
+			);
+		}
+
 		$button .= '</button>';
 
 		return $button;
 	}
-		*/
-
-
-/**
- * Build one single-product swatch button.
- *
- * Disabled/enabled state is synced client-side after attribute changes.
- */
-private static function render_single_product_swatch_button(
-	int $product_id,
-	string $attribute_name,
-	string $slug,
-	string $label,
-	$selected
-): string {
-	$classes = array( 'hw-swatch' );
-	$style   = '';
-	$image   = '';
-
-	if ( 'pa_material' === $attribute_name ) {
-		$variation_image_id = self::get_material_variation_image_id( $product_id, $slug );
-
-		if ( $variation_image_id ) {
-			$image     = wp_get_attachment_image( $variation_image_id, 'woocommerce_thumbnail' );
-			$classes[] = 'hw-swatch--bg';
-		} else {
-			$classes[] = 'hw-swatch--text';
-		}
-	} else {
-		$swatch = self::has_swatch( $product_id, $attribute_name, $slug );
-
-		if ( ! empty( $swatch['color'] ) ) {
-			$style     = 'background-color:' . $swatch['color'];
-			$classes[] = 'hw-swatch--bg';
-		} elseif ( ! empty( $swatch['image'] ) ) {
-			$image     = self::get_term_swatch_image_html( $swatch['image'] );
-			$classes[] = 'hw-swatch--bg';
-		} else {
-			$classes[] = 'hw-swatch--text';
-		}
-	}
-
-	if ( $selected && sanitize_title( (string) $selected ) === $slug ) {
-		$classes[] = 'hw-swatch--active';
-	}
-
-	$button = sprintf(
-		'<button type="button" class="%1$s" data-value="%2$s" title="%3$s">',
-		esc_attr( implode( ' ', $classes ) ),
-		esc_attr( $slug ),
-		esc_attr( $label )
-	);
-
-	if ( $style || $image ) {
-		$button .= sprintf(
-			'<span class="hw-swatch__bg" style="%s">%s</span>',
-			esc_attr( $style ),
-			$image // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		);
-	}
-
-	if ( 'pa_color' === $attribute_name ) {
-		$button .= sprintf(
-			'<span class="hw-swatch__content">
-				<span class="hw-swatch__text">%1$s</span>
-				<span class="hw-swatch__material-price">
-					<span class="hw-swatch__material">Laminated MDF -</span>
-					<span class="hw-swatch__price"></span>
-				</span>
-			</span>',
-			esc_html( $label )
-		);
-	} else {
-		$button .= sprintf(
-			'<span class="hw-swatch__text">%s</span>',
-			esc_html( $label )
-		);
-	}
-
-	$button .= '</button>';
-
-	return $button;
-}
-
 
 
 

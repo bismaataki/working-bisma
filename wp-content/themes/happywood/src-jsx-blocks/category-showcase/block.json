@@ -6,7 +6,12 @@
 	"title": "Category Showcase",
 	"category": "woocommerce",
 	"description": "Showcase a product category with a featured image and product cards.",
-	"keywords": ["woocommerce", "category", "showcase", "products"],
+	"keywords": [
+		"woocommerce",
+		"category",
+		"showcase",
+		"products"
+	],
 	"textdomain": "happywood",
 	"attributes": {
 		"categoryId": {
@@ -16,6 +21,10 @@
 		"productsPerPage": {
 			"type": "number",
 			"default": 4
+		},
+		"categorySlug": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
@@ -23,7 +32,10 @@
 		"inserter": true,
 		"reusable": true,
 		"lock": false,
-		"align": ["wide", "full"]
+		"align": [
+			"wide",
+			"full"
+		]
 	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

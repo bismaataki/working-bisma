@@ -21,6 +21,10 @@
     "productsPerPage": {
       "type": "number",
       "default": 4
+    },
+    "categorySlug": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {

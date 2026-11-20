@@ -21,12 +21,12 @@ if ( ! function_exists( 'get_field' ) ) {
  */
 $get_testimonial_image_url = static function ( $image ) {
 	if ( is_array( $image ) ) {
-		if ( ! empty( $image['url'] ) ) {
-			return $image['url'];
-		}
-
 		if ( ! empty( $image['ID'] ) ) {
 			return wp_get_attachment_image_url( (int) $image['ID'], 'full' ) ?: '';
+		}
+
+		if ( ! empty( $image['url'] ) ) {
+			return $image['url'];
 		}
 	}
 
@@ -67,11 +67,16 @@ while ( $testimonial_query->have_posts() ) {
 	$name        = get_field( 'customer_name', $post_id );
 	$designation = get_field( 'designation', $post_id );
 	$review      = get_field( 'review', $post_id );
-	$avatar      = get_field( 'customer_avatar', $post_id );
-	$avatar_url = $get_testimonial_image_url( $avatar );
+	$avatar           = get_field( 'customer_avatar', $post_id );
+	$testimonial_image = get_field( 'testimonial_image', $post_id );
 
-	// Fixed image for the right testimonial column.
-	$image_url = 'https://working-bisma.ddev.site/wp-content/uploads/2026/11/Screenshot-from-2026-11-13-15-22-41.png';
+	$avatar_url = $get_testimonial_image_url( $avatar );
+	$image_url  = $get_testimonial_image_url( $testimonial_image );
+
+	// Use the theme placeholder when no testimonial image is selected.
+	if ( empty( $image_url ) ) {
+		$image_url = get_theme_file_uri( 'assets/images/placeholder-16x9.png' );
+	}
 
 	// Skip incomplete testimonials.
 	if ( empty( $name ) || empty( $review ) ) {
@@ -121,7 +126,7 @@ $total = count( $testimonials );
 				data-testimonial-slide="<?php echo esc_attr( $index ); ?>"
 				<?php echo 0 !== $index ? 'hidden' : ''; ?>
 			>
-				<div class="hw-testimonials__layout">
+				<div class="hw-testimonials__layout <?php echo $testimonial['image_url'] ? '' : 'hw-testimonials__layout--no-image'; ?>">
 
 					<div class="hw-testimonials__content">
 
@@ -163,13 +168,15 @@ $total = count( $testimonials );
 
 					</div>
 
-					<div class="hw-testimonials__image">
-						<img
-							src="<?php echo esc_url( $testimonial['image_url'] ); ?>"
-							alt="<?php echo esc_attr( $testimonial['name'] ); ?>"
-							loading="<?php echo 0 === $index ? 'eager' : 'lazy'; ?>"
-						/>
-					</div>
+					<?php if ( $testimonial['image_url'] ) : ?>
+						<div class="hw-testimonials__image">
+							<img
+								src="<?php echo esc_url( $testimonial['image_url'] ); ?>"
+								alt="<?php echo esc_attr( $testimonial['name'] ); ?>"
+								loading="<?php echo 0 === $index ? 'eager' : 'lazy'; ?>"
+							/>
+						</div>
+					<?php endif; ?>
 
 				</div>
 			</div>

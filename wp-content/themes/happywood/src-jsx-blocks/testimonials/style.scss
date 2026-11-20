@@ -40,6 +40,10 @@
 		border-radius: 8px;
 	}
 
+	&__layout--no-image {
+		grid-template-columns: 1fr;
+	}
+
 	&__content {
 		display: flex;
 		flex-direction: column;

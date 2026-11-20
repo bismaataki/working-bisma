@@ -84,7 +84,7 @@
 
 <!-- wp:group {"className":"site-footer__payments","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right"}} -->
 <div class="wp-block-group site-footer__payments"><!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://working-bisma.ddev.site/wp-content/themes/happywood/assets/images/footer/payment-cards.svg" alt="<?php esc_attr_e('Accepted payment methods', 'happywood');?>"/></figure>
+<figure class="wp-block-image size-large"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/images/footer/payment-cards.svg' ) ); ?>" alt="<?php esc_attr_e('Accepted payment methods', 'happywood');?>"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></div>
