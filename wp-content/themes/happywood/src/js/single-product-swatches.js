@@ -253,6 +253,143 @@ function handleSwatchClick( event, swatch ) {
  * @param {Record<string, unknown>} variation
  */
 
+
+/**
+ * Return variation data supplied by WooCommerce.
+ */
+function getProductVariationData( form ) {
+	const $form = jQuery( form );
+	let variations = $form.data( 'product_variations' );
+
+	if ( ! Array.isArray( variations ) && form.dataset.product_variations ) {
+		try {
+			variations = JSON.parse( form.dataset.product_variations );
+		} catch ( error ) {
+			variations = [];
+		}
+	}
+
+	return Array.isArray( variations ) ? variations : [];
+}
+
+/**
+ * Find the best matching variation price for a color swatch.
+ * Blank variation attributes are treated as WooCommerce wildcards.
+ */
+function getColorVariationPrice( form, colorValue ) {
+	const variations = getProductVariationData( form );
+	const selects = Array.from(
+		form.querySelectorAll( 'select[name^="attribute_"]' )
+	);
+
+	const matches = variations
+		.map( ( variation ) => {
+			let score = 0;
+
+			for ( const select of selects ) {
+				const name = select.name;
+				const expected = name === 'attribute_pa_color'
+					? colorValue
+					: select.value;
+
+				if ( ! expected ) {
+					continue;
+				}
+
+				const actual = variation.attributes?.[ name ] || '';
+
+				if ( actual && actual !== expected ) {
+					return null;
+				}
+
+				if ( actual ) {
+					score++;
+				}
+			}
+
+			if ( ! variation.price_html ) {
+				return null;
+			}
+
+			return { variation, score };
+		} )
+		.filter( Boolean )
+		.sort( ( a, b ) => b.score - a.score );
+
+	if ( ! matches.length ) {
+		return '';
+	}
+
+	const temp = document.createElement( 'div' );
+	temp.innerHTML = matches[0].variation.price_html;
+
+	return (
+		temp.querySelector( 'ins .woocommerce-Price-amount' ) ||
+		temp.querySelector( '.woocommerce-Price-amount' )
+	)?.outerHTML || '';
+}
+
+/**
+ * Update each color swatch using its matching variation.
+ */
+function syncColorSwatchPrices( form ) {
+	form.querySelectorAll(
+		'.hw-swatches-single[data-id="pa_color"] .hw-swatch'
+	).forEach( ( swatch ) => {
+		const price = swatch.querySelector( '.hw-swatch__price' );
+
+		if ( ! price ) {
+			return;
+		}
+
+		price.innerHTML = getColorVariationPrice(
+			form,
+			swatch.dataset.value || ''
+		);
+	} );
+}
+
+/**
+ * Select the first available option for attributes that have no selection.
+ * Preserve any existing WooCommerce default selection.
+ */
+function initializeDefaultSwatches( form ) {
+	const attributeOrder = [
+		'attribute_pa_size',
+		'attribute_pa_material',
+		'attribute_pa_color',
+	];
+
+	attributeOrder.forEach( ( name ) => {
+		const select = form.querySelector(
+			`select[name="${ name }"]`
+		);
+
+		if ( ! select || select.value ) {
+			return;
+		}
+
+		const firstAvailable = Array.from( select.options ).find(
+			( option ) =>
+				option.value &&
+				! option.disabled &&
+				! option.classList.contains( 'disabled' )
+		);
+
+		if ( firstAvailable ) {
+			select.value = firstAvailable.value;
+			select.dispatchEvent(
+				new Event( 'change', { bubbles: true } )
+			);
+		}
+	} );
+
+	jQuery( form ).trigger( 'check_variations' );
+	syncActiveSwatches( form );
+	syncMaterialLabels( form );
+	syncSwatchDisabledState( form );
+}
+
 /**
  * Update material labels inside all color swatches from the selected material.
  *
@@ -285,19 +422,10 @@ function handleFoundVariation( event, variation ) {
 
 	syncMaterialLabels( form );
 
-form.querySelectorAll( '.hw-swatch__price' ).forEach( ( price ) => {
-    const priceHtml = variation?.price_html || '';
-    const temp = document.createElement( 'div' );
-    temp.innerHTML = priceHtml;
-
-    const currentPrice = temp.querySelector( 'ins .woocommerce-Price-amount' )
-        || temp.querySelector( '.woocommerce-Price-amount' );
-
-    price.innerHTML = currentPrice ? currentPrice.outerHTML : '';
-} );
+syncColorSwatchPrices( form );
 
 	const galleryHtml =
-		variation?.gallery_images_html || variation?.hw_variation_gallery_html;
+		variation?.hw_variation_gallery_html;
 
 	if ( ! galleryHtml ) {
 		syncActiveSwatches( form );
@@ -452,6 +580,8 @@ export function primeVariationForms( root = document ) {
 	jQuery( function() {
 		window.setTimeout( () => {
 			forms.forEach( ( form ) => {
+				initializeDefaultSwatches( form );
+				syncColorSwatchPrices( form );
 				syncSwatchDisabledState( form );
 			} );
 		}, 0 );

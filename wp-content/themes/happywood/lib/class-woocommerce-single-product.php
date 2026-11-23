@@ -42,6 +42,13 @@ class WooCommerce_Single_Product {
 		add_action( 'init', array( $this, 'remove_legacy_upsell_grid' ), 20 );
 
 		add_filter(
+			'woocommerce_product_get_image_id',
+			array( $this, 'exclude_material_image_from_product_thumbnail' ),
+			20,
+			2
+		);
+
+		add_filter(
 			'woocommerce_dropdown_variation_attribute_options_html',
 			array( $this, 'prepend_attribute_swatches_html' ),
 			10,
@@ -267,6 +274,85 @@ class WooCommerce_Single_Product {
 	 * @param \WC_Product_Variation $variation Variation product.
 	 * @return array<string, mixed>
 	 */
+
+
+	/**
+	 * Prevent material variation images from being used as parent product thumbnails.
+	 *
+	 * @param int        $image_id Current product image ID.
+	 * @param \WC_Product $product Product object.
+	 * @return int
+	 */
+	public function exclude_material_image_from_product_thumbnail( $image_id, $product ): int {
+		if ( ! $product instanceof \WC_Product || ! $product->is_type( 'variable' ) ) {
+			return (int) $image_id;
+		}
+
+		$material_attribute = '';
+
+		foreach ( $product->get_attributes() as $attribute ) {
+			if ( ! $attribute instanceof \WC_Product_Attribute ) {
+				continue;
+			}
+
+			if ( 0 === strcasecmp(
+				trim( wc_attribute_label( $attribute->get_name(), $product ) ),
+				'Material'
+			) ) {
+				$material_attribute = $attribute->get_name();
+				break;
+			}
+		}
+
+		if ( ! $material_attribute ) {
+			return (int) $image_id;
+		}
+
+		$material_image_ids = array();
+
+		foreach ( $product->get_children() as $variation_id ) {
+			$variation = wc_get_product( $variation_id );
+
+			if ( ! $variation instanceof \WC_Product_Variation ) {
+				continue;
+			}
+
+			$attributes = $variation->get_attributes();
+
+			if ( empty( $attributes[ $material_attribute ] ) ) {
+				continue;
+			}
+
+			$variation_image_id = (int) $variation->get_image_id( 'edit' );
+
+			if ( $variation_image_id ) {
+				$material_image_ids[] = $variation_image_id;
+			}
+		}
+
+		if ( ! in_array( (int) $image_id, $material_image_ids, true ) ) {
+			return (int) $image_id;
+		}
+
+		$gallery_meta = get_post_meta(
+			$product->get_id(),
+			'_product_image_gallery',
+			true
+		);
+
+		$gallery_ids = is_string( $gallery_meta )
+			? array_filter( array_map( 'absint', explode( ',', $gallery_meta ) ) )
+			: array();
+
+		foreach ( $gallery_ids as $gallery_id ) {
+			if ( ! in_array( $gallery_id, $material_image_ids, true ) ) {
+				return (int) $gallery_id;
+			}
+		}
+
+		return (int) $image_id;
+	}
+
 	public function add_variation_gallery_html( array $data, $product, $variation ): array {
 		if ( ! $variation instanceof \WC_Product_Variation || ! $product instanceof \WC_Product ) {
 			return $data;
@@ -284,13 +370,9 @@ class WooCommerce_Single_Product {
 			$extra_ids = Product_Swatches::get_variation_gallery_attachment_ids( $variation->get_id() );
 		}
 
-		// Always lead with the variation's featured image.
-		$featured_id = (int) $variation->get_image_id();
-		if ( $featured_id && ! in_array( $featured_id, $extra_ids, true ) ) {
-			array_unshift( $extra_ids, $featured_id );
-		}
-
-		if ( count( $extra_ids ) < 2 ) {
+		// Only use explicitly assigned additional gallery images.
+		// The variation featured image is reserved for the Material swatch.
+		if ( empty( $extra_ids ) ) {
 			return $data;
 		}
 

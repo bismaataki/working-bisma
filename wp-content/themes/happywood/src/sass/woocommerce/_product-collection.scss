@@ -37,3 +37,8 @@
 		min-width: 18%;
 	}
 }
+
+// Keep Top Sellers carousel navigation visible on touch devices.
+.hw-top-sellers .wp-block-woocommerce-product-collection .wc-block-next-previous-buttons {
+    display: flex !important;
+}

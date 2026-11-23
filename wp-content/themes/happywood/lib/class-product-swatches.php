@@ -337,8 +337,20 @@ class Product_Swatches {
 				}
 			}
 
-			/*
-			if ( ! empty( $swatch['color'] ) ) {
+
+			if ( 'pa_material' === $attribute_name ) {
+				$variation_image_id = self::get_material_variation_image_id(
+					$product->get_id(),
+					(string) $slug
+				);
+
+				if ( $variation_image_id ) {
+					$image     = wp_get_attachment_image( $variation_image_id, 'woocommerce_thumbnail' );
+					$classes[] = 'hw-swatch--bg';
+				} else {
+					$classes[] = 'hw-swatch--text';
+				}
+			} elseif ( ! empty( $swatch['color'] ) ) {
 				$style     = 'background-color:' . $swatch['color'];
 				$classes[] = 'hw-swatch--bg';
 			} elseif ( ! empty( $swatch['image'] ) ) {
@@ -347,34 +359,8 @@ class Product_Swatches {
 			} else {
 				$classes[] = 'hw-swatch--text';
 			}
-*/
-if ( 'pa_material' === $attribute_name ) {
-    $variation_image_id = self::get_material_variation_image_id(
-        $product->get_id(),
-        (string) $slug
-    );
-
-    if ( $variation_image_id ) {
-        $image     = wp_get_attachment_image( $variation_image_id, 'woocommerce_thumbnail' );
-        $classes[] = 'hw-swatch--bg';
-    } else {
-        $classes[] = 'hw-swatch--text';
-    }
-} elseif ( ! empty( $swatch['color'] ) ) {
-    $style     = 'background-color:' . $swatch['color'];
-    $classes[] = 'hw-swatch--bg';
-} elseif ( ! empty( $swatch['image'] ) ) {
-    $image     = self::get_term_swatch_image_html( $swatch['image'] );
-    $classes[] = 'hw-swatch--bg';
-} else {
-    $classes[] = 'hw-swatch--text';
-}
 
 
-
-
-
-/* */
 
 
 
